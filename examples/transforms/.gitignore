@@ -1,0 +1,9 @@
+.dub
+docs.json
+__dummy.html
+docs/
+transforms
+*.exe
+*.o
+*.obj
+*.lst

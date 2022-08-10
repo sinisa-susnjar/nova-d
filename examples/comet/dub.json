@@ -1,9 +1,9 @@
 {
     "authors": [ "Sinisa Susnjar" ],
     "copyright": "Copyright © 2022, Sinisa Susnjar",
-    "description": "Mars example from libnova sources converted to D.",
+    "description": "Comet example from libnova sources converted to D.",
     "license": "MIT",
-    "name": "mars",
+    "name": "comet",
     "dependencies": {
         "nova-d": { "path": "../.." }
     }

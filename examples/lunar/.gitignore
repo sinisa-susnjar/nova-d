@@ -1,0 +1,9 @@
+.dub
+docs.json
+__dummy.html
+docs/
+lunar
+*.exe
+*.o
+*.obj
+*.lst

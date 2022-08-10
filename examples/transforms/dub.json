@@ -1,9 +1,9 @@
 {
     "authors": [ "Sinisa Susnjar" ],
     "copyright": "Copyright © 2022, Sinisa Susnjar",
-    "description": "Mars example from libnova sources converted to D.",
+    "description": "Transforms example from libnova sources converted to D.",
     "license": "MIT",
-    "name": "mars",
+    "name": "transforms",
     "dependencies": {
         "nova-d": { "path": "../.." }
     }
