@@ -1,7 +1,5 @@
 {
-    "authors": [
-        "Sinisa Susnjar"
-    ],
+    "authors": [ "Sinisa Susnjar" ],
     "copyright": "Copyright © 2022, Sinisa Susnjar",
     "description": "D bindings for the libnova celestial mechanics engine",
     "license": "MIT",
@@ -17,15 +15,7 @@
             "targetType": "dynamicLibrary"
         }
     ],
-    "dependencies": {
-        "nova-d:examples": "*"
-    },
     "subPackages": [
-        {
-            "name": "examples",
-            "targetName": "examples",
-            "description": "examples",
-            "targetType": "executable"
-        }
+        "./examples/mars/"
     ]
 }

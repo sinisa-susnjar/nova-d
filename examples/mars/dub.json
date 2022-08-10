@@ -5,8 +5,8 @@
 	"copyright": "Copyright © 2022, Sinisa Susnjar",
 	"description": "A minimal D application.",
 	"license": "MIT",
-	"name": "examples",
+	"name": "mars",
     "dependencies": {
-        "nova-d": { "path": ".." }
+        "nova-d": { "path": "../.." }
     }
 }
