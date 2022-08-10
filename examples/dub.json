@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Sinisa Susnjar"
+	],
+	"copyright": "Copyright © 2022, Sinisa Susnjar",
+	"description": "A minimal D application.",
+	"license": "MIT",
+	"name": "examples",
+    "dependencies": {
+        "nova-d": { "path": ".." }
+    }
+}

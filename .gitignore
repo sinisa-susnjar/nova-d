@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/libnova-d
+libnova-d.so
+libnova-d.dylib
+libnova-d.dll
+libnova-d.a
+libnova-d.lib
+libnova-d-test-*
+*.exe
+*.o
+*.obj
+*.lst
