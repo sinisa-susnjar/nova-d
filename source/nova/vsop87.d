@@ -22,27 +22,27 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup VSOP87 VSOP87 Theory
-*
-* Thanks to Messrs. Bretagnon and Francou for publishing planetary
-* solution VSOP87.
-*/
+    /*! \defgroup VSOP87 VSOP87 Theory
+     *
+     * Thanks to Messrs. Bretagnon and Francou for publishing planetary
+     * solution VSOP87.
+     */
 
-/*! \fn void ln_vsop87_to_fk5(ln_helio_posn *position, double JD);
-* \ingroup VSOP87
-* \brief Transform from VSOP87 to FK5 reference system.
-*/
-/* equation 31.3 Pg 207         */
-/* JD Julian Day */
-@safe @nogc void ln_vsop87_to_fk5(ln_helio_posn *position, double JD) pure nothrow;
+    /*! \fn void ln_vsop87_to_fk5(ln_helio_posn *position, double JD);
+     * \ingroup VSOP87
+     * \brief Transform from VSOP87 to FK5 reference system.
+     */
+    /* equation 31.3 Pg 207         */
+    /* JD Julian Day */
+    @safe @nogc void ln_vsop87_to_fk5(ln_helio_posn *position, double JD) pure nothrow;
 
-struct ln_vsop
-{
-	double A;
-	double B;
-	double C;
-}
+    struct ln_vsop
+    {
+        double A;
+        double B;
+        double C;
+    }
 
-@safe @nogc double ln_calc_series(const ln_vsop *data, int terms, double t) pure nothrow;
+    @safe @nogc double ln_calc_series(const ln_vsop *data, int terms, double t) pure nothrow;
 
 }

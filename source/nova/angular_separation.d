@@ -22,24 +22,24 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup angular Angular Separation
-*
-* Functions relating to an the angular separation and position
-* angle between 2 bodies.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup angular Angular Separation
+     *
+     * Functions relating to an the angular separation and position
+     * angle between 2 bodies.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn double ln_get_angular_separation(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
-* \brief Calculate the angular separation between 2 bodies
-* \ingroup angular
-*/
-@safe @nogc double ln_get_angular_separation(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
+    /*! \fn double ln_get_angular_separation(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
+     * \brief Calculate the angular separation between 2 bodies
+     * \ingroup angular
+     */
+    @safe @nogc double ln_get_angular_separation(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
 
-/*! \fn double ln_get_rel_posn_angle(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
-* \brief Calculate the relative position angle between 2 bodies
-* \ingroup angular
-*/
-@safe @nogc double ln_get_rel_posn_angle(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
+    /*! \fn double ln_get_rel_posn_angle(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
+     * \brief Calculate the relative position angle between 2 bodies
+     * \ingroup angular
+     */
+    @safe @nogc double ln_get_rel_posn_angle(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
 
 }

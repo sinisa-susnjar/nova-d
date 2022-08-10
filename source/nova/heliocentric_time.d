@@ -22,16 +22,16 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*!
-* \defgroup heliocentric Heliocentric time
-*/
+    /*!
+     * \defgroup heliocentric Heliocentric time
+     */
 
-/*! \fn double ln_get_heliocentric_time_diff(double JD, ln_equ_posn *object)
-* \ingroup heliocentric
-* \brief Calculate approximate heliocentric (barycentric) time correction for given date and object
-*
-*/
-@safe @nogc double ln_get_heliocentric_time_diff(double JD,
-	ln_equ_posn *object) pure nothrow;
+    /*! \fn double ln_get_heliocentric_time_diff(double JD, ln_equ_posn *object)
+     * \ingroup heliocentric
+     * \brief Calculate approximate heliocentric (barycentric) time correction for given date and object
+     *
+     */
+    @safe @nogc double ln_get_heliocentric_time_diff(double JD,
+            ln_equ_posn *object) pure nothrow;
 
 }

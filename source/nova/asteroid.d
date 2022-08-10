@@ -22,29 +22,29 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup asteroid Asteroids
-*
-* Functions relating to Asteroids.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup asteroid Asteroids
+     *
+     * Functions relating to Asteroids.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*!
-* \fn double ln_get_asteroid_mag(double JD, struct ln_ell_orbit *orbit, double H, double G)
-* \brief Calculate the visual magnitude of an asteroid.
-*/
-@safe @nogc double ln_get_asteroid_mag(double JD, ln_ell_orbit *orbit,
-	double H, double G) pure nothrow;
+    /*!
+     * \fn double ln_get_asteroid_mag(double JD, struct ln_ell_orbit *orbit, double H, double G)
+     * \brief Calculate the visual magnitude of an asteroid.
+     */
+    @safe @nogc double ln_get_asteroid_mag(double JD, ln_ell_orbit *orbit,
+            double H, double G) pure nothrow;
 
-/*! \fn double ln_get_asteroid_sdiam_km(double H, double A)
-* \brief Calculate the semi-diameter of an asteroid in km.
-*/
-@safe @nogc double ln_get_asteroid_sdiam_km(double H, double A) pure nothrow;
+    /*! \fn double ln_get_asteroid_sdiam_km(double H, double A)
+     * \brief Calculate the semi-diameter of an asteroid in km.
+     */
+    @safe @nogc double ln_get_asteroid_sdiam_km(double H, double A) pure nothrow;
 
-/*! \fn double ln_get_asteroid_sdiam_arc(double JD, struct ln_ell_orbit *orbit, double H, double A)
-* \brief Calculate the semi-diameter of an asteroid in arc seconds.
-*/
-@safe @nogc double ln_get_asteroid_sdiam_arc(double JD,
-	ln_ell_orbit *orbit, double H, double A) pure nothrow;
+    /*! \fn double ln_get_asteroid_sdiam_arc(double JD, struct ln_ell_orbit *orbit, double H, double A)
+     * \brief Calculate the semi-diameter of an asteroid in arc seconds.
+     */
+    @safe @nogc double ln_get_asteroid_sdiam_arc(double JD,
+            ln_ell_orbit *orbit, double H, double A) pure nothrow;
 
 }

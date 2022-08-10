@@ -22,19 +22,19 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup apparent Apparent position of a Star
-*
-* The apparent position of a star is it's position as seen from
-* the centre of the Earth.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup apparent Apparent position of a Star
+     *
+     * The apparent position of a star is it's position as seen from
+     * the centre of the Earth.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position);
-* \brief Calculate the apparent position of a star.
-* \ingroup apparent
-*/
-@safe @nogc void ln_get_apparent_posn(ln_equ_posn *mean_position,
-	ln_equ_posn *proper_motion, double JD, ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position);
+     * \brief Calculate the apparent position of a star.
+     * \ingroup apparent
+     */
+    @safe @nogc void ln_get_apparent_posn(ln_equ_posn *mean_position,
+            ln_equ_posn *proper_motion, double JD, ln_equ_posn *position) pure nothrow;
 
 }

@@ -24,18 +24,18 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup nutation Nutation
-*
-* Nutation is a period oscillation of the Earths rotational axis around it's
-* mean position.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup nutation Nutation
+     *
+     * Nutation is a period oscillation of the Earths rotational axis around it's
+     * mean position.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn void ln_get_nutation(double JD, ln_nutation *nutation);
-* \ingroup nutation
-* \brief Calculate nutation.
-*/
-@safe @nogc void ln_get_nutation(double JD, ln_nutation *nutation) pure nothrow;
+    /*! \fn void ln_get_nutation(double JD, ln_nutation *nutation);
+     * \ingroup nutation
+     * \brief Calculate nutation.
+     */
+    @safe @nogc void ln_get_nutation(double JD, ln_nutation *nutation) pure nothrow;
 
 }

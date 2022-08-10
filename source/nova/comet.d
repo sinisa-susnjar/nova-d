@@ -22,27 +22,27 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup comet Comets
-*
-* Functions relating to Comets.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup comet Comets
+     *
+     * Functions relating to Comets.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*!
-* \fn double ln_get_ell_comet_mag(double JD, struct ln_ell_orbit *orbit, double g, double k)
-* \ingroup comet
-* \brief Calculate the visual magnitude of a comet in an elliptic orbit.
-*/
-@safe @nogc double ln_get_ell_comet_mag(double JD,
-	ln_ell_orbit *orbit, double g, double k) pure nothrow;
+    /*!
+     * \fn double ln_get_ell_comet_mag(double JD, struct ln_ell_orbit *orbit, double g, double k)
+     * \ingroup comet
+     * \brief Calculate the visual magnitude of a comet in an elliptic orbit.
+     */
+    @safe @nogc double ln_get_ell_comet_mag(double JD,
+            ln_ell_orbit *orbit, double g, double k) pure nothrow;
 
-/*!
-* \fn double ln_get_par_comet_mag(double JD, struct ln_par_orbit *orbit, double g, double k)
-* \ingroup comet
-* \brief Calculate the visual magnitude of a comet in a parabolic orbit.
-*/
-@safe @nogc double ln_get_par_comet_mag(double JD,
-	ln_par_orbit *orbit, double g, double k) pure nothrow;
+    /*!
+     * \fn double ln_get_par_comet_mag(double JD, struct ln_par_orbit *orbit, double g, double k)
+     * \ingroup comet
+     * \brief Calculate the visual magnitude of a comet in a parabolic orbit.
+     */
+    @safe @nogc double ln_get_par_comet_mag(double JD,
+            ln_par_orbit *orbit, double g, double k) pure nothrow;
 
 }

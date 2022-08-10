@@ -22,93 +22,93 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup saturn Saturn
-*
-* Functions relating to the planet Saturn.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup saturn Saturn
+     *
+     * Functions relating to the planet Saturn.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn double ln_get_saturn_equ_sdiam(double JD)
-* \brief Calculate the equatorial semidiameter of Saturn in arc seconds.
-* \ingroup saturn
-*/
-@safe @nogc double ln_get_saturn_equ_sdiam(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_equ_sdiam(double JD)
+     * \brief Calculate the equatorial semidiameter of Saturn in arc seconds.
+     * \ingroup saturn
+     */
+    @safe @nogc double ln_get_saturn_equ_sdiam(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_pol_sdiam(double JD)
-* \brief Calculate the polar semidiameter of Saturn in arc seconds.
-* \ingroup saturn
-*/
-@safe @nogc double ln_get_saturn_pol_sdiam(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_pol_sdiam(double JD)
+     * \brief Calculate the polar semidiameter of Saturn in arc seconds.
+     * \ingroup saturn
+     */
+    @safe @nogc double ln_get_saturn_pol_sdiam(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_rst(double JD, ln_lnlat_posn *observer, ln_rst_time *rst);
-* \brief Calculate the time of rise, set and transit for Saturn.
-* \ingroup saturn
-*/
-@safe @nogc int ln_get_saturn_rst(double JD, ln_lnlat_posn *observer,
-	ln_rst_time *rst) pure nothrow;
+    /*! \fn double ln_get_saturn_rst(double JD, ln_lnlat_posn *observer, ln_rst_time *rst);
+     * \brief Calculate the time of rise, set and transit for Saturn.
+     * \ingroup saturn
+     */
+    @safe @nogc int ln_get_saturn_rst(double JD, ln_lnlat_posn *observer,
+            ln_rst_time *rst) pure nothrow;
 
-/*! \fn void ln_get_saturn_helio_coords(double JD, ln_helio_posn *position);
-* \brief Calculate Saturn's heliocentric coordinates.
-* \ingroup saturn
-*/
-/* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
-@safe @nogc void ln_get_saturn_helio_coords(double JD,
-	ln_helio_posn *position) pure nothrow;
+    /*! \fn void ln_get_saturn_helio_coords(double JD, ln_helio_posn *position);
+     * \brief Calculate Saturn's heliocentric coordinates.
+     * \ingroup saturn
+     */
+    /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
+    @safe @nogc void ln_get_saturn_helio_coords(double JD,
+            ln_helio_posn *position) pure nothrow;
 
-/*! \fn void ln_get_saturn_equ_coords(double JD, ln_equ_posn *position);
-* \brief Calculate Saturn's equatorial coordinates.
-* \ingroup saturn
-*/
-/* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
-@safe @nogc void ln_get_saturn_equ_coords(double JD,
-	ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_saturn_equ_coords(double JD, ln_equ_posn *position);
+     * \brief Calculate Saturn's equatorial coordinates.
+     * \ingroup saturn
+     */
+    /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
+    @safe @nogc void ln_get_saturn_equ_coords(double JD,
+            ln_equ_posn *position) pure nothrow;
 
-/*! \fn double ln_get_saturn_earth_dist(double JD);
-* \brief Calculate the distance between Saturn and the Earth.
-* \ingroup saturn
-* \return Distance in AU
-*/
-/* Chapter ?? */
-@safe @nogc double ln_get_saturn_earth_dist(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_earth_dist(double JD);
+     * \brief Calculate the distance between Saturn and the Earth.
+     * \ingroup saturn
+     * \return Distance in AU
+     */
+    /* Chapter ?? */
+    @safe @nogc double ln_get_saturn_earth_dist(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_solar_dist(double JD);
-* \brief Calculate the distance between Saturn and the Sun.
-* \ingroup saturn
-* \return Distance in AU
-*/
-/* Chapter ?? */
-@safe @nogc double ln_get_saturn_solar_dist(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_solar_dist(double JD);
+     * \brief Calculate the distance between Saturn and the Sun.
+     * \ingroup saturn
+     * \return Distance in AU
+     */
+    /* Chapter ?? */
+    @safe @nogc double ln_get_saturn_solar_dist(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_magnitude(double JD);
-* \brief Calculate the visible magnitude of Saturn
-* \ingroup saturn
-* \return Visible magnitude of Saturn
-*/
-/* Chapter ?? */
-@safe @nogc double ln_get_saturn_magnitude(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_magnitude(double JD);
+     * \brief Calculate the visible magnitude of Saturn
+     * \ingroup saturn
+     * \return Visible magnitude of Saturn
+     */
+    /* Chapter ?? */
+    @safe @nogc double ln_get_saturn_magnitude(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_disk(double JD);
-* \brief Calculate the illuminated fraction of Saturn's disk
-* \ingroup saturn
-* \return Illuminated fraction of Saturn's disk
-*/
-/* Chapter 41 */
-@safe @nogc double ln_get_saturn_disk(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_disk(double JD);
+     * \brief Calculate the illuminated fraction of Saturn's disk
+     * \ingroup saturn
+     * \return Illuminated fraction of Saturn's disk
+     */
+    /* Chapter 41 */
+    @safe @nogc double ln_get_saturn_disk(double JD) pure nothrow;
 
-/*! \fn double ln_get_saturn_phase(double JD);
-* \brief Calculate the phase angle of Saturn.
-* \ingroup saturn
-* \return Phase angle of Saturn (degrees)
-*/
-/* Chapter 41 */
-@safe @nogc double ln_get_saturn_phase(double JD) pure nothrow;
+    /*! \fn double ln_get_saturn_phase(double JD);
+     * \brief Calculate the phase angle of Saturn.
+     * \ingroup saturn
+     * \return Phase angle of Saturn (degrees)
+     */
+    /* Chapter 41 */
+    @safe @nogc double ln_get_saturn_phase(double JD) pure nothrow;
 
-/*! \fn void ln_get_saturn_rect_helio(double JD, ln_rect_posn *position)
-* \ingroup saturns
-* \brief Calculate Saturns rectangular heliocentric coordinates.
-*/
-@safe @nogc void ln_get_saturn_rect_helio(double JD,
-	ln_rect_posn *position) pure nothrow;
+    /*! \fn void ln_get_saturn_rect_helio(double JD, ln_rect_posn *position)
+     * \ingroup saturns
+     * \brief Calculate Saturns rectangular heliocentric coordinates.
+     */
+    @safe @nogc void ln_get_saturn_rect_helio(double JD,
+            ln_rect_posn *position) pure nothrow;
 
 }

@@ -22,14 +22,14 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*!
-* \defgroup constellations Celestial constellations
-*/
+    /*!
+     * \defgroup constellations Celestial constellations
+     */
 
-/*! \fn const char* ln_get_constellation(struct ln_equ_posn *position)
-* \ingroup constellations
-* \brief Returns name of the constellation at the given position
-*/
-@safe @nogc const(char*) ln_get_constellation(ln_equ_posn *position) pure nothrow;
+    /*! \fn const char* ln_get_constellation(struct ln_equ_posn *position)
+     * \ingroup constellations
+     * \brief Returns name of the constellation at the given position
+     */
+    @safe @nogc const(char*) ln_get_constellation(ln_equ_posn *position) pure nothrow;
 
 }

@@ -22,22 +22,22 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*!
-* \defgroup dynamical Dynamical Time
-*
-* TODO
-*/
+    /*!
+     * \defgroup dynamical Dynamical Time
+     *
+     * TODO
+     */
 
-/*! \fn double ln_get_dynamical_time_diff(double JD)
-* \ingroup dynamical
-* \brief Calculate approximate dynamical time difference from Julian day in seconds
-*/
-@safe @nogc double ln_get_dynamical_time_diff(double JD) pure nothrow;
+    /*! \fn double ln_get_dynamical_time_diff(double JD)
+     * \ingroup dynamical
+     * \brief Calculate approximate dynamical time difference from Julian day in seconds
+     */
+    @safe @nogc double ln_get_dynamical_time_diff(double JD) pure nothrow;
 
-/*! \fn double ln_get_jde(double JD)
-* \brief Calculate Julian ephemeris day(JDE)
-* \ingroup dynamical
-*/
-@safe @nogc double ln_get_jde(double JD) pure nothrow;
+    /*! \fn double ln_get_jde(double JD)
+     * \brief Calculate Julian ephemeris day(JDE)
+     * \ingroup dynamical
+     */
+    @safe @nogc double ln_get_jde(double JD) pure nothrow;
 
 }

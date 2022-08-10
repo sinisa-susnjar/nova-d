@@ -28,54 +28,54 @@ import nova.transform;
 
 static void print_date (string title, ln_zonedate *date)
 {
-	writef("\n%s\n",title);
-	writef(" Year    : %d\n", date.years);
-	writef(" Month   : %d\n", date.months);
-	writef(" Day     : %d\n", date.days);
-	writef(" Hours   : %d\n", date.hours);
-	writef(" Minutes : %d\n", date.minutes);
-	writef(" Seconds : %f\n", date.seconds);
+    writef("\n%s\n",title);
+    writef(" Year    : %d\n", date.years);
+    writef(" Month   : %d\n", date.months);
+    writef(" Day     : %d\n", date.days);
+    writef(" Hours   : %d\n", date.hours);
+    writef(" Minutes : %d\n", date.minutes);
+    writef(" Seconds : %f\n", date.seconds);
 }
 
 int main (string[] args)
 {
-	ln_equ_posn equ;
-	ln_rst_time rst;
-	ln_zonedate rise, set, transit;
-	ln_lnlat_posn observer;
-	ln_helio_posn pos;
-	double JD;
+    ln_equ_posn equ;
+    ln_rst_time rst;
+    ln_zonedate rise, set, transit;
+    ln_lnlat_posn observer;
+    ln_helio_posn pos;
+    double JD;
 
-	/* observers location (Edinburgh), used to calc rst */
-	observer.lat = 55.92; /* 55.92 N */
-	observer.lng = -3.18; /* 3.18 W */
+    /* observers location (Edinburgh), used to calc rst */
+    observer.lat = 55.92; /* 55.92 N */
+    observer.lng = -3.18; /* 3.18 W */
 
-	/* get Julian day from local time */
-	JD = ln_get_julian_from_sys();
-	writef("JD %f\n", JD);
+    /* get Julian day from local time */
+    JD = ln_get_julian_from_sys();
+    writef("JD %f\n", JD);
 
-	/* geometric coordinates */
-	ln_get_solar_geom_coords(JD, &pos);
-	writef("Solar Coords longitude (deg) %f\n", pos.L);
-	writef("             latitude (deg) %f\n", pos.B);
-	writef("             radius vector (AU) %f\n", pos.R);
+    /* geometric coordinates */
+    ln_get_solar_geom_coords(JD, &pos);
+    writef("Solar Coords longitude (deg) %f\n", pos.L);
+    writef("             latitude (deg) %f\n", pos.B);
+    writef("             radius vector (AU) %f\n", pos.R);
 
-	/* ra, dec */
-	ln_get_solar_equ_coords(JD, &equ);
-	writef("Solar Position RA %f\n", equ.ra);
-	writef("               DEC %f\n", equ.dec);
+    /* ra, dec */
+    ln_get_solar_equ_coords(JD, &equ);
+    writef("Solar Position RA %f\n", equ.ra);
+    writef("               DEC %f\n", equ.dec);
 
-	/* rise, set and transit */
-	if (ln_get_solar_rst(JD, &observer, &rst) != 0)
-		writef("Sun is circumpolar\n");
-	else {
-		ln_get_local_date(rst.rise, &rise);
-		ln_get_local_date(rst.transit, &transit);
-		ln_get_local_date(rst.set, &set);
-		print_date("Rise", &rise);
-		print_date("Transit", &transit);
-		print_date("Set", &set);
-	}
+    /* rise, set and transit */
+    if (ln_get_solar_rst(JD, &observer, &rst) != 0)
+        writef("Sun is circumpolar\n");
+    else {
+        ln_get_local_date(rst.rise, &rise);
+        ln_get_local_date(rst.transit, &transit);
+        ln_get_local_date(rst.set, &set);
+        print_date("Rise", &rise);
+        print_date("Transit", &transit);
+        print_date("Set", &set);
+    }
 
-	return 0;
+    return 0;
 }

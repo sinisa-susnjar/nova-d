@@ -22,27 +22,27 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup aberration Aberration
-*
-* Aberration: need a description.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup aberration Aberration
+     *
+     * Aberration: need a description.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position);
-* \brief Calculate equatorial coordinates with the effects of aberration.
-* \ingroup aberration
-*/
-/* Equ 22.1, 22.3, 22.4 and Ron-Vondrak expression */
-@safe @nogc void ln_get_equ_aber(ln_equ_posn *mean_position,
-	double JD, ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position);
+     * \brief Calculate equatorial coordinates with the effects of aberration.
+     * \ingroup aberration
+     */
+    /* Equ 22.1, 22.3, 22.4 and Ron-Vondrak expression */
+    @safe @nogc void ln_get_equ_aber(ln_equ_posn *mean_position,
+            double JD, ln_equ_posn *position) pure nothrow;
 
-/*! \fn void ln_get_ecl_aber(struct ln_lnlat_posn *mean_position, double JD, struct ln_lnlat_posn *position);
-* \brief Calculate ecliptical coordinates with the effects of aberration.
-* \ingroup aberration
-*/
-/* Equ 22.1, 22.2 pg 139 */
-@safe @nogc void ln_get_ecl_aber(ln_lnlat_posn *mean_position,
-	double JD, ln_lnlat_posn *position) pure nothrow;
+    /*! \fn void ln_get_ecl_aber(struct ln_lnlat_posn *mean_position, double JD, struct ln_lnlat_posn *position);
+     * \brief Calculate ecliptical coordinates with the effects of aberration.
+     * \ingroup aberration
+     */
+    /* Equ 22.1, 22.2 pg 139 */
+    @safe @nogc void ln_get_ecl_aber(ln_lnlat_posn *mean_position,
+            double JD, ln_lnlat_posn *position) pure nothrow;
 
 }

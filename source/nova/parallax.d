@@ -22,20 +22,20 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \fn void ln_get_parallax(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double JD, ln_equ_posn *parallax);
-* \ingroup parallax
-* \brief Calculate parallax in RA and DEC for given geographic location
-*/
-@safe @nogc void ln_get_parallax(ln_equ_posn *object,
-	double au_distance, ln_lnlat_posn *observer, double height,
-	double JD, ln_equ_posn *parallax) pure nothrow;
+    /*! \fn void ln_get_parallax(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double JD, ln_equ_posn *parallax);
+     * \ingroup parallax
+     * \brief Calculate parallax in RA and DEC for given geographic location
+     */
+    @safe @nogc void ln_get_parallax(ln_equ_posn *object,
+            double au_distance, ln_lnlat_posn *observer, double height,
+            double JD, ln_equ_posn *parallax) pure nothrow;
 
-/*! \fn void ln_get_parallax_ha(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double H, ln_equ_posn *parallax);
-* \ingroup parallax
-* \brief Calculate parallax in RA and DEC for given geographic location
-*/
-@safe @nogc void ln_get_parallax_ha(ln_equ_posn *object,
-	double au_distance, ln_lnlat_posn *observer, double height,
-	double H, ln_equ_posn *parallax) pure nothrow;
+    /*! \fn void ln_get_parallax_ha(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double H, ln_equ_posn *parallax);
+     * \ingroup parallax
+     * \brief Calculate parallax in RA and DEC for given geographic location
+     */
+    @safe @nogc void ln_get_parallax_ha(ln_equ_posn *object,
+            double au_distance, ln_lnlat_posn *observer, double height,
+            double H, ln_equ_posn *parallax) pure nothrow;
 
 }

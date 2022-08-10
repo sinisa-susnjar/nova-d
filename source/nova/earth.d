@@ -22,46 +22,45 @@ public import nova.ln_types;
 
 extern (C) {
 
+    /*! \defgroup earth Earth
+     *
+     * Functions relating to the planet Earth.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \defgroup earth Earth
-*
-* Functions relating to the planet Earth.
-*
-* All angles are expressed in degrees.
-*/
+    /*
+     ** Earth
+     */
 
-/*
-** Earth
-*/
+    /*! \fn void ln_get_earth_helio_coords(double JD, struct ln_helio_posn *position);
+     * \brief Calculate Earth's heliocentric coordinates
+     * \ingroup earth
+     */
+    /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
+    @safe @nogc void ln_get_earth_helio_coords(double JD,
+            ln_helio_posn *position) pure nothrow;
 
-/*! \fn void ln_get_earth_helio_coords(double JD, struct ln_helio_posn *position);
-* \brief Calculate Earth's heliocentric coordinates
-* \ingroup earth
-*/
-/* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
-@safe @nogc void ln_get_earth_helio_coords(double JD,
-	ln_helio_posn *position) pure nothrow;
+    /*! \fn void ln_get_earth_solar_dist(double JD);
+     * \brief Calculate the distance between Earth and the Sun.
+     * \ingroup earth
+     * \return Distance in AU
+     */
+    /* Chapter ?? */
+    @safe @nogc double ln_get_earth_solar_dist(double JD) pure nothrow;
 
-/*! \fn void ln_get_earth_solar_dist(double JD);
-* \brief Calculate the distance between Earth and the Sun.
-* \ingroup earth
-* \return Distance in AU
-*/
-/* Chapter ?? */
-@safe @nogc double ln_get_earth_solar_dist(double JD) pure nothrow;
+    /*! \fn void ln_get_earth_rect_helio(double JD, struct ln_rect_posn *position)
+     * \ingroup earth
+     * \brief Calculate the Earths rectangular heliocentric coordinates.
+     */
+    @safe @nogc void ln_get_earth_rect_helio(double JD,
+            ln_rect_posn *position) pure nothrow;
 
-/*! \fn void ln_get_earth_rect_helio(double JD, struct ln_rect_posn *position)
-* \ingroup earth
-* \brief Calculate the Earths rectangular heliocentric coordinates.
-*/
-@safe @nogc void ln_get_earth_rect_helio(double JD,
-	ln_rect_posn *position) pure nothrow;
-
-/*! \fn void ln_get_earth_centre_dist(float height, double latitude, double *p_sin_o, double *p_cos_o);
-* \ingroup earth
-* \brief Calculate Earth globe centre distance.
-*/
-@safe @nogc void ln_get_earth_centre_dist(float height, double latitude,
-		double *p_sin_o, double *p_cos_o) pure nothrow;
+    /*! \fn void ln_get_earth_centre_dist(float height, double latitude, double *p_sin_o, double *p_cos_o);
+     * \ingroup earth
+     * \brief Calculate Earth globe centre distance.
+     */
+    @safe @nogc void ln_get_earth_centre_dist(float height, double latitude,
+            double *p_sin_o, double *p_cos_o) pure nothrow;
 
 }

@@ -22,38 +22,38 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup precession Precession
-*
-* Precession is the changing direction of the Earth's rotational axis over time and
-* is due to the gravitational influence of the Sun and the Moon.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup precession Precession
+     *
+     * Precession is the changing direction of the Earth's rotational axis over time and
+     * is due to the gravitational influence of the Sun and the Moon.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn void ln_get_equ_prec(ln_equ_posn *mean_position, double JD, ln_equ_posn *position);
-* \brief Calculate the effects of precession on equatorial coordinates, convert current to J2000.
-* \ingroup precession
-*/
+    /*! \fn void ln_get_equ_prec(ln_equ_posn *mean_position, double JD, ln_equ_posn *position);
+     * \brief Calculate the effects of precession on equatorial coordinates, convert current to J2000.
+     * \ingroup precession
+     */
 
-/* Equ 20.2, 20.3, 20.4 pg 126 */
-@safe @nogc void ln_get_equ_prec(ln_equ_posn *mean_position,
-	double JD, ln_equ_posn *position) pure nothrow;
+    /* Equ 20.2, 20.3, 20.4 pg 126 */
+    @safe @nogc void ln_get_equ_prec(ln_equ_posn *mean_position,
+            double JD, ln_equ_posn *position) pure nothrow;
 
-/*! \fn void ln_get_equ_prec2(ln_equ_posn *mean_position, double fromJD, double toJD, ln_equ_posn *position);
-* \brief Calculate the effects of precession on equatorial coordinates, between arbitary Jxxxx epochs.
-* \ingroup precession
-*/
+    /*! \fn void ln_get_equ_prec2(ln_equ_posn *mean_position, double fromJD, double toJD, ln_equ_posn *position);
+     * \brief Calculate the effects of precession on equatorial coordinates, between arbitary Jxxxx epochs.
+     * \ingroup precession
+     */
 
-/* Equ 20.2, 20.3, 20.4 pg 126 */
-@safe @nogc void ln_get_equ_prec2(ln_equ_posn *mean_position,
-	double fromJD, double toJD, ln_equ_posn *position) pure nothrow;
+    /* Equ 20.2, 20.3, 20.4 pg 126 */
+    @safe @nogc void ln_get_equ_prec2(ln_equ_posn *mean_position,
+            double fromJD, double toJD, ln_equ_posn *position) pure nothrow;
 
-/*! \fn void ln_get_ecl_prec(ln_lnlat_posn *mean_position, double JD, ln_lnlat_posn *position);
-* \brief Calculate the effects of precession on ecliptical coordinates.
-* \ingroup precession
-*/
-/* Equ 20.5, 20.6 pg 128 */
-@safe @nogc void ln_get_ecl_prec(ln_lnlat_posn *mean_position,
-	double JD, ln_lnlat_posn *position) pure nothrow;
+    /*! \fn void ln_get_ecl_prec(ln_lnlat_posn *mean_position, double JD, ln_lnlat_posn *position);
+     * \brief Calculate the effects of precession on ecliptical coordinates.
+     * \ingroup precession
+     */
+    /* Equ 20.5, 20.6 pg 128 */
+    @safe @nogc void ln_get_ecl_prec(ln_lnlat_posn *mean_position,
+            double JD, ln_lnlat_posn *position) pure nothrow;
 
 }

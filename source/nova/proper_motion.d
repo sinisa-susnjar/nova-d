@@ -22,29 +22,29 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup motion Proper Motion
-* Proper motion is the motion in space of a star between 2 epochs. It has components
-* in right ascension and in declination.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup motion Proper Motion
+     * Proper motion is the motion in space of a star between 2 epochs. It has components
+     * in right ascension and in declination.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn void ln_get_equ_pm(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, ln_equ_posn *position);
-* \brief Calculate a stars equatorial position wrt proper motion (J2000).
-* \ingroup motion
-*/
-/* Equ 20.2, 20.3, 20.4 pg 126 */
-@safe @nogc void ln_get_equ_pm(ln_equ_posn *mean_position,
-	ln_equ_posn *proper_motion, double JD,
-	ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_equ_pm(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, ln_equ_posn *position);
+     * \brief Calculate a stars equatorial position wrt proper motion (J2000).
+     * \ingroup motion
+     */
+    /* Equ 20.2, 20.3, 20.4 pg 126 */
+    @safe @nogc void ln_get_equ_pm(ln_equ_posn *mean_position,
+            ln_equ_posn *proper_motion, double JD,
+            ln_equ_posn *position) pure nothrow;
 
-/*! \fn void ln_get_equ_pm_epoch(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, double epoch_JD, ln_equ_posn *position)
-* \brief Calculate a stars equatorial position wrt proper motion and epoch.
-*/
-/* Equ 20.2, 20.3, 20.4 pg 126
-*/
-@safe @nogc void ln_get_equ_pm_epoch(ln_equ_posn *mean_position,
-	ln_equ_posn *proper_motion, double JD, double epoch_JD,
-	ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_equ_pm_epoch(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, double epoch_JD, ln_equ_posn *position)
+     * \brief Calculate a stars equatorial position wrt proper motion and epoch.
+     */
+    /* Equ 20.2, 20.3, 20.4 pg 126
+     */
+    @safe @nogc void ln_get_equ_pm_epoch(ln_equ_posn *mean_position,
+            ln_equ_posn *proper_motion, double JD, double epoch_JD,
+            ln_equ_posn *position) pure nothrow;
 
 }

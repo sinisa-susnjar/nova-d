@@ -27,60 +27,60 @@ enum LN_SOLAR_ASTRONOMICAL_HORIZON =        -18.0;
 
 extern (C) {
 
-/*! \defgroup solar Solar
-*
-* Calculate solar ecliptical/equatorial coordinates for a given julian date.
-* Accuracy 0.01 arc second error - uses VSOP87 solution.
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup solar Solar
+     *
+     * Calculate solar ecliptical/equatorial coordinates for a given julian date.
+     * Accuracy 0.01 arc second error - uses VSOP87 solution.
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn int ln_get_solar_rst_horizon(double JD, ln_lnlat_posn *observer, double horizon, ln_rst_time *rst);
-* \brief Return solar rise/set time over local horizon (specified in degrees).
-*  \ingroup solar
-*/
-@safe @nogc int ln_get_solar_rst_horizon(double JD,
-	ln_lnlat_posn *observer, double horizon, ln_rst_time *rst) pure nothrow;
+    /*! \fn int ln_get_solar_rst_horizon(double JD, ln_lnlat_posn *observer, double horizon, ln_rst_time *rst);
+     * \brief Return solar rise/set time over local horizon (specified in degrees).
+     *  \ingroup solar
+     */
+    @safe @nogc int ln_get_solar_rst_horizon(double JD,
+            ln_lnlat_posn *observer, double horizon, ln_rst_time *rst) pure nothrow;
 
-/*! \fn int ln_get_solar_rst(double JD, ln_lnlat_posn *observer, ln_rst_time *rst);
-* \brief Calculate the time of rise, set and transit for the Sun.
-* \ingroup solar
-*/
-@safe @nogc int ln_get_solar_rst(double JD, ln_lnlat_posn *observer,
-	ln_rst_time *rst) pure nothrow;
+    /*! \fn int ln_get_solar_rst(double JD, ln_lnlat_posn *observer, ln_rst_time *rst);
+     * \brief Calculate the time of rise, set and transit for the Sun.
+     * \ingroup solar
+     */
+    @safe @nogc int ln_get_solar_rst(double JD, ln_lnlat_posn *observer,
+            ln_rst_time *rst) pure nothrow;
 
-/*! \fn void ln_get_solar_geom_coords(double JD, ln_helio_posn *position);
-* \brief Calculate solar geometric coordinates.
-* \ingroup solar
-*/
-@safe @nogc void ln_get_solar_geom_coords(double JD,
-	ln_helio_posn *position) pure nothrow;
+    /*! \fn void ln_get_solar_geom_coords(double JD, ln_helio_posn *position);
+     * \brief Calculate solar geometric coordinates.
+     * \ingroup solar
+     */
+    @safe @nogc void ln_get_solar_geom_coords(double JD,
+            ln_helio_posn *position) pure nothrow;
 
-/*! \fn void ln_get_solar_equ_coords(double JD, ln_equ_posn *position);
-* \brief Calculate apparent equatorial coordinates.
-* \ingroup solar
-*/
-@safe @nogc void ln_get_solar_equ_coords(double JD,
-	ln_equ_posn *position) pure nothrow;
+    /*! \fn void ln_get_solar_equ_coords(double JD, ln_equ_posn *position);
+     * \brief Calculate apparent equatorial coordinates.
+     * \ingroup solar
+     */
+    @safe @nogc void ln_get_solar_equ_coords(double JD,
+            ln_equ_posn *position) pure nothrow;
 
-/*! \fn void ln_get_solar_ecl_coords(double JD, ln_lnlat_posn *position);
-* \brief Calculate apparent ecliptical coordinates.
-* \ingroup solar
-*/
-@safe @nogc void ln_get_solar_ecl_coords(double JD,
-	ln_lnlat_posn *position) pure nothrow;
+    /*! \fn void ln_get_solar_ecl_coords(double JD, ln_lnlat_posn *position);
+     * \brief Calculate apparent ecliptical coordinates.
+     * \ingroup solar
+     */
+    @safe @nogc void ln_get_solar_ecl_coords(double JD,
+            ln_lnlat_posn *position) pure nothrow;
 
-/*! \fn void ln_get_solar_geo_coords(double JD, ln_rect_posn *position)
-* \brief Calculate geocentric coordinates (rectangular)
-* \ingroup solar
-*/
-@safe @nogc void ln_get_solar_geo_coords(double JD,
-	ln_rect_posn *position) pure nothrow;
+    /*! \fn void ln_get_solar_geo_coords(double JD, ln_rect_posn *position)
+     * \brief Calculate geocentric coordinates (rectangular)
+     * \ingroup solar
+     */
+    @safe @nogc void ln_get_solar_geo_coords(double JD,
+            ln_rect_posn *position) pure nothrow;
 
-/*! \fn double ln_get_solar_sdiam(double JD)
-* \brief Calculate the semidiameter of the Sun in arc seconds.
-* \ingroup solar
-*/
-@safe @nogc double ln_get_solar_sdiam(double JD) pure nothrow;
+    /*! \fn double ln_get_solar_sdiam(double JD)
+     * \brief Calculate the semidiameter of the Sun in arc seconds.
+     * \ingroup solar
+     */
+    @safe @nogc double ln_get_solar_sdiam(double JD) pure nothrow;
 
 }

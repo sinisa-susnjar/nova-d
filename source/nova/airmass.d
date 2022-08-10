@@ -21,16 +21,16 @@ module nova.airmass;
 
 extern (C) {
 
-/*! \fn double ln_get_airmass(double alt, double airmass_scale);
- * \brief Calculate air mass in given altitude.
- * \ingroup airmass
- */
-@safe @nogc double ln_get_airmass(double alt, double airmass_scale) pure nothrow;
+    /*! \fn double ln_get_airmass(double alt, double airmass_scale);
+     * \brief Calculate air mass in given altitude.
+     * \ingroup airmass
+     */
+    @safe @nogc double ln_get_airmass(double alt, double airmass_scale) pure nothrow;
 
-/*! \fn double ln_get_alt_from_airmass(double X, double airmass_scale)
- * \brief Calculate altitude for given air mass.
- * \ingroup airmass
- */
-@safe @nogc double ln_get_alt_from_airmass(double X, double airmass_scale) pure nothrow;
+    /*! \fn double ln_get_alt_from_airmass(double X, double airmass_scale)
+     * \brief Calculate altitude for given air mass.
+     * \ingroup airmass
+     */
+    @safe @nogc double ln_get_alt_from_airmass(double X, double airmass_scale) pure nothrow;
 
 }

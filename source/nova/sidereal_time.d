@@ -22,22 +22,22 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup sidereal Sidereal Time
-*
-* TODO
-*/
+    /*! \defgroup sidereal Sidereal Time
+     *
+     * TODO
+     */
 
-/*! \fn ln_double ln_get_mean_sidereal_time(double JD)
-* \brief Calculate mean sidereal time from date.
-* \ingroup sidereal
-*/
-@safe @nogc double ln_get_mean_sidereal_time(double JD) pure nothrow;
+    /*! \fn ln_double ln_get_mean_sidereal_time(double JD)
+     * \brief Calculate mean sidereal time from date.
+     * \ingroup sidereal
+     */
+    @safe @nogc double ln_get_mean_sidereal_time(double JD) pure nothrow;
 
-/*! \fn ln_get_apparent_sidereal_time(double JD)
-* \brief Calculate apparent sidereal time from date.
-* \ingroup sidereal
-*/
+    /*! \fn ln_get_apparent_sidereal_time(double JD)
+     * \brief Calculate apparent sidereal time from date.
+     * \ingroup sidereal
+     */
 
-@safe @nogc double ln_get_apparent_sidereal_time(double JD) pure nothrow;
+    @safe @nogc double ln_get_apparent_sidereal_time(double JD) pure nothrow;
 
 }

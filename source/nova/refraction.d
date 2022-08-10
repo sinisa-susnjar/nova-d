@@ -22,19 +22,19 @@ public import nova.ln_types;
 
 extern (C) {
 
-/*! \defgroup refraction Atmospheric Refraction
-*
-* Functions relating to Atmospheric Refraction
-*
-* All angles are expressed in degrees.
-*/
+    /*! \defgroup refraction Atmospheric Refraction
+     *
+     * Functions relating to Atmospheric Refraction
+     *
+     * All angles are expressed in degrees.
+     */
 
-/*! \fn double ln_get_refraction_adj(double altitude, double atm_pres, double temp)
-* \brief Calculate the adjustment in altitude of a body due to atmospheric
-* refraction.
-* \ingroup refraction
-*/
-@safe @nogc double ln_get_refraction_adj(double altitude, double atm_pres,
-	double temp) pure nothrow;
+    /*! \fn double ln_get_refraction_adj(double altitude, double atm_pres, double temp)
+     * \brief Calculate the adjustment in altitude of a body due to atmospheric
+     * refraction.
+     * \ingroup refraction
+     */
+    @safe @nogc double ln_get_refraction_adj(double altitude, double atm_pres,
+            double temp) pure nothrow;
 
 }
