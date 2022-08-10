@@ -36,61 +36,61 @@ static void print_date(string title, ln_zonedate *date)
 
 int main(string[] args)
 {
-        ln_helio_posn pos;
-        lnh_equ_posn hequ;
-        ln_equ_posn equ;
-        ln_rst_time rst;
-        ln_zonedate rise, set, transit;
-        ln_lnlat_posn observer;
-        double JD;
-        double au;
+    ln_helio_posn pos;
+    lnh_equ_posn hequ;
+    ln_equ_posn equ;
+    ln_rst_time rst;
+    ln_zonedate rise, set, transit;
+    ln_lnlat_posn observer;
+    double JD;
+    double au;
 
-        /* observers location (Edinburgh), used to calc rst */
-        observer.lat = 55.92; /* 55.92 N */
-        observer.lng = -3.18; /* 3.18 W */
+    /* observers location (Edinburgh), used to calc rst */
+    observer.lat = 55.92; /* 55.92 N */
+    observer.lng = -3.18; /* 3.18 W */
 
-        /* get Julian day from local time */
-        JD = ln_get_julian_from_sys();
-        writef("JD %f\n", JD);
+    /* get Julian day from local time */
+    JD = ln_get_julian_from_sys();
+    writef("JD %f\n", JD);
 
-        /* longitude, latitude and radius vector */
-        ln_get_mars_helio_coords(JD, &pos);
-        writef("Mars L %f B %f R %f\n", pos.L, pos.B, pos.R);
+    /* longitude, latitude and radius vector */
+    ln_get_mars_helio_coords(JD, &pos);
+    writef("Mars L %f B %f R %f\n", pos.L, pos.B, pos.R);
 
-        /* RA, DEC */
-        ln_get_mars_equ_coords(JD, &equ);
-        ln_equ_to_hequ(&equ, &hequ);
-        writef("Mars RA %d:%d:%f Dec %d:%d:%f\n",
-                hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds,
-                hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
+    /* RA, DEC */
+    ln_get_mars_equ_coords(JD, &equ);
+    ln_equ_to_hequ(&equ, &hequ);
+    writef("Mars RA %d:%d:%f Dec %d:%d:%f\n",
+            hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds,
+            hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
 
-        /* Earth - Mars dist AU */
-        au = ln_get_mars_earth_dist(JD);
-        writef("mars -> Earth dist (AU) %f\n",au);
+    /* Earth - Mars dist AU */
+    au = ln_get_mars_earth_dist(JD);
+    writef("mars -> Earth dist (AU) %f\n",au);
 
-        /* Sun - Mars Dist AU */
-        au = ln_get_mars_solar_dist(JD);
-        writef("mars -> Sun dist (AU) %f\n",au);
+    /* Sun - Mars Dist AU */
+    au = ln_get_mars_solar_dist(JD);
+    writef("mars -> Sun dist (AU) %f\n",au);
 
-        /* Mars disk, magnitude and phase */
-        au = ln_get_mars_disk(JD);
-        writef("mars -> illuminated disk %f\n",au);
-        au = ln_get_mars_magnitude(JD);
-        writef("mars -> magnitude %f\n",au);
-        au = ln_get_mars_phase(JD);
-        writef("mars -> phase %f\n",au);
+    /* Mars disk, magnitude and phase */
+    au = ln_get_mars_disk(JD);
+    writef("mars -> illuminated disk %f\n",au);
+    au = ln_get_mars_magnitude(JD);
+    writef("mars -> magnitude %f\n",au);
+    au = ln_get_mars_phase(JD);
+    writef("mars -> phase %f\n",au);
 
-                /* rise, set and transit time */
-        if (ln_get_mars_rst(JD, &observer, &rst) != 0)
-                writef("Mars is circumpolar\n");
-        else {
-                ln_get_local_date(rst.rise, &rise);
-                ln_get_local_date(rst.transit, &transit);
-                ln_get_local_date(rst.set, &set);
-                print_date("Rise", &rise);
-                print_date("Transit", &transit);
-                print_date("Set", &set);
-        }
+    /* rise, set and transit time */
+    if (ln_get_mars_rst(JD, &observer, &rst) != 0)
+        writef("Mars is circumpolar\n");
+    else {
+        ln_get_local_date(rst.rise, &rise);
+        ln_get_local_date(rst.transit, &transit);
+        ln_get_local_date(rst.set, &set);
+        print_date("Rise", &rise);
+        print_date("Transit", &transit);
+        print_date("Set", &set);
+    }
 
-        return 0;
+    return 0;
 }
