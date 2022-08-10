@@ -297,20 +297,16 @@ struct ln_nutation {
 	double ecliptic;	/*!< Mean obliquity of the ecliptic, in degrees */
 }
 
-// #if defined(__WIN32__) && !defined(__MINGW__)
-
-// #include <time.h>
-
-public import core.stdc.time : time_t;
-
-struct timeval
-{
-	time_t  tv_sec;         /* count of seconds since Jan. 1, 1970 */
-	long    tv_usec;        /* and microseconds */
-}
-
-struct timezone
-{
-	int     tz_minuteswest; /* Minutes west of GMT */
-	int     tz_dsttime;     /* DST correction offset */
-}
+// public import core.stdc.time : time_t;
+//
+// struct timeval
+// {
+// 	time_t  tv_sec;         /* count of seconds since Jan. 1, 1970 */
+// 	long    tv_usec;        /* and microseconds */
+// }
+//
+// struct timezone
+// {
+// 	int     tz_minuteswest; /* Minutes west of GMT */
+// 	int     tz_dsttime;     /* DST correction offset */
+// }
