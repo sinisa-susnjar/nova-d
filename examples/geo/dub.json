@@ -1,0 +1,10 @@
+{
+    "authors": [ "Sinisa Susnjar" ],
+    "copyright": "Copyright © 2022, Sinisa Susnjar",
+    "description": "Geocentric position example.",
+    "license": "MIT",
+    "name": "geo",
+    "dependencies": {
+        "nova-d": { "path": "../.." }
+    }
+}
