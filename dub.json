@@ -5,6 +5,8 @@
     "license": "MIT",
     "name": "nova-d",
     "libs-linux": [ "nova-0.16" ],
+    "lflags-windows": [ "$PACKAGE_DIR/lib/win/libnova.lib" ],
+    "dflags-windows": [ "-L=/NODEFAULTLIB:libcmt", "-L=/NODEFAULTLIB:libvcruntime" ],
     "configurations": [
         {
             "name": "lib",
