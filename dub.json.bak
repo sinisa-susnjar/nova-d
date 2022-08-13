@@ -1,0 +1,24 @@
+{
+    "authors": [ "Sinisa Susnjar" ],
+    "copyright": "Copyright © 2022, Sinisa Susnjar",
+    "description": "D bindings for the libnova celestial mechanics engine",
+    "license": "MIT",
+    "name": "nova-d",
+    "libs-linux": [ "nova-0.16" ],
+    "lflags-windows": [
+        "$PACKAGE_DIR/lib/win/libnova.lib",
+        "$PACKAGE_DIR/lib/win/libmingwex.a"
+        , "$PACKAGE_DIR/lib/win/libmingw32.a"
+    ],
+    "dflags-windows": [ "-L=/NODEFAULTLIB:libvcruntime", "-L=--allow-multiple-definition" ],
+    "configurations": [
+        {
+            "name": "lib",
+            "targetType": "staticLibrary"
+        },
+        {
+            "name": "shared",
+            "targetType": "dynamicLibrary"
+        }
+    ]
+}
