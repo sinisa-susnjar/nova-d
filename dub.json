@@ -5,14 +5,11 @@
     "license": "MIT",
     "name": "nova-d",
     "libs-linux": [ "nova-0.16" ],
-    "libs-windows": [
-    ],
+    "libs-windows": [ ],
+    "dflags-windows": [ "-L=/NODEFAULTLIB:libcmt", "-L=/NODEFAULTLIB:libvcruntime" ],
     "lflags-windows": [
         "$PACKAGE_DIR/lib/win/libnova.lib"
-        ,"$PACKAGE_DIR/lib/win/libmingwex.a"
-        ,"$PACKAGE_DIR/lib/win/libcrtdll.a"
     ],
-    "dflags-windows": [ ],
     "configurations": [
         {
             "name": "lib",
