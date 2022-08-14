@@ -1,9 +1,13 @@
-# nova-d
+[![ubuntu](https://github.com/sinisa-susnjar/nova-d/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/sinisa-susnjar/nova-d/actions/workflows/ubuntu.yml) [![macos](https://github.com/sinisa-susnjar/nova-d/actions/workflows/macos.yml/badge.svg)](https://github.com/sinisa-susnjar/nova-d/actions/workflows/macos.yml) [![windows](https://github.com/sinisa-susnjar/nova-d/actions/workflows/windows.yml/badge.svg)](https://github.com/sinisa-susnjar/nova-d/actions/workflows/windows.yml) [![coverage](https://codecov.io/gh/sinisa-susnjar/nova-d/branch/main/graph/badge.svg?token=1C9K09MWJ5)](https://codecov.io/gh/sinisa-susnjar/nova-d)
 
-D bindings for the libnova celestial mechanics engine.
+# Nova-D
 
-The code is basically just a translation of the libnova headers into D modules that declare `extern (C) { ... }` functions.
+D translation of the libnova celestial mechanics engine.
+
+The code is basically just a translation of the libnova sources into D modules.
 Original examples have also been translated to D, see the `examples` directory.
+
+The original libnova code was forked from https://github.com/efalk/libnova @ 85f8817 (r0.16.0)
 
 Copyright for the original libnova code is Liam Girdwood et al, please see [authors](https://sourceforge.net/p/libnova/libnova/ci/master/tree/AUTHORS).
 
