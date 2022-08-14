@@ -18,24 +18,73 @@
 
 module nova.parallax;
 
-public import nova.ln_types;
+import std.math;
 
-extern (C) {
+import nova.earth;
+import nova.utility;
+import nova.sidereal_time;
+import nova.ln_types;
 
-    /*! \fn void ln_get_parallax(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double JD, ln_equ_posn *parallax);
-     * \ingroup parallax
-     * \brief Calculate parallax in RA and DEC for given geographic location
-     */
-    @safe @nogc void ln_get_parallax(ln_equ_posn *object,
-            double au_distance, ln_lnlat_posn *observer, double height,
-            double JD, ln_equ_posn *parallax) pure nothrow;
+/*! \fn void ln_get_parallax(struct ln_equ_posn *object, double au_distance, struct ln_lnlat_posn *observer, double height, double JD, struct ln_equ_posn *parallax);
+* \param object Object geocentric coordinates
+* \param au_distance Distance of object from Earth in AU
+* \param observer Geographics observer positions
+* \param height Observer height in m
+* \param JD  Julian day of observation
+* \param parallax RA and DEC parallax
+*
+* Calculate body parallax, which is need to calculate topocentric position of the body.
+*/
+/* Equ 39.1, 39.2, 39.3 Pg 263 and 264
+*/
+void ln_get_parallax(const ln_equ_posn *object, double au_distance,
+	 const ln_lnlat_posn *observer, double height, double JD,
+	 ln_equ_posn *parallax)
+{
+  	double H;
 
-    /*! \fn void ln_get_parallax_ha(ln_equ_posn *object, double au_distance, ln_lnlat_posn *observer, double height, double H, ln_equ_posn *parallax);
-     * \ingroup parallax
-     * \brief Calculate parallax in RA and DEC for given geographic location
-     */
-    @safe @nogc void ln_get_parallax_ha(ln_equ_posn *object,
-            double au_distance, ln_lnlat_posn *observer, double height,
-            double H, ln_equ_posn *parallax) pure nothrow;
+	H = ln_get_apparent_sidereal_time(JD) +
+			(observer.lng - object.ra) / 15.0;
+	ln_get_parallax_ha(object, au_distance, observer, height, H, parallax);
+}
 
+
+/*! \fn void ln_get_parallax_ha(struct ln_equ_posn *object, double au_distance, struct ln_lnlat_posn *observer, double height, double H, struct ln_equ_posn *parallax);
+* \param object Object geocentric coordinates
+* \param au_distance Distance of object from Earth in AU
+* \param observer Geographics observer positions
+* \param height Observer height in m
+* \param H Hour angle of object in hours
+* \param parallax RA and DEC parallax
+*
+* Calculate body parallax, which is need to calculate topocentric position of the body.
+* Uses hour angle as time reference (handy in case we already compute it).
+*/
+/* Equ 39.1, 39.2, 39.3 Pg 263 and 264
+*/
+void ln_get_parallax_ha(const ln_equ_posn *object, double au_distance,
+	 const ln_lnlat_posn *observer, double height, double H,
+	 ln_equ_posn *parallax)
+{
+	double sin_pi, ro_sin, ro_cos, sin_H, cos_H, dec_rad, cos_dec;
+
+	ln_get_earth_centre_dist (height, observer.lat, &ro_sin, &ro_cos);
+	sin_pi = sin(ln_deg_to_rad((8.794 / au_distance) / 3600.0));  // (39.1)
+
+	/* change hour angle from hours to radians*/
+	H *= PI / 12.0;
+
+	sin_H = sin(H);
+	cos_H = cos(H);
+
+	dec_rad = ln_deg_to_rad(object.dec);
+	cos_dec = cos(dec_rad);
+
+	parallax.ra = atan2(-ro_cos * sin_pi * sin_H, cos_dec  - ro_cos *
+			sin_pi * cos_H); // (39.2)
+	parallax.dec = atan2((sin(dec_rad) - ro_sin * sin_pi) *
+			cos(parallax.ra), cos_dec - ro_cos * sin_pi * cos_H); // (39.3)
+
+	parallax.ra = ln_rad_to_deg(parallax.ra);
+	parallax.dec = ln_rad_to_deg(parallax.dec) - object.dec;
 }

@@ -13,33 +13,86 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- *  Copyright (C) 2000 - 2005 Liam Girdwood
+ *  Copyright (C) 2000 - 2005 Liam Girdwood  <lgirdwood@gmail.com>
  */
 
 module nova.angular_separation;
 
-public import nova.ln_types;
+import std.math;
+import nova.angular_separation;
+import nova.utility;
+import nova.ln_types;
 
-extern (C) {
+/*! \fn double ln_get_angular_separation(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
+* \param posn1 Equatorial position of body 1
+* \param posn2 Equatorial position of body 2
+* \return Angular separation in degrees
+*
+* Calculates the angular separation of 2 bodies.
+* This method was devised by Mr Thierry Pauwels of the
+* Royal Observatory Belgium.
+*
+* Note that this function can be used with ecliptic coordinates
+* as well, by replacing right ascension and declination with
+* longitude and latitude respectively.
+*
+* From Meeus, Chap 17 page 115
+*/
+double ln_get_angular_separation(const ln_equ_posn* posn1,
+	const ln_equ_posn* posn2)
+{
+	double d;
+	double x,y,z;
+	double a1,a2,d1,d2;
 
-    /*! \defgroup angular Angular Separation
-     *
-     * Functions relating to an the angular separation and position
-     * angle between 2 bodies.
-     *
-     * All angles are expressed in degrees.
-     */
+	/* covert to radians */
+	a1 = ln_deg_to_rad(posn1.ra);
+	d1 = ln_deg_to_rad(posn1.dec);
+	a2 = ln_deg_to_rad(posn2.ra);
+	d2 = ln_deg_to_rad(posn2.dec);
 
-    /*! \fn double ln_get_angular_separation(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
-     * \brief Calculate the angular separation between 2 bodies
-     * \ingroup angular
-     */
-    @safe @nogc double ln_get_angular_separation(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
+	x = (cos(d1) * sin(d2))
+		- (sin(d1) * cos(d2) * cos(a2 - a1));
+	y = cos(d2) * sin(a2 - a1);
+	z = (sin(d1) * sin(d2)) + (cos(d1) * cos(d2) * cos(a2 - a1));
 
-    /*! \fn double ln_get_rel_posn_angle(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
-     * \brief Calculate the relative position angle between 2 bodies
-     * \ingroup angular
-     */
-    @safe @nogc double ln_get_rel_posn_angle(ln_equ_posn *posn1, ln_equ_posn *posn2) pure nothrow;
+	x = x * x;
+	y = y * y;
+	d = atan2(sqrt(x + y), z);
 
+	return ln_rad_to_deg(d);
+}
+
+/*! \fn double ln_get_rel_posn_angle(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
+* \param posn1 Equatorial position of body 1
+* \param posn2 Equatorial position of body 2
+* \return Position angle in degrees
+*
+* Calculates the relative position angle of a body with respect to another body.
+*
+* Relative position angle is where body 2 appears relative to body 1.
+* That is, having found body 1 in the sky, your eyes track at the
+* relative position angle to find body 2. North is 0° and the angle
+* increases clockwise from north.
+*
+* From Meeus, Chap 17, page 116
+*/
+double ln_get_rel_posn_angle(const ln_equ_posn* posn1,
+	const ln_equ_posn* posn2)
+{
+	double P;
+	double a1,a2,d1,d2;
+	double x,y;
+
+	/* covert to radians */
+	a1 = ln_deg_to_rad(posn1.ra);
+	d1 = ln_deg_to_rad(posn1.dec);
+	a2 = ln_deg_to_rad(posn2.ra);
+	d2 = ln_deg_to_rad(posn2.dec);
+
+	y = sin(a1 - a2);
+	x = (cos(d2) * tan(d1)) - (sin(d2) * cos(a1 - a2));
+
+	P = atan2(y, x);
+	return ln_rad_to_deg(P);
 }

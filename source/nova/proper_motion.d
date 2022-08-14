@@ -13,38 +13,59 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- *  Copyright (C) 2000 - 2005 Liam Girdwood
+ *  Copyright (C) 2000 - 2005 Liam Girdwood <lgirdwood@gmail.com>
  */
 
 module nova.proper_motion;
 
-public import nova.ln_types;
+import nova.utility;
+import nova.ln_types;
 
-extern (C) {
+/*
+** Proper Motion.
+*/
 
-    /*! \defgroup motion Proper Motion
-     * Proper motion is the motion in space of a star between 2 epochs. It has components
-     * in right ascension and in declination.
-     *
-     * All angles are expressed in degrees.
-     */
+/*! \fn void ln_get_equ_pm(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)
+* \param mean_position Mean position of object.
+* \param proper_motion Annual Proper motion of object.
+* \param JD Julian Day.
+* \param position Pointer to store new object position.
+*
+* Calculate a stars equatorial coordinates from it's mean coordinates (J2000.0)
+* with the effects of proper motion for a given Julian Day.
+*/
+/* Example 20.b pg 126
+*/
+void ln_get_equ_pm(const ln_equ_posn *mean_position,
+	const ln_equ_posn *proper_motion, double JD, ln_equ_posn *position)
+{
+	ln_get_equ_pm_epoch (mean_position, proper_motion, JD, JD2000, position);
+}
 
-    /*! \fn void ln_get_equ_pm(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, ln_equ_posn *position);
-     * \brief Calculate a stars equatorial position wrt proper motion (J2000).
-     * \ingroup motion
-     */
-    /* Equ 20.2, 20.3, 20.4 pg 126 */
-    @safe @nogc void ln_get_equ_pm(ln_equ_posn *mean_position,
-            ln_equ_posn *proper_motion, double JD,
-            ln_equ_posn *position) pure nothrow;
+/*!
+* \param mean_position Mean position of object.
+* \param proper_motion Annual Proper motion of object.
+* \param JD Julian Day.
+* \param epoch_JD Mean position epoch in JD
+* \param position Pointer to store new object position.
+*
+* Calculate a stars equatorial coordinates from it's mean coordinates and epoch
+* with the effects of proper motion for a given Julian Day.
+*/
+/* Example 20.b, pg 126
+*/
+void ln_get_equ_pm_epoch(const ln_equ_posn *mean_position,
+	const ln_equ_posn *proper_motion, double JD, double epoch_JD,
+	ln_equ_posn *position)
+{
+	real T;
 
-    /*! \fn void ln_get_equ_pm_epoch(ln_equ_posn *mean_position, ln_equ_posn *proper_motion, double JD, double epoch_JD, ln_equ_posn *position)
-     * \brief Calculate a stars equatorial position wrt proper motion and epoch.
-     */
-    /* Equ 20.2, 20.3, 20.4 pg 126
-     */
-    @safe @nogc void ln_get_equ_pm_epoch(ln_equ_posn *mean_position,
-            ln_equ_posn *proper_motion, double JD, double epoch_JD,
-            ln_equ_posn *position) pure nothrow;
+	T = (JD - epoch_JD) / 365.25;
 
+	/* calc proper motion */
+	position.ra = mean_position.ra + T * proper_motion.ra;
+	position.dec = mean_position.dec + T * proper_motion.dec;
+
+	/* change to degrees */
+	position.ra = ln_range_degrees(position.ra);
 }

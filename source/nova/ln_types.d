@@ -19,25 +19,25 @@
 module nova.ln_types;
 
 /* sidereal day length in seconds and days (for JD)*/
-enum LN_SIDEREAL_DAY_SEC = 86_164.09;
-enum LN_SIDEREAL_DAY_DAY = (LN_SIDEREAL_DAY_SEC / 86_400.0);
+enum LN_SIDEREAL_DAY_SEC = 86164.09;
+enum LN_SIDEREAL_DAY_DAY = (LN_SIDEREAL_DAY_SEC / 86400.0);
 
 /* 1.1.2000 Julian Day & others */
-enum JD2000 = 2_451_545.0;
-enum JD2050 = 2_469_807.50;
+enum JD2000 =          2451545.0;
+enum JD2050 =          2469807.50;
 
-enum B1900 = 2_415_020.3135;
-enum B1950 = 2_433_282.4235;
+enum B1900 =           2415020.3135;
+enum B1950 =           2433282.4235;
 
 /*!
- ** Date
- * \struct ln_date
- * \brief Human readable Date and time used by libnova
- *
- * This is the Human readable (easy printf) date format used
- * by libnova. It's always in UTC. For local time, please use
- * ln_zonedate.
- */
+** Date
+* \struct ln_date
+* \brief Human readable Date and time used by libnova
+*
+* This is the Human readable (easy printf) date format used
+* by libnova. It's always in UTC. For local time, please use
+* ln_zonedate.
+*/
 
 struct ln_date {
     int years; 		/*!< Years. All values are valid */
@@ -49,14 +49,14 @@ struct ln_date {
 }
 
 /*!
- ** Zone date
- * \struct ln_zonedate
- * \brief Human readable Date and time with timezone information used
- * by libnova
- *
- * This is the Human readable (easy printf) date with timezone format
- * used by libnova.
- */
+** Zone date
+* \struct ln_zonedate
+* \brief Human readable Date and time with timezone information used
+* by libnova
+*
+* This is the Human readable (easy printf) date with timezone format
+* used by libnova.
+*/
 
 struct ln_zonedate {
     int years; 		/*!< Years. All values are valid */
@@ -69,10 +69,10 @@ struct ln_zonedate {
 }
 
 /*! \struct ln_dms
- ** \brief Degrees, minutes and seconds.
- *
- * Human readable Angle in degrees, minutes and seconds
- */
+** \brief Degrees, minutes and seconds.
+*
+* Human readable Angle in degrees, minutes and seconds
+*/
 
 struct ln_dms {
     ushort neg;         /*!< Non zero if negative */
@@ -82,10 +82,10 @@ struct ln_dms {
 }
 
 /*! \struct ln_hms
- ** \brief Hours, minutes and seconds.
- *
- * Human readable Angle in hours, minutes and seconds
- */
+** \brief Hours, minutes and seconds.
+*
+* Human readable Angle in hours, minutes and seconds
+*/
 
 struct ln_hms {
     ushort hours;		/*!< Hours. Valid 0 - 23 */
@@ -94,10 +94,10 @@ struct ln_hms {
 }
 
 /*! \struct lnh_equ_posn
- ** \brief Right Ascension and Declination.
- *
- * Human readable Equatorial Coordinates.
- */
+** \brief Right Ascension and Declination.
+*
+* Human readable Equatorial Coordinates.
+*/
 
 struct lnh_equ_posn {
     ln_hms ra;	/*!< RA. Object right ascension.*/
@@ -105,10 +105,10 @@ struct lnh_equ_posn {
 }
 
 /*! \struct lnh_hrz_posn
- ** \brief Azimuth and Altitude.
- *
- * Human readable Horizontal Coordinates.
- */
+** \brief Azimuth and Altitude.
+*
+* Human readable Horizontal Coordinates.
+*/
 
 struct lnh_hrz_posn {
     ln_dms az;	/*!< AZ. Object azimuth. */
@@ -117,10 +117,10 @@ struct lnh_hrz_posn {
 
 
 /*! \struct lnh_lnlat_posn
- ** \brief Ecliptical (or celestial) Latitude and Longitude.
- *
- * Human readable Ecliptical (or celestial) Longitude and Latitude.
- */
+** \brief Ecliptical (or celestial) Latitude and Longitude.
+*
+* Human readable Ecliptical (or celestial) Longitude and Latitude.
+*/
 
 struct lnh_lnlat_posn {
     ln_dms lng; /*!< longitude. Object longitude.*/
@@ -129,12 +129,12 @@ struct lnh_lnlat_posn {
 
 
 /*! \struct ln_equ_posn
- ** \brief Equatorial Coordinates.
- *
- * The Right Ascension and Declination of an object.
- *
- * Angles are expressed in degrees.
- */
+** \brief Equatorial Coordinates.
+*
+* The Right Ascension and Declination of an object.
+*
+* Angles are expressed in degrees.
+*/
 
 struct ln_equ_posn {
     double ra;	/*!< RA. Object right ascension in degrees.*/
@@ -142,27 +142,27 @@ struct ln_equ_posn {
 }
 
 /*! \struct ln_hrz_posn
- ** \brief Horizontal Coordinates.
- *
- * The Azimuth and Altitude of an object.
- *
- * Angles are expressed in degrees.
- */
+** \brief Horizontal Coordinates.
+*
+* The Azimuth and Altitude of an object.
+*
+* Angles are expressed in degrees.
+*/
 
 struct ln_hrz_posn {
     double az;	/*!< AZ. Object azimuth. <p>
-                  0 deg = South, 90 deg = West, 180 deg = Nord, 270 deg = East */
+		  0 deg = South, 90 deg = West, 180 deg = Nord, 270 deg = East */
     double alt;	/*!< ALT. Object altitude. <p> 0 deg = horizon, 90 deg = zenit, -90 deg = nadir */
 }
 
 
 /*! \struct ln_lnlat_posn
- ** \brief Ecliptical (or celestial) Longitude and Latitude.
- *
- * The Ecliptical (or celestial) Latitude and Longitude of and object.
- *
- * Angles are expressed in degrees. East is positive, West negative.
- */
+** \brief Ecliptical (or celestial) Longitude and Latitude.
+*
+* The Ecliptical (or celestial) Latitude and Longitude of and object.
+*
+* Angles are expressed in degrees. East is positive, West negative.
+*/
 
 struct ln_lnlat_posn {
     double lng; /*!< longitude. Object longitude. */
@@ -171,125 +171,129 @@ struct ln_lnlat_posn {
 
 
 /*! \struct ln_helio_posn
- * \brief Heliocentric position
- *
- * A heliocentric position is an objects position relative to the
- * centre of the Sun.
- *
- * Angles are expressed in degrees.
- * Radius vector is in AU.
- */
+* \brief Heliocentric position
+*
+* A heliocentric position is an objects position relative to the
+* centre of the Sun.
+*
+* Angles are expressed in degrees.
+* Radius vector is in AU.
+*/
 struct ln_helio_posn {
-    double L;	/*!< Heliocentric longitude */
-    double B;	/*!< Heliocentric latitude */
-    double R;	/*!< Heliocentric radius vector */
+	double L;	/*!< Heliocentric longitude */
+	double B;	/*!< Heliocentric latitude */
+	double R;	/*!< Heliocentric radius vector, AU */
 }
 
 /*! \struct ln_rect_posn
- * \brief Rectangular coordinates
- *
- * Rectangular Coordinates of a body. These coordinates can be either
- * geocentric or heliocentric.
- *
- * A heliocentric position is an objects position relative to the
- * centre of the Sun.
- * A geocentric position is an objects position relative to the centre
- * of the Earth.
- *
- * Position is in units of AU for planets and in units of km
- * for the Moon.
- */
+* \brief Rectangular coordinates
+*
+* Rectangular Coordinates of a body. These coordinates can be either
+* geocentric or heliocentric.
+*
+* A heliocentric position is an objects position relative to the
+* centre of the Sun.
+* A geocentric position is an objects position relative to the centre
+* of the Earth.
+*
+* * X is toward the vernal equinox
+* * Y is at 90° longitude on the ecliptic plane
+* * Z is perpinducular to the ecliptic plane, in the northern direction
+*
+* Position is in units of AU for planets and in units of km
+* for the Moon.
+*/
 struct ln_rect_posn {
-    double X;	/*!< Rectangular X coordinate */
-    double Y;	/*!< Rectangular Y coordinate */
-    double Z;	/*!< Rectangular Z coordinate */
+	double X;	/*!< Rectangular X coordinate, toward vernal equinox */
+	double Y;	/*!< Rectangular Y coordinate, 90 degrees Longitude */
+	double Z;	/*!< Rectangular Z coordinate, north */
 }
 
 /*!
- * \struct ln_gal_posn
- * \brief Galactic coordinates
- *
- * The Galactic Latitude and Longitude of and object.
- *
- * Angles are expressed in degrees.
- */
+* \struct ln_gal_posn
+* \brief Galactic coordinates
+*
+* The Galactic Latitude and Longitude of and object.
+*
+* Angles are expressed in degrees.
+*/
 struct ln_gal_posn {
-    double l;	/*!< Galactic longitude (degrees) */
-    double b;	/*!< Galactic latitude (degrees) */
+	double l;	/*!< Galactic longitude (degrees) */
+	double b;	/*!< Galactic latitude (degrees) */
 }
 
 /*!
- * \struct ln_ell_orbit
- * \brief Elliptic Orbital elements
- *
- *  TODO.
- * Angles are expressed in degrees.
- */
+* \struct ln_ell_orbit
+* \brief Elliptic Orbital elements
+*
+*  TODO.
+* Angles are expressed in degrees.
+*/
 struct ln_ell_orbit {
-    double a;	/*!< Semi major axis, in AU */
-    double e;	/*!< Eccentricity */
-    double i;	/*!< Inclination in degrees */
-    double w;	/*!< Argument of perihelion in degrees */
-    double omega;	/*!< Longitude of ascending node in degrees*/
-    double n;	/*!< Mean motion, in degrees/day */
-    double JD;	/*!< Time of last passage in Perihelion, in julian day*/
+	double a;	/*!< Semi major axis, in AU */
+	double e;	/*!< Eccentricity */
+	double i;	/*!< Inclination in degrees */
+	double w;	/*!< Argument of perihelion in degrees */
+	double omega;	/*!< Longitude of ascending node in degrees*/
+	double n;	/*!< Mean motion, in degrees/day */
+	double JD;	/*!< Time of last passage in Perihelion, in julian day*/
 }
 
 /*!
- * \struct ln_par_orbit
- * \brief Parabolic Orbital elements
- *
- *  TODO.
- * Angles are expressed in degrees.
- */
+* \struct ln_par_orbit
+* \brief Parabolic Orbital elements
+*
+*  TODO.
+* Angles are expressed in degrees.
+*/
 struct ln_par_orbit {
-    double q;	/*!< Perihelion distance in AU */
-    double i;	/*!< Inclination in degrees */
-    double w;	/*!< Argument of perihelion in degrees */
-    double omega;	/*!< Longitude of ascending node in degrees*/
-    double JD;	/*!< Time of last passage in Perihelion, in julian day */
+	double q;	/*!< Perihelion distance in AU */
+	double i;	/*!< Inclination in degrees */
+	double w;	/*!< Argument of perihelion in degrees */
+	double omega;	/*!< Longitude of ascending node in degrees*/
+	double JD;	/*!< Time of last passage in Perihelion, in julian day */
 }
 
 /*!
- * \struct ln_hyp_orbit
- * \brief Hyperbolic Orbital elements
- *
- *  TODO.
- * Angles are expressed in degrees.
- */
+* \struct ln_hyp_orbit
+* \brief Hyperbolic Orbital elements
+*
+*  TODO.
+* Angles are expressed in degrees.
+*/
 struct ln_hyp_orbit {
-    double q;	/*!< Perihelion distance in AU */
-    double e;	/*!< Eccentricity */
-    double i;	/*!< Inclination in degrees */
-    double w;	/*!< Argument of perihelion in degrees */
-    double omega;	/*!< Longitude of ascending node in degrees*/
-    double JD;	/*!< Time of last passage in Perihelion, in julian day*/
+	double q;	/*!< Perihelion distance in AU */
+	double e;	/*!< Eccentricity */
+	double i;	/*!< Inclination in degrees */
+	double w;	/*!< Argument of perihelion in degrees */
+	double omega;	/*!< Longitude of ascending node in degrees*/
+	double JD;	/*!< Time of last passage in Perihelion, in julian day*/
 }
 
 /*!
- * \struct ln_rst_time
- * \brief Rise, Set and Transit times.
- *
- * Contains the Rise, Set and transit times for a body.
- *
- * Angles are expressed in degrees.
- */
+* \struct ln_rst_time
+* \brief Rise, Set and Transit times.
+*
+* Contains the Rise, Set and transit times for a body.
+*
+* Angles are expressed in degrees.
+*/
 struct ln_rst_time {
-    double rise;		/*!< Rise time in JD */
-    double set;			/*!< Set time in JD */
-    double transit;		/*!< Transit time in JD */
+	double rise;		/*!< Rise time in JD */
+	double set;			/*!< Set time in JD */
+	double transit;		/*!< Transit time in JD */
 }
 
 /*!
- * \struct ln_nutation
- * \brief Nutation in longitude, ecliptic and obliquity.
- *
- * Contains Nutation in longitude, obliquity and ecliptic obliquity.
- *
- * Angles are expressed in degrees.
- */
+* \struct ln_nutation
+* \brief Nutation in longitude, ecliptic and obliquity.
+*
+* Contains Nutation in longitude, obliquity and ecliptic obliquity.
+*
+* Angles are expressed in degrees.
+*/
 struct ln_nutation {
-    double longitude;	/*!< Nutation in longitude, in degrees */
-    double obliquity;	/*!< Nutation in obliquity, in degrees */
-    double ecliptic;	/*!< Mean obliquity of the ecliptic, in degrees */
+	double longitude;	/*!< Nutation in longitude, in degrees */
+	double obliquity;	/*!< Nutation in obliquity, in degrees */
+	double ecliptic;	/*!< Mean obliquity of the ecliptic, in degrees */
 }

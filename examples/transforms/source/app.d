@@ -16,10 +16,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 Copyright 2004 Liam Girdwood
 */
 
+import std.stdio;
+
 import nova.transform;
 import nova.julian_day;
 import nova.utility;
-import std.stdio;
+import nova.ln_types;
 
 /*
  * Do some RA/DEC <--> ALT/AZ conversions for Alnilam

@@ -13,28 +13,46 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- *  Copyright (C) 2000 - 2005 Liam Girdwood
+ *  Copyright (C) 2000 - 2005 Liam Girdwood  <lgirdwood@gmail.com>
  */
 
 module nova.apparent_position;
 
-public import nova.ln_types;
+import nova.proper_motion;
+import nova.aberration;
+import nova.precession;
+import nova.nutation;
+import nova.ln_types;
 
-extern (C) {
+/*
+** Apparent place of an Object
+*/
 
-    /*! \defgroup apparent Apparent position of a Star
-     *
-     * The apparent position of a star is it's position as seen from
-     * the centre of the Earth.
-     *
-     * All angles are expressed in degrees.
-     */
+/*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)
+* \param mean_position Mean position of object, epoch J2000
+* \param proper_motion Proper motion of object
+* \param JD Julian Day
+* \param position Pointer to store new object position
+*
+* Calculate the apparent equatorial position of a star from its mean equatorial position.
+* This function takes into account the effects of proper motion, precession, nutation,
+* annual aberration when calculating the stars apparent position. The effects of annual
+* parallax and the gravitational deflection of light (Einstein effect) are NOT used
+* in this calculation.
+*
+* This function assumes that the star's mean position is given as of J2000.
+* At present, libnova does not support other epochs.
+*/
+void ln_get_apparent_posn(const ln_equ_posn *mean_position,
+	const ln_equ_posn *proper_motion, double JD, ln_equ_posn *position)
+{
+	ln_equ_posn proper_position;
+	ln_equ_posn aberration_position;
+	ln_equ_posn precession_position;
 
-    /*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position);
-     * \brief Calculate the apparent position of a star.
-     * \ingroup apparent
-     */
-    @safe @nogc void ln_get_apparent_posn(ln_equ_posn *mean_position,
-            ln_equ_posn *proper_motion, double JD, ln_equ_posn *position) pure nothrow;
-
+	ln_get_equ_pm(
+            mean_position, proper_motion, JD, &proper_position);
+	ln_get_equ_aber(&proper_position, JD, &aberration_position);
+	ln_get_equ_prec(&aberration_position, JD, &precession_position);
+	ln_get_equ_nut(&precession_position, JD, position);
 }

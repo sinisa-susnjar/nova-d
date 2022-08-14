@@ -13,3 +13,4 @@ libnova-d-test-*
 *.o
 *.obj
 *.lst
+*.bak
