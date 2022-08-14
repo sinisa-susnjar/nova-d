@@ -275,19 +275,28 @@ double ln_get_julian_local_date(const ln_zonedate* zonedate)
 */
 void ln_get_local_date(double JD, ln_zonedate *zonedate)
 {
-	ln_date date;
-	time_t curtime;
-	tm *loctime;
-	long gmtoff;
+    ln_date date;
+    time_t curtime;
+    tm *loctime;
+    long gmtoff;
 
-	ln_get_date(JD, &date);
+    ln_get_date(JD, &date);
 
     /* add day light savings time and hour angle */
- 	curtime = time (null);
- 	loctime = localtime(&curtime);
- 	gmtoff = loctime.tm_gmtoff;
+    curtime = time (null);
+    loctime = localtime(&curtime);
+    version (linux) {
+        gmtoff = loctime.tm_gmtoff;
+    }
+    version (OSX) {
+        gmtoff = loctime.tm_gmtoff;
+    }
+    version (Windows) {
+        // TODO
+        gmtoff = 0;
+    }
 
-	ln_date_to_zonedate(&date, zonedate, gmtoff);
+    ln_date_to_zonedate(&date, zonedate, gmtoff);
 }
 
 /*! \fn int ln_get_date_from_mpc(struct ln_date *date, char *mpc_date)
