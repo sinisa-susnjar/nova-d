@@ -34,10 +34,22 @@ import nova.utility;
 */
 double ln_get_airmass(double alt, double airmass_scale)
 {
-	double a;
+    double a;
 
-	a = airmass_scale * sin(ln_deg_to_rad(alt));
-	return sqrt(a * a + 2 * airmass_scale + 1) - a;
+    a = airmass_scale * sin(ln_deg_to_rad(alt));
+    return sqrt(a * a + 2 * airmass_scale + 1) - a;
+}
+
+unittest {
+    auto res = ln_get_airmass(90, 750.0);
+    assert(res == 1, "(Airmass) Airmass at Zenith");
+
+}
+
+unittest {
+    import std.conv : to;
+    auto res = ln_get_airmass(10, 750.0);
+    assert(fabs(res - 5.64) < 0.1, "(Airmass) Airmass at 10 degrees altitude " ~ to!string(res));
 }
 
 /*! \fn double ln_get_alt_from_airmass (double X, double airmass_scale)
@@ -47,6 +59,20 @@ double ln_get_airmass(double alt, double airmass_scale)
  */
 double ln_get_alt_from_airmass(double X, double airmass_scale)
 {
-	return ln_rad_to_deg(asin((2 * airmass_scale + 1 - X * X) /
-		(2 * X * airmass_scale)));
+    return ln_rad_to_deg(asin((2 * airmass_scale + 1 - X * X) /
+                (2 * X * airmass_scale)));
+}
+
+unittest {
+    auto res = ln_get_alt_from_airmass(1, 750.0);
+    assert(res == 90, "(Airmass) Altitude at airmass 1");
+}
+
+unittest {
+    import std.format : format;
+    for (double x = -10; x < 90; x += 10.54546456) {
+        auto res = ln_get_alt_from_airmass(ln_get_airmass(x, 750.0), 750.0);
+        assert(fabs(res - x) < 0.000000001, "(Airmass) Altitude->Airmass->Altitude at 10 degrees "
+                ~ format("%.12f", res) ~ " != " ~ format("%.12f", x));
+    }
 }
