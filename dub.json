@@ -1,7 +1,7 @@
 {
     "authors": [ "Sinisa Susnjar" ],
     "copyright": "Copyright © 2022, Sinisa Susnjar",
-    "description": "D bindings for the libnova celestial mechanics engine",
+    "description": "D translation of the libnova celestial mechanics engine",
     "license": "MIT",
     "name": "nova-d",
     "configurations": [
