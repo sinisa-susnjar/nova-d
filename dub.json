@@ -12,6 +12,18 @@
         {
             "name": "shared",
             "targetType": "dynamicLibrary"
-        }
+        },
+		{
+			"name": "dll64",
+			"targetType": "dynamicLibrary",
+			"targetPath": "/home/sini/.wine.xm/drive_c/Program Files/XM MT5/MQL5/Libraries",
+			"lflags-windows": [ "-lphobos2-ldc", "-ldruntime-ldc", "-L/IMPLIB" ]
+		},
+		{
+			"name": "dll32",
+			"targetType": "dynamicLibrary",
+			"targetPath": "/home/sini/src/euclid-22/docker/mt5-docker/MQL5/Libraries",
+			"lflags-windows": [ "-lphobos2-ldc", "-ldruntime-ldc", "-L/IMPLIB" ]
+		}
     ]
 }
