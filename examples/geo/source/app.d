@@ -15,14 +15,14 @@ void main() {
 
         /* Earth dist */
         static if (p == "solar")
-            mixin("auto earthDist = ln_get_earth_solar_dist(JD);");
+            auto earthDist = ln_get_earth_solar_dist(JD);
         else
             mixin("auto earthDist = ln_get_" ~ p ~ "_earth_dist(JD);");
 
         /* Sun dist */
         auto sunDist = 0.0;
         static if (p == "lunar")
-            mixin("sunDist = ln_get_earth_solar_dist(JD);");
+            sunDist = ln_get_earth_solar_dist(JD);
         else static if (p != "solar")
             mixin("sunDist = ln_get_" ~ p ~ "_solar_dist(JD);");
 
