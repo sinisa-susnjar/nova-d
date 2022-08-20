@@ -208,6 +208,8 @@ const static XYZ[TERMS] z_coefficients = [
 	{0, 0, -2, 0}
 ];
 
+extern (C) {
+
 /*! \fn void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position)
 * \param mean_position Mean position of object
 * \param JD Julian Day
@@ -218,8 +220,8 @@ const static XYZ[TERMS] z_coefficients = [
 */
 /* Equ 22.3, 22.4
 */
-void ln_get_equ_aber(const ln_equ_posn *mean_position, double JD,
-	ln_equ_posn *position)
+@nogc void ln_get_equ_aber(const ref ln_equ_posn mean_position, double JD,
+	ref ln_equ_posn position) nothrow
 {
 	real mean_ra, mean_dec, delta_ra, delta_dec;
 	real L2, L3, L4, L5, L6, L7, L8, LL, D, MM , F, T, X, Y, Z, A;
@@ -322,9 +324,8 @@ void ln_get_equ_aber(const ln_equ_posn *mean_position, double JD,
 */
 /* Equ 22.2 pg 139
 */
-void ln_get_ecl_aber(const ln_lnlat_posn *mean_position, double JD,
-	ln_lnlat_posn *position)
-
+@nogc void ln_get_ecl_aber(const ref ln_lnlat_posn mean_position, double JD,
+	ref ln_lnlat_posn position) nothrow
 {
 	double delta_lng, delta_lat, mean_lng, mean_lat, e, t, k;
 	double true_longitude, T, T2;
@@ -338,7 +339,7 @@ void ln_get_ecl_aber(const ln_lnlat_posn *mean_position, double JD,
 	T2 = T * T;
 
 	/* suns longitude in radians */
-	ln_get_solar_geom_coords(JD, &sol_position);
+	ln_get_solar_geom_coords(JD, sol_position);
 	true_longitude = ln_deg_to_rad(sol_position.B);
 
 	/* Earth orbit ecentricity */
@@ -364,4 +365,6 @@ void ln_get_ecl_aber(const ln_lnlat_posn *mean_position, double JD,
 
 	position.lng = ln_rad_to_deg(mean_lng);
 	position.lat = ln_rad_to_deg(mean_lat);
+}
+
 }

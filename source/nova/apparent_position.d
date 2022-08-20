@@ -24,6 +24,8 @@ import nova.precession;
 import nova.nutation;
 import nova.ln_types;
 
+extern (C) {
+
 /*
 ** Apparent place of an Object
 */
@@ -43,16 +45,18 @@ import nova.ln_types;
 * This function assumes that the star's mean position is given as of J2000.
 * At present, libnova does not support other epochs.
 */
-void ln_get_apparent_posn(const ln_equ_posn *mean_position,
-	const ln_equ_posn *proper_motion, double JD, ln_equ_posn *position)
+@nogc void ln_get_apparent_posn(const ref ln_equ_posn mean_position,
+	const ref ln_equ_posn proper_motion, double JD, ref ln_equ_posn position) nothrow
 {
 	ln_equ_posn proper_position;
 	ln_equ_posn aberration_position;
 	ln_equ_posn precession_position;
 
 	ln_get_equ_pm(
-            mean_position, proper_motion, JD, &proper_position);
-	ln_get_equ_aber(&proper_position, JD, &aberration_position);
-	ln_get_equ_prec(&aberration_position, JD, &precession_position);
-	ln_get_equ_nut(&precession_position, JD, position);
+            mean_position, proper_motion, JD, proper_position);
+	ln_get_equ_aber(proper_position, JD, aberration_position);
+	ln_get_equ_prec(aberration_position, JD, precession_position);
+	ln_get_equ_nut(precession_position, JD, position);
+}
+
 }

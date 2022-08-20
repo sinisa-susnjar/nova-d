@@ -227,8 +227,10 @@ static const double[2][8] p =
 	[(304.0 + 20.0 / C1 + 55.19575 / C2) * DEG, 786550.32074 / RAD ]
 ];
 
+extern (C) {
+
 /* sum lunar elp1 series */
-static double sum_series_elp1 (double[] t)
+static @nogc double sum_series_elp1 (double[] t) nothrow
 {
 	double result = 0;
 	double x,y;
@@ -256,7 +258,7 @@ static double sum_series_elp1 (double[] t)
 }
 
 /* sum lunar elp2 series */
-static double sum_series_elp2 (double[] t)
+static @nogc double sum_series_elp2 (double[] t) nothrow
 {
 	double result = 0;
 	double x,y;
@@ -283,7 +285,7 @@ static double sum_series_elp2 (double[] t)
 }
 
 /* sum lunar elp3 series */
-static double sum_series_elp3 (double[] t)
+static @nogc double sum_series_elp3 (double[] t) nothrow
 {
 	double result = 0;
 	double x,y;
@@ -312,7 +314,7 @@ static double sum_series_elp3 (double[] t)
 
 
 /* sum lunar elp4 series */
-static double sum_series_elp4(double[] t)
+static @nogc double sum_series_elp4(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -333,7 +335,7 @@ static double sum_series_elp4(double[] t)
 }
 
 /* sum lunar elp5 series */
-static double sum_series_elp5(double[] t)
+static @nogc double sum_series_elp5(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -355,7 +357,7 @@ static double sum_series_elp5(double[] t)
 
 
 /* sum lunar elp6 series */
-static double sum_series_elp6(double[] t)
+static @nogc double sum_series_elp6(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -376,7 +378,7 @@ static double sum_series_elp6(double[] t)
 }
 
 /* sum lunar elp7 series */
-static double sum_series_elp7(double[] t)
+static @nogc double sum_series_elp7(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -398,7 +400,7 @@ static double sum_series_elp7(double[] t)
 }
 
 /* sum lunar elp8 series */
-static double sum_series_elp8(double[] t)
+static @nogc double sum_series_elp8(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -420,7 +422,7 @@ static double sum_series_elp8(double[] t)
 }
 
 /* sum lunar elp9 series */
-static double sum_series_elp9(double[] t)
+static @nogc double sum_series_elp9(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -442,7 +444,7 @@ static double sum_series_elp9(double[] t)
 }
 
 /* sum lunar elp10 series */
-static double sum_series_elp10(double[] t)
+static @nogc double sum_series_elp10(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -467,7 +469,7 @@ static double sum_series_elp10(double[] t)
 }
 
 /* sum lunar elp11 series */
-static double sum_series_elp11(double[] t)
+static @nogc double sum_series_elp11(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -490,7 +492,7 @@ static double sum_series_elp11(double[] t)
 }
 
 /* sum lunar elp12 series */
-static double sum_series_elp12(double[] t)
+static @nogc double sum_series_elp12(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -513,7 +515,7 @@ static double sum_series_elp12(double[] t)
 }
 
 /* sum lunar elp13 series */
-static double sum_series_elp13(double[] t)
+static @nogc double sum_series_elp13(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -537,7 +539,7 @@ static double sum_series_elp13(double[] t)
 }
 
 /* sum lunar elp14 series */
-static double sum_series_elp14(double[] t)
+static @nogc double sum_series_elp14(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -562,7 +564,7 @@ static double sum_series_elp14(double[] t)
 
 
 /* sum lunar elp15 series */
-static double sum_series_elp15(double[] t)
+static @nogc double sum_series_elp15(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -586,7 +588,7 @@ static double sum_series_elp15(double[] t)
 }
 
 /* sum lunar elp16 series */
-static double sum_series_elp16(double[] t)
+static @nogc double sum_series_elp16(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -607,7 +609,7 @@ static double sum_series_elp16(double[] t)
 	return result;
 }
 
-static double sum_series_elp17(double[] t)
+static @nogc double sum_series_elp17(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -628,7 +630,7 @@ static double sum_series_elp17(double[] t)
 	return result;
 }
 
-static double sum_series_elp18(double[] t)
+static @nogc double sum_series_elp18(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -649,7 +651,7 @@ static double sum_series_elp18(double[] t)
 	return result;
 }
 
-static double sum_series_elp19(double[] t)
+static @nogc double sum_series_elp19(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -671,7 +673,7 @@ static double sum_series_elp19(double[] t)
 	return result;
 }
 
-static double sum_series_elp20(double[] t)
+static @nogc double sum_series_elp20(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -693,7 +695,7 @@ static double sum_series_elp20(double[] t)
 	return result;
 }
 
-static double sum_series_elp21(double[] t)
+static @nogc double sum_series_elp21(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -716,7 +718,7 @@ static double sum_series_elp21(double[] t)
 }
 
 /* sum lunar elp22 series */
-static double sum_series_elp22(double[] t)
+static @nogc double sum_series_elp22(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -737,7 +739,7 @@ static double sum_series_elp22(double[] t)
 }
 
 /* sum lunar elp23 series */
-static double sum_series_elp23(double[] t)
+static @nogc double sum_series_elp23(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -758,7 +760,7 @@ static double sum_series_elp23(double[] t)
 }
 
 /* sum lunar elp24 series */
-static double sum_series_elp24(double[] t)
+static @nogc double sum_series_elp24(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -779,7 +781,7 @@ static double sum_series_elp24(double[] t)
 }
 
 /* sum lunar elp25 series */
-static double sum_series_elp25(double[] t)
+static @nogc double sum_series_elp25(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -801,7 +803,7 @@ static double sum_series_elp25(double[] t)
 }
 
 /* sum lunar elp26 series */
-static double sum_series_elp26(double[] t)
+static @nogc double sum_series_elp26(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -823,7 +825,7 @@ static double sum_series_elp26(double[] t)
 }
 
 /* sum lunar elp27 series */
-static double sum_series_elp27(double[] t)
+static @nogc double sum_series_elp27(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -845,7 +847,7 @@ static double sum_series_elp27(double[] t)
 }
 
 /* sum lunar elp28 series */
-static double sum_series_elp28(double[] t)
+static @nogc double sum_series_elp28(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -866,7 +868,7 @@ static double sum_series_elp28(double[] t)
 }
 
 /* sum lunar elp29 series */
-static double sum_series_elp29(double[] t)
+static @nogc double sum_series_elp29(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -888,7 +890,7 @@ static double sum_series_elp29(double[] t)
 
 
 /* sum lunar elp30 series */
-static double sum_series_elp30(double[] t)
+static @nogc double sum_series_elp30(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -910,7 +912,7 @@ static double sum_series_elp30(double[] t)
 
 
 /* sum lunar elp31 series */
-static double sum_series_elp31(double[] t)
+static @nogc double sum_series_elp31(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -931,7 +933,7 @@ static double sum_series_elp31(double[] t)
 }
 
 /* sum lunar elp32 series */
-static double sum_series_elp32(double[] t)
+static @nogc double sum_series_elp32(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -952,7 +954,7 @@ static double sum_series_elp32(double[] t)
 }
 
 /* sum lunar elp33 series */
-static double sum_series_elp33(double[] t)
+static @nogc double sum_series_elp33(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -973,7 +975,7 @@ static double sum_series_elp33(double[] t)
 }
 
 /* sum lunar elp34 series */
-static double sum_series_elp34(double[] t)
+static @nogc double sum_series_elp34(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -994,7 +996,7 @@ static double sum_series_elp34(double[] t)
 	return result;
 }
 /* sum lunar elp35 series */
-static double sum_series_elp35(double[] t)
+static @nogc double sum_series_elp35(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -1016,7 +1018,7 @@ static double sum_series_elp35(double[] t)
 }
 
 /* sum lunar elp36 series */
-static double sum_series_elp36(double[] t)
+static @nogc double sum_series_elp36(double[] t) nothrow
 {
 	double result = 0;
 	int i,j,k;
@@ -1038,39 +1040,39 @@ static double sum_series_elp36(double[] t)
 }
 
 /* internal function used for find_max/find zero lunar phase calculations */
-static double lunar_phase(double jd, double *arg)
+static @nogc double lunar_phase(double jd, ref double arg) nothrow
 {
 	ln_lnlat_posn moon;
 	ln_helio_posn sol;
 	double phase;
 
-	ln_get_lunar_ecl_coords(jd, &moon, 0);
-	ln_get_solar_geom_coords(jd, &sol);
+	ln_get_lunar_ecl_coords(jd, moon, 0);
+	ln_get_solar_geom_coords(jd, sol);
 
 	phase = fmod((ln_rad_to_deg(moon.lng - sol.L))
-		+ 3.0 * PI - arg[0], 2.0 * PI) - PI;
+		+ 3.0 * PI - arg, 2.0 * PI) - PI;
 
 	return phase;
 }
 
 /* internal function used for find_max/find zero lunar phase calculations */
-static double lunar_distance(double jd, double *arg)
+static @nogc double lunar_distance(double jd, ref double arg) nothrow
 {
 	return ln_get_lunar_earth_dist(jd);
 }
 
 /* internal function used for find_max/find zero lunar phase calculations */
-static double lunar_neg_distance(double jd, double *arg)
+static @nogc double lunar_neg_distance(double jd, ref double arg) nothrow
 {
 	return -ln_get_lunar_earth_dist(jd);
 }
 
 /* internal function used for find_max/find zero lunar phase calculations */
-static double _lunar_ecl_lat(double jd, double *arg)
+static @nogc double _lunar_ecl_lat(double jd, ref double arg) nothrow
 {
 	ln_lnlat_posn pos;
 
-	ln_get_lunar_ecl_coords(jd, &pos, 0);
+	ln_get_lunar_ecl_coords(jd, pos, 0);
 
 	return pos.lat;
 }
@@ -1091,7 +1093,7 @@ static double _lunar_ecl_lat(double jd, double *arg)
 * Paris.
 */
 /* ELP 2000-82B theory */
-void ln_get_lunar_geo_posn(double JD, ln_rect_posn *moon, double precision)
+@nogc void ln_get_lunar_geo_posn(double JD, ref ln_rect_posn moon, double precision) nothrow
 {
 	double[5] t;
 	double[36] elp;
@@ -1194,13 +1196,13 @@ void ln_get_lunar_geo_posn(double JD, ln_rect_posn *moon, double precision)
 * Calculate the lunar RA and DEC for Julian day JD.
 * Accuracy is better than 10 arcsecs in right ascension and 4 arcsecs in declination.
 */
-void ln_get_lunar_equ_coords_prec(double JD, ln_equ_posn *position,
-	double precision)
+@nogc void ln_get_lunar_equ_coords_prec(double JD, ref ln_equ_posn position,
+	double precision) nothrow
 {
 	ln_lnlat_posn ecl;
 
-	ln_get_lunar_ecl_coords(JD, &ecl, precision);
-	ln_get_equ_from_ecl(&ecl, JD, position);
+	ln_get_lunar_ecl_coords(JD, ecl, precision);
+	ln_get_equ_from_ecl(ecl, JD, position);
 }
 
 /*! \fn void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position);
@@ -1211,7 +1213,7 @@ void ln_get_lunar_equ_coords_prec(double JD, ln_equ_posn *position,
 * Calculate the lunar RA and DEC for Julian day JD at the highest precision.
 * Accuracy is better than 10 arcsecs in right ascension and 4 arcsecs in declination.
 */
-void ln_get_lunar_equ_coords(double JD, ln_equ_posn *position)
+@nogc void ln_get_lunar_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_get_lunar_equ_coords_prec(JD, position, 0);
 }
@@ -1229,13 +1231,13 @@ void ln_get_lunar_equ_coords(double JD, ln_equ_posn *position)
 * Per Meeus, chapter 47, if you need higher precision than this, see
 * Chaperont's _Lunar Tables and Programs_.
 */
-void ln_get_lunar_ecl_coords(double JD, ln_lnlat_posn *position,
-	double precision)
+@nogc void ln_get_lunar_ecl_coords(double JD, ref ln_lnlat_posn position,
+	double precision) nothrow
 {
 	ln_rect_posn moon;
 
 	/* get lunar geocentric position */
-	ln_get_lunar_geo_posn(JD, &moon, precision);
+	ln_get_lunar_geo_posn(JD, moon, precision);
 
 	/* convert to long and lat */
 	position.lng = atan2(moon.Y, moon.X);
@@ -1253,11 +1255,11 @@ void ln_get_lunar_ecl_coords(double JD, ln_lnlat_posn *position,
 * Calculates the distance between the centre of the Earth and the
 * centre of the Moon in km.
 */
-double ln_get_lunar_earth_dist(double JD)
+@nogc double ln_get_lunar_earth_dist(double JD) nothrow
 {
 	ln_rect_posn moon;
 
-	ln_get_lunar_geo_posn(JD, &moon, 0.00001);
+	ln_get_lunar_geo_posn(JD, moon, 0.00001);
 	return sqrt((moon.X * moon.X) + (moon.Y * moon.Y) + (moon.Z * moon.Z));
 }
 
@@ -1269,7 +1271,7 @@ double ln_get_lunar_earth_dist(double JD)
 *
 * Calculates the angle Sun - Moon - Earth.
 */
-double ln_get_lunar_phase(double JD)
+@nogc double ln_get_lunar_phase(double JD) nothrow
 {
 	double phase = 0;
 	ln_lnlat_posn moon, sunlp;
@@ -1277,8 +1279,8 @@ double ln_get_lunar_phase(double JD)
 	double R, delta;
 
 	/* get lunar and solar long + lat */
-	ln_get_lunar_ecl_coords(JD, &moon, 0.0001);
-	ln_get_solar_ecl_coords(JD, &sunlp);
+	ln_get_lunar_ecl_coords(JD, moon, 0.0001);
+	ln_get_solar_ecl_coords(JD, sunlp);
 
 	/* calc lunar geocentric elongation equ 48.2 */
 	lunar_elong = acos(cos(ln_deg_to_rad(moon.lat)) *
@@ -1300,7 +1302,7 @@ double ln_get_lunar_phase(double JD)
 *
 * Calculates the illuminated fraction of the Moon's disk.
 */
-double ln_get_lunar_disk(double JD)
+@nogc double ln_get_lunar_disk(double JD) nothrow
 {
 	double i;
 
@@ -1321,7 +1323,7 @@ double ln_get_lunar_disk(double JD)
 * The angle is near 270 deg for first quarter and near 90 deg after a full moon.
 * The position angle of the cusps are +90 deg and -90 deg.
 */
-double ln_get_lunar_bright_limb(double JD)
+@nogc double ln_get_lunar_bright_limb(double JD) nothrow
 {
 	double angle;
 	double x,y;
@@ -1329,8 +1331,8 @@ double ln_get_lunar_bright_limb(double JD)
 	ln_equ_posn moon, sunlp;
 
 	/* get lunar and solar long + lat */
-	ln_get_lunar_equ_coords(JD, &moon);
-	ln_get_solar_equ_coords(JD, &sunlp);
+	ln_get_lunar_equ_coords(JD, moon);
+	ln_get_solar_equ_coords(JD, sunlp);
 
 	/* Equ 48.5 */
 	x = cos(ln_deg_to_rad(sunlp.dec)) * sin(ln_deg_to_rad(sunlp.ra - moon.ra));
@@ -1357,8 +1359,8 @@ double ln_get_lunar_bright_limb(double JD)
 * Note: this functions returns 1 if the Moon is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_lunar_rst(double JD, const ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+@nogc int ln_get_lunar_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_rst_time rst) nothrow
 {
     return ln_get_body_rst_horizon(JD, observer,
                     cast(get_equ_body_coords_t)&ln_get_lunar_equ_coords,
@@ -1373,7 +1375,7 @@ int ln_get_lunar_rst(double JD, const ln_lnlat_posn *observer,
 * Calculate the semidiameter of the Moon in arc seconds for the
 * given julian day.
 */
-double ln_get_lunar_sdiam(double JD)
+@nogc double ln_get_lunar_sdiam(double JD) nothrow
 {
 	double So = 358473400;
 	double dist;
@@ -1389,7 +1391,7 @@ double ln_get_lunar_sdiam(double JD)
 * Calculate the mean longitude of the Moons ascending node
 * for the given Julian day.
 */
-double ln_get_lunar_long_asc_node(double JD)
+@nogc double ln_get_lunar_long_asc_node(double JD) nothrow
 {
 	/* calc julian centuries */
 	double T =(JD - 2451545.0) / 36525.0;
@@ -1411,7 +1413,7 @@ double ln_get_lunar_long_asc_node(double JD)
 *
 * Calculate the longitude of the Moon's mean perigee.
 */
-double ln_get_lunar_long_perigee(double JD)
+@nogc double ln_get_lunar_long_perigee(double JD) nothrow
 {
 	/* calc julian centuries */
 	double T =(JD - 2451545.0) / 36525.0;
@@ -1432,7 +1434,7 @@ double ln_get_lunar_long_perigee(double JD)
 *
 * Calculate the Moon's argument of latitude (mean distance of the Moon from its ascending node)
 */
-double ln_get_lunar_arg_latitude(double JD)
+@nogc double ln_get_lunar_arg_latitude(double JD) nothrow
 {
 	/* calc julian centuries */
 	double T =(JD - 2451545.0) / 36525.0;
@@ -1448,8 +1450,8 @@ double ln_get_lunar_arg_latitude(double JD)
 	return arg;
 }
 
-void ln_get_lunar_selenographic_coords(double JD, ln_lnlat_posn *moon,
-	ln_lnlat_posn *position)
+@nogc void ln_get_lunar_selenographic_coords(double JD, ref ln_lnlat_posn moon,
+	ref ln_lnlat_posn position) nothrow
 {
 	/* equ 51.1 */
 	static const double I = 0.02692030744861093755; // 1.54242 deg in radians
@@ -1477,11 +1479,11 @@ void ln_get_lunar_selenographic_coords(double JD, ln_lnlat_posn *moon,
 * Calculate Lunar optical libration coordinates, also known as selenographic Earth coordinates.
 * This is a point on the surface of the Moon where the Earth is in the zenith.
 */
-void ln_get_lunar_opt_libr_coords(double JD, ln_lnlat_posn *position)
+@nogc void ln_get_lunar_opt_libr_coords(double JD, ref ln_lnlat_posn position) nothrow
 {
 	ln_lnlat_posn moon;
-	ln_get_lunar_ecl_coords(JD, &moon, 0);
-	ln_get_lunar_selenographic_coords(JD, &moon, position);
+	ln_get_lunar_ecl_coords(JD, moon, 0);
+	ln_get_lunar_selenographic_coords(JD, moon, position);
 }
 
 /*! \fn void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
@@ -1491,7 +1493,7 @@ void ln_get_lunar_opt_libr_coords(double JD, ln_lnlat_posn *position)
 * Calculate coordinates of the subsolar point, aslo known as selenographic coordinates of the Sun.
 * This is a point on the surface of the Moon where the Sun is in the zenith.
 */
-void ln_get_lunar_subsolar_coords(double JD, ln_lnlat_posn *position)
+@nogc void ln_get_lunar_subsolar_coords(double JD, ref ln_lnlat_posn position) nothrow
 {
 	ln_lnlat_posn moon;
 	ln_lnlat_posn sun;
@@ -1499,15 +1501,15 @@ void ln_get_lunar_subsolar_coords(double JD, ln_lnlat_posn *position)
 	double ES_dist = ln_get_earth_solar_dist(JD) * AU;
 	double dist_ratio = EM_dist / ES_dist;
 
-	ln_get_solar_ecl_coords(JD, &sun);
-	ln_get_lunar_ecl_coords(JD, &moon, 0);
+	ln_get_solar_ecl_coords(JD, sun);
+	ln_get_lunar_ecl_coords(JD, moon, 0);
 
 	moon.lng = sun.lng + 180.0 + 57.296 * dist_ratio *
 		cos(ln_deg_to_rad(moon.lat)) *
 		sin(ln_deg_to_rad(sun.lng - moon.lng));
 	moon.lat = dist_ratio * moon.lat;
 
-	ln_get_lunar_selenographic_coords(JD, &moon, position);
+	ln_get_lunar_selenographic_coords(JD, moon, position);
 }
 
 /*
@@ -1530,7 +1532,7 @@ void ln_get_lunar_subsolar_coords(double JD, ln_lnlat_posn *position)
 * Find next moon phase relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_next_phase(double jd, double phase)
+@nogc double ln_lunar_next_phase(double jd, double phase) nothrow
 {
 	double ph, k, angle;
 
@@ -1542,7 +1544,7 @@ double ln_lunar_next_phase(double jd, double phase)
 
 	angle = 2.0 * PI * phase;
 
-	while ((ph = ln_find_zero(cast(find_zero_t)&lunar_phase, ph, ph + 0.01, &angle)) < jd)
+	while ((ph = ln_find_zero(cast(find_zero_t)&lunar_phase, ph, ph + 0.01, angle)) < jd)
 		ph += 29.530588861;
 
 	return ph;
@@ -1556,7 +1558,7 @@ double ln_lunar_next_phase(double jd, double phase)
 * Find previous moon phase relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_previous_phase(double jd, double phase)
+@nogc double ln_lunar_previous_phase(double jd, double phase) nothrow
 {
 	double ph, k, angle;
 
@@ -1568,7 +1570,7 @@ double ln_lunar_previous_phase(double jd, double phase)
 
 	angle = 2.0 * PI * phase;
 
-	while ((ph = ln_find_zero(&lunar_phase, ph, ph + 0.01, &angle)) > jd)
+	while ((ph = ln_find_zero(&lunar_phase, ph, ph + 0.01, angle)) > jd)
 		ph -= 29.530588861;
 
 	return ph;
@@ -1581,7 +1583,7 @@ double ln_lunar_previous_phase(double jd, double phase)
 * Find next moon apogee or perigee relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_next_apsis(double jd, int apogee)
+@nogc double ln_lunar_next_apsis(double jd, int apogee) nothrow
 {
 	double ap, k;
 
@@ -1591,11 +1593,12 @@ double ln_lunar_next_apsis(double jd, int apogee)
 		(k / 1325.55) * (k / 1325.55)) < jd)
 			k += 1.0;
 
+    double ignored;
 	if (apogee) {
-		while ((ap = ln_find_max(&lunar_distance, ap - 3.0, ap + 3.0, null)) < jd)
+		while ((ap = ln_find_max(&lunar_distance, ap - 3.0, ap + 3.0, ignored)) < jd)
 			ap += 27.55454989;
 	} else {
-		while ((ap = ln_find_max(&lunar_neg_distance, ap - 3.0, ap + 3.0, null)) < jd)
+		while ((ap = ln_find_max(&lunar_neg_distance, ap - 3.0, ap + 3.0, ignored)) < jd)
 			ap += 27.55454989;
 	}
 
@@ -1609,7 +1612,7 @@ double ln_lunar_next_apsis(double jd, int apogee)
 * Find previous moon apogee or perigee relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_previous_apsis(double jd, int apogee)
+@nogc double ln_lunar_previous_apsis(double jd, int apogee) nothrow
 {
 	double ap, k;
 
@@ -1619,11 +1622,12 @@ double ln_lunar_previous_apsis(double jd, int apogee)
 		(k / 1325.55) * (k / 1325.55)) > jd)
 		k -= 1.0;
 
+    double ignored;
 	if (apogee) {
-		while ((ap = ln_find_max(&lunar_distance, ap - 3.0, ap + 3.0, null)) > jd)
+		while ((ap = ln_find_max(&lunar_distance, ap - 3.0, ap + 3.0, ignored)) > jd)
 			ap -= 27.55454989;
 	} else {
-		while ((ap = ln_find_max(&lunar_neg_distance, ap - 3.0, ap + 3.0, null)) > jd)
+		while ((ap = ln_find_max(&lunar_neg_distance, ap - 3.0, ap + 3.0, ignored)) > jd)
 			ap -= 27.55454989;
 	}
 
@@ -1638,7 +1642,7 @@ double ln_lunar_previous_apsis(double jd, int apogee)
 * Find next moon node relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_next_node(double jd, int mode)
+@nogc double ln_lunar_next_node(double jd, int mode) nothrow
 {
 	double nd, k;
 
@@ -1647,8 +1651,9 @@ double ln_lunar_next_node(double jd, int mode)
 	while ((nd = 2451565.1619 + 27.212220817 * k) < jd)
 		k += 1.0;
 
+    double ignored;
 	while ((nd = ln_find_zero(&_lunar_ecl_lat, nd - 3.0,
-		nd + 3.0, null)) < jd)
+		nd + 3.0, ignored)) < jd)
 			nd += 27.212220817;
 
 	return nd;
@@ -1662,7 +1667,7 @@ double ln_lunar_next_node(double jd, int mode)
 * Find previous lunar node relative to given time expressed as Julian Day.
 *
 */
-double ln_lunar_previous_node(double jd, int mode)
+@nogc double ln_lunar_previous_node(double jd, int mode) nothrow
 {
 	double nd, k;
 
@@ -1671,8 +1676,9 @@ double ln_lunar_previous_node(double jd, int mode)
 	while ((nd = 2451565.1619 + 27.212220817 * k) > jd)
 		k -= 1.0;
 
+    double ignored;
 	while ((nd = ln_find_zero(&_lunar_ecl_lat, nd - 3.0,
-		nd + 3.0, null)) > jd)
+		nd + 3.0, ignored)) > jd)
 			nd -= 27.212220817 ;
 
 	return nd;
@@ -1682,3 +1688,5 @@ double ln_lunar_previous_node(double jd, int mode)
  *
  * Examples of how to use Lunar functions.
  */
+
+}

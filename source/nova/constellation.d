@@ -23,6 +23,8 @@ import nova.julian_day;
 import nova.rise_set;
 import nova.transform;
 
+extern (C) {
+
 /*! \fn const char* ln_get_constellation(struct ln_equ_posn *position)
 * \param position Equitorial position
 *
@@ -32,10 +34,9 @@ import nova.transform;
 * Returns name of the constellation based on boundaries found at:
 * http://vizier.u-strasbg.fr/viz-bin/VizieR?-source=6042
 */
-const(char*) ln_get_constellation(const ln_equ_posn *position)
+@nogc string ln_get_constellation(const ref ln_equ_posn position) nothrow
 {
-	static const float[357] ra_lower =
-	[
+	static immutable float[357] ra_lower = [
 		0,
 		120,
 		315,
@@ -395,8 +396,7 @@ const(char*) ln_get_constellation(const ln_equ_posn *position)
 		0
 	];
 
-	static const float[357] ra_upper =
-	[
+	static immutable float[357] ra_upper = [
 		360,
 		217.5,
 		345,
@@ -756,8 +756,7 @@ const(char*) ln_get_constellation(const ln_equ_posn *position)
 		360
 	];
 
-	static const float[357] dec_lower =
-	[
+	static immutable float[357] dec_lower = [
 		88,
 		86.5,
 		86.1667,
@@ -1117,8 +1116,7 @@ const(char*) ln_get_constellation(const ln_equ_posn *position)
 		-90
 	];
 
-	static const int[357] constel_numbers =
-	[
+	static immutable int[357] constel_numbers = [
 		84,
 		84,
 		84,
@@ -1478,8 +1476,7 @@ const(char*) ln_get_constellation(const ln_equ_posn *position)
 		58
 	];
 
-	static const (char *)[88] constel_names =
-	[
+	static immutable constel_names = [
 		"And",
 		"Ant",
 		"Aps",
@@ -1583,4 +1580,6 @@ const(char*) ln_get_constellation(const ln_equ_posn *position)
 	{
 		return "---";
 	}
+}
+
 }

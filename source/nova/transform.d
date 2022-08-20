@@ -26,6 +26,8 @@ import nova.nutation;
 import nova.precession;
 import nova.ln_types;
 
+extern (C) {
+
 /*! \fn void ln_get_rect_from_helio(struct ln_helio_posn *object, struct ln_rect_posn *position);
 * \param object Object heliocentric coordinates
 * \param position Pointer to store new position
@@ -35,8 +37,8 @@ import nova.ln_types;
 */
 /* Equ 37.1 Pg 264
 */
-void ln_get_rect_from_helio(const ln_helio_posn *object,
-	ln_rect_posn *position)
+@nogc void ln_get_rect_from_helio(const ref ln_helio_posn object,
+	ref ln_rect_posn position) nothrow
 {
 	double sin_e, cos_e;
 	double cos_B, sin_B, sin_L, cos_L;
@@ -74,8 +76,8 @@ void ln_get_rect_from_helio(const ln_helio_posn *object,
 * Transform horizontal coordinates to galactic coordinates.
 */
 
-void ln_get_hrz_from_equ(const ln_equ_posn *object,
-	const ln_lnlat_posn *observer, double JD, ln_hrz_posn *position)
+@nogc void ln_get_hrz_from_equ(const ref ln_equ_posn object,
+	const ref ln_lnlat_posn observer, double JD, ref ln_hrz_posn position) nothrow
 {
 	double sidereal;
 
@@ -85,9 +87,9 @@ void ln_get_hrz_from_equ(const ln_equ_posn *object,
 }
 
 
-void ln_get_hrz_from_equ_sidereal_time(const ln_equ_posn *object,
-	const ln_lnlat_posn *observer, double sidereal,
-	ln_hrz_posn *position)
+@nogc void ln_get_hrz_from_equ_sidereal_time(const ref ln_equ_posn object,
+	const ref ln_lnlat_posn observer, double sidereal,
+	ref ln_hrz_posn position) nothrow
 {
 	real H, ra, latitude, declination, A, Ac, As, h, Z, Zs;
 
@@ -159,8 +161,8 @@ void ln_get_hrz_from_equ_sidereal_time(const ln_equ_posn *object,
 * Transform an objects horizontal coordinates into equatorial coordinates
 * for the given julian day and observers position.
 */
-void ln_get_equ_from_hrz(const ln_hrz_posn *object,
-	const ln_lnlat_posn *observer, double JD, ln_equ_posn *position)
+@nogc void ln_get_equ_from_hrz(const ref ln_hrz_posn object,
+	const ref ln_lnlat_posn observer, double JD, ref ln_equ_posn position) nothrow
 {
 	real H, longitude, declination, latitude, A, h, sidereal;
 
@@ -197,14 +199,14 @@ void ln_get_equ_from_hrz(const ln_hrz_posn *object,
 */
 /* Equ 12.3, 12.4 pg 89
 */
-void ln_get_equ_from_ecl(const ln_lnlat_posn *object, double JD,
-	ln_equ_posn *position)
+@nogc void ln_get_equ_from_ecl(const ref ln_lnlat_posn object, double JD,
+	ref ln_equ_posn position) nothrow
 {
 	double ra, declination, longitude, latitude;
 	ln_nutation nutation;
 
 	/* get obliquity of ecliptic and change it to rads */
-	ln_get_nutation(JD, &nutation);
+	ln_get_nutation(JD, nutation);
 	nutation.ecliptic = ln_deg_to_rad(nutation.ecliptic);
 
 	/* change object's position into radians */
@@ -235,8 +237,8 @@ void ln_get_equ_from_ecl(const ln_lnlat_posn *object, double JD,
 */
 /* Equ 12.1, 12.2 Pg 88
 */
-void ln_get_ecl_from_equ(const ln_equ_posn *object, double JD,
-	ln_lnlat_posn *position)
+@nogc void ln_get_ecl_from_equ(const ref ln_equ_posn object, double JD,
+	ref ln_lnlat_posn position) nothrow
 {
 	double ra, declination, latitude, longitude;
 	ln_nutation nutation;
@@ -244,7 +246,7 @@ void ln_get_ecl_from_equ(const ln_equ_posn *object, double JD,
 	/* object position */
 	ra = ln_deg_to_rad(object.ra);
 	declination = ln_deg_to_rad(object.dec);
-	ln_get_nutation(JD, &nutation);
+	ln_get_nutation(JD, nutation);
 	nutation.ecliptic = ln_deg_to_rad(nutation.ecliptic);
 
 	/* Equ 12.1, 12.2 */
@@ -267,7 +269,7 @@ void ln_get_ecl_from_equ(const ln_equ_posn *object, double JD,
 */
 /* Equ 33.2
 */
-void ln_get_ecl_from_rect(const ln_rect_posn *rect, ln_lnlat_posn *posn)
+@nogc void ln_get_ecl_from_rect(const ref ln_rect_posn rect, ref ln_lnlat_posn posn) nothrow
 {
 	double t;
 
@@ -283,7 +285,7 @@ void ln_get_ecl_from_rect(const ln_rect_posn *rect, ln_lnlat_posn *posn)
 * Transform an object galactic coordinates into B1950 equatorial coordinate.
 */
 /* Pg 94 */
-void ln_get_equ_from_gal(const ln_gal_posn *gal, ln_equ_posn *equ)
+@nogc void ln_get_equ_from_gal(const ref ln_gal_posn gal, ref ln_equ_posn equ) nothrow
 {
 	double RAD_27_4, SIN_27_4, COS_27_4;
 	double l_123, cos_l_123;
@@ -314,7 +316,7 @@ void ln_get_equ_from_gal(const ln_gal_posn *gal, ln_equ_posn *equ)
 *
 * Transform an object galactic coordinates into equatorial coordinate.
 */
-void ln_get_equ2000_from_gal(const ln_gal_posn *gal, ln_equ_posn *equ)
+@nogc void ln_get_equ2000_from_gal(const ref ln_gal_posn gal, ref ln_equ_posn equ) nothrow
 {
 	ln_get_equ_from_gal(gal, equ);
 	ln_get_equ_prec2(equ, B1950, JD2000, equ);
@@ -327,7 +329,7 @@ void ln_get_equ2000_from_gal(const ln_gal_posn *gal, ln_equ_posn *equ)
 * Transform an object B1950 equatorial coordinate into galactic coordinates.
 */
 /* Pg 94 */
-void ln_get_gal_from_equ(const ln_equ_posn *equ, ln_gal_posn *gal)
+@nogc void ln_get_gal_from_equ(const ref ln_equ_posn equ, ref ln_gal_posn gal) nothrow
 {
 	double RAD_27_4, SIN_27_4, COS_27_4;
 	double ra_192_25, cos_ra_192_25;
@@ -360,14 +362,16 @@ void ln_get_gal_from_equ(const ln_equ_posn *equ, ln_gal_posn *gal)
 *
 * Transform an object J2000 equatorial coordinate into galactic coordinates.
 */
-void ln_get_gal_from_equ2000(const ln_equ_posn *equ, ln_gal_posn *gal)
+@nogc void ln_get_gal_from_equ2000(const ref ln_equ_posn equ, ref ln_gal_posn gal) nothrow
 {
 	ln_equ_posn equ_1950;
-	ln_get_equ_prec2(equ, JD2000, B1950, &equ_1950);
-	ln_get_gal_from_equ(&equ_1950, gal);
+	ln_get_equ_prec2(equ, JD2000, B1950, equ_1950);
+	ln_get_gal_from_equ(equ_1950, gal);
 }
 
 /*! \example transforms.c
  *
  * Examples of how to use transformation functions.
  */
+
+}

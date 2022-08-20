@@ -25,6 +25,8 @@ import nova.earth;
 import nova.utility;
 import nova.ln_types;
 
+extern (C) {
+
 /*! \fn double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)
 * \param JD Julian day
 * \param object Pointer to object (RA, DEC) for which heliocentric correction will be caculated
@@ -46,14 +48,14 @@ import nova.ln_types;
 *
 * See [Wikipedia](https://en.wikipedia.org/wiki/Heliocentric_Julian_Day)
 */
-double ln_get_heliocentric_time_diff(double JD, const ln_equ_posn *object)
+@nogc double ln_get_heliocentric_time_diff(double JD, const ref ln_equ_posn object) nothrow
 {
 	double theta, ra, dec, c_dec, obliq;
 	ln_nutation nutation;
 	ln_helio_posn earth;
 
-	ln_get_nutation(JD, &nutation);
-	ln_get_earth_helio_coords(JD, &earth);
+	ln_get_nutation(JD, nutation);
+	ln_get_earth_helio_coords(JD, earth);
 
 	theta = ln_deg_to_rad(ln_range_degrees(earth.L + 180));
 	ra = ln_deg_to_rad(object.ra);
@@ -66,4 +68,6 @@ double ln_get_heliocentric_time_diff(double JD, const ln_equ_posn *object)
 	return -0.0057755 * earth.R *
 		(cos(theta) * cos(ra) * c_dec
 		+ sin(theta) * (sin(obliq) * sin(dec) + cos(obliq) * c_dec * sin(ra)));
+}
+
 }

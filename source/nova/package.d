@@ -18,6 +18,13 @@
 
 module nova;
 
+version(Windows) {
+    import core.sys.windows.windows;
+    import core.sys.windows.dll;
+
+    mixin SimpleDllMain;
+}
+
 public enum LIBNOVA_VERSION = "0.15.0";
 
 /*! \mainpage libnova

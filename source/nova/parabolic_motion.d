@@ -28,6 +28,8 @@ import nova.dynamical_time;
 import nova.sidereal_time;
 import nova.utility;
 
+extern (C) {
+
 /*! \fn double ln_solve_barker (double q, double t);
 * \param q Perihelion distance in AU
 * \param t Time since perihelion in days
@@ -36,7 +38,7 @@ import nova.utility;
 * Solve Barkers equation. LIAM add more
 */
 /* Equ 34.3, Barkers Equation */
-double ln_solve_barker(double q, double t)
+@nogc double ln_solve_barker(double q, double t) nothrow
 {
 	double G, Y, W;
 
@@ -57,7 +59,7 @@ double ln_solve_barker(double q, double t)
 * Calculate the true anomaly.
 */
 /* equ 30.1 */
-double ln_get_par_true_anomaly(double q, double t)
+@nogc double ln_get_par_true_anomaly(double q, double t) nothrow
 {
 	double v, s;
 
@@ -75,7 +77,7 @@ double ln_get_par_true_anomaly(double q, double t)
 * Calculate the radius vector.
 */
 /* equ 30.2 */
-double ln_get_par_radius_vector(double q, double t)
+@nogc double ln_get_par_radius_vector(double q, double t) nothrow
 {
 	double s;
 
@@ -92,8 +94,8 @@ double ln_get_par_radius_vector(double q, double t)
 * Calculate the objects rectangular heliocentric position given it's orbital
 * elements for the given julian day.
 */
-void ln_get_par_helio_rect_posn(ln_par_orbit *orbit, double JD,
-	ln_rect_posn *posn)
+@nogc void ln_get_par_helio_rect_posn(ref ln_par_orbit orbit, double JD,
+	ref ln_rect_posn posn) nothrow
 {
 	double A, B, C, F, G, H, P, Q, R;
 	double sin_e, cos_e;
@@ -149,19 +151,19 @@ void ln_get_par_helio_rect_posn(ln_par_orbit *orbit, double JD,
 * Calculate the objects rectangular geocentric position given it's orbital
 * elements for the given julian day.
 */
-void ln_get_par_geo_rect_posn(ln_par_orbit *orbit, double JD,
-	ln_rect_posn *posn)
+@nogc void ln_get_par_geo_rect_posn(ref ln_par_orbit orbit, double JD,
+	ref ln_rect_posn posn) nothrow
 {
 	ln_rect_posn p_posn, e_posn;
 	ln_helio_posn earth;
 
 	/* parabolic helio rect coords */
-	ln_get_par_helio_rect_posn(orbit, JD, &p_posn);
+	ln_get_par_helio_rect_posn(orbit, JD, p_posn);
 
 	/* earth rect coords */
-	ln_get_earth_helio_coords(JD, &earth);
+	ln_get_earth_helio_coords(JD, earth);
 
-	ln_get_rect_from_helio(&earth, &e_posn);
+	ln_get_rect_from_helio(earth, e_posn);
 	posn.X = p_posn.X - e_posn.X;
 	posn.Y = p_posn.Y - e_posn.Y;
 	posn.Z = p_posn.Z - e_posn.Z;
@@ -176,23 +178,23 @@ void ln_get_par_geo_rect_posn(ln_par_orbit *orbit, double JD,
 *
 * Calculate a bodies equatorial coordinates for the given julian day.
 */
-void ln_get_par_body_equ_coords(double JD, ln_par_orbit *orbit,
-	ln_equ_posn *posn)
+@nogc void ln_get_par_body_equ_coords(double JD, ref ln_par_orbit orbit,
+	ref ln_equ_posn posn) nothrow
 {
 	ln_rect_posn body_rect_posn, sol_rect_posn;
 	double dist, t;
 	double x,y,z;
 
 	/* get solar and body rect coords */
-	ln_get_par_helio_rect_posn (orbit, JD, &body_rect_posn);
-	ln_get_solar_geo_coords(JD, &sol_rect_posn);
+	ln_get_par_helio_rect_posn (orbit, JD, body_rect_posn);
+	ln_get_solar_geo_coords(JD, sol_rect_posn);
 
 	/* calc distance and light time */
-	dist = ln_get_rect_distance (&body_rect_posn, &sol_rect_posn);
+	dist = ln_get_rect_distance (body_rect_posn, sol_rect_posn);
 	t = ln_get_light_time (dist);
 
 	/* repeat calculation with new time (i.e. JD - t) */
-	ln_get_par_helio_rect_posn (orbit, JD - t, &body_rect_posn);
+	ln_get_par_helio_rect_posn (orbit, JD - t, body_rect_posn);
 
 	/* calc equ coords equ 33.10 */
 	x = sol_rect_posn.X + body_rect_posn.X;
@@ -213,18 +215,18 @@ void ln_get_par_body_equ_coords(double JD, ln_par_orbit *orbit,
 * Calculate the distance between a body and the Earth
 * for the given julian day.
 */
-double ln_get_par_body_earth_dist(double JD, ln_par_orbit *orbit)
+@nogc double ln_get_par_body_earth_dist(double JD, ref ln_par_orbit orbit) nothrow
 {
 	ln_rect_posn body_rect_posn, earth_rect_posn;
 
 	/* get solar and body rect coords */
-	ln_get_par_geo_rect_posn(orbit, JD, &body_rect_posn);
+	ln_get_par_geo_rect_posn(orbit, JD, body_rect_posn);
 	earth_rect_posn.X = 0;
 	earth_rect_posn.Y = 0;
 	earth_rect_posn.Z = 0;
 
 	/* calc distance */
-	return ln_get_rect_distance(&body_rect_posn, &earth_rect_posn);
+	return ln_get_rect_distance(body_rect_posn, earth_rect_posn);
 }
 
 /*!
@@ -235,18 +237,18 @@ double ln_get_par_body_earth_dist(double JD, ln_par_orbit *orbit)
 *
 * Calculate the distance between a body and the Sun.
 */
-double ln_get_par_body_solar_dist(double JD, ln_par_orbit *orbit)
+@nogc double ln_get_par_body_solar_dist(double JD, ref ln_par_orbit orbit) nothrow
 {
 	ln_rect_posn body_rect_posn, sol_rect_posn;
 
 	/* get solar and body rect coords */
-	ln_get_par_helio_rect_posn(orbit, JD, &body_rect_posn);
+	ln_get_par_helio_rect_posn(orbit, JD, body_rect_posn);
 	sol_rect_posn.X = 0;
 	sol_rect_posn.Y = 0;
 	sol_rect_posn.Z = 0;
 
 	/* calc distance */
-	return ln_get_rect_distance(&body_rect_posn, &sol_rect_posn);
+	return ln_get_rect_distance(body_rect_posn, sol_rect_posn);
 }
 
 /*! \fn double ln_get_par_body_phase_angle(double JD, struct ln_par_orbit *orbit);
@@ -256,7 +258,7 @@ double ln_get_par_body_solar_dist(double JD, ln_par_orbit *orbit)
 *
 * Calculate the phase angle of the body. The angle Sun - body - Earth.
 */
-double ln_get_par_body_phase_angle(double JD, ln_par_orbit *orbit)
+@nogc double ln_get_par_body_phase_angle(double JD, ref ln_par_orbit orbit) nothrow
 {
 	double r,R,d;
 	double t;
@@ -283,7 +285,7 @@ double ln_get_par_body_phase_angle(double JD, ln_par_orbit *orbit)
 *
 * Calculate the bodies elongation to the Sun..
 */
-double ln_get_par_body_elong(double JD, ln_par_orbit *orbit)
+@nogc double ln_get_par_body_elong(double JD, ref ln_par_orbit orbit) nothrow
 {
 	double r,R,d;
 	double t;
@@ -316,8 +318,8 @@ double ln_get_par_body_elong(double JD, ln_par_orbit *orbit)
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day either above the horizon. Returns -1 when it remains whole day below the horizon.
 */
-int ln_get_par_body_rst(double JD, const ln_lnlat_posn *observer,
-	ln_par_orbit *orbit, ln_rst_time *rst)
+@nogc int ln_get_par_body_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_par_orbit orbit, ref ln_rst_time rst) nothrow
 {
 	return ln_get_par_body_rst_horizon(JD, observer, orbit,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -337,11 +339,11 @@ int ln_get_par_body_rst(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day either above the horizon. Returns -1 when it remains whole day below the horizon.
 */
-int ln_get_par_body_rst_horizon(double JD, const ln_lnlat_posn *observer,
-	ln_par_orbit *orbit, double horizon, ln_rst_time *rst)
+@nogc int ln_get_par_body_rst_horizon(double JD, const ref ln_lnlat_posn observer,
+	ref ln_par_orbit orbit, double horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_motion_body_rst_horizon(JD, observer,
-		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, orbit,
+		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, &orbit,
 		horizon, rst);
 }
 
@@ -360,8 +362,8 @@ int ln_get_par_body_rst_horizon(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_par_body_next_rst(double JD, const ln_lnlat_posn *observer,
-		ln_par_orbit *orbit, ln_rst_time *rst)
+@nogc int ln_get_par_body_next_rst(double JD, const ref ln_lnlat_posn observer,
+		ref ln_par_orbit orbit, ref ln_rst_time rst) nothrow
 {
 	return ln_get_par_body_next_rst_horizon(JD, observer, orbit,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -383,11 +385,11 @@ int ln_get_par_body_next_rst(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_par_body_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
-	ln_par_orbit *orbit, double horizon, ln_rst_time *rst)
+@nogc int ln_get_par_body_next_rst_horizon(double JD, const ref ln_lnlat_posn observer,
+	ref ln_par_orbit orbit, double horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_motion_body_next_rst_horizon(JD, observer,
-		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, orbit,
+		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, &orbit,
 		horizon, rst);
 }
 
@@ -408,11 +410,13 @@ int ln_get_par_body_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_par_body_next_rst_horizon_future(double JD,
-		const ln_lnlat_posn *observer, ln_par_orbit *orbit,
-		double horizon, int day_limit, ln_rst_time *rst)
+@nogc int ln_get_par_body_next_rst_horizon_future(double JD,
+		const ref ln_lnlat_posn observer, ref ln_par_orbit orbit,
+		double horizon, int day_limit, ref ln_rst_time rst) nothrow
 {
 	return ln_get_motion_body_next_rst_horizon_future(JD, observer,
-		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, orbit,
+		cast(get_motion_body_coords_t)&ln_get_par_body_equ_coords, &orbit,
 		horizon, day_limit, rst);
+}
+
 }

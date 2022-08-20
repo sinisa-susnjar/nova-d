@@ -7246,6 +7246,10 @@ static const ln_vsop[RADIUS_R5] mercury_radius_r5 = [
     {     0.00000000000,  4.00511196914,   234791.12827416777}
 ];
 
+public:
+
+extern (C) {
+
 /*! \fn void ln_get_mercury_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position Pointer to store position
@@ -7259,7 +7263,7 @@ static const ln_vsop[RADIUS_R5] mercury_radius_r5 = [
 *
 * The position returned is accurate to within 0.1 arcsecs.
 */
-void ln_get_mercury_equ_coords(double JD, ln_equ_posn *position)
+export @nogc void ln_get_mercury_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_helio_posn h_sol, h_mercury;
 	ln_rect_posn g_sol, g_mercury;
@@ -7267,13 +7271,13 @@ void ln_get_mercury_equ_coords(double JD, ln_equ_posn *position)
 	double ra, dec, delta, diff, last, t = 0;
 
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords(JD, &h_sol);
-	ln_get_rect_from_helio(&h_sol, &g_sol);
+	ln_get_solar_geom_coords(JD, h_sol);
+	ln_get_rect_from_helio(h_sol, g_sol);
 
 	do {
 		last = t;
-		ln_get_mercury_helio_coords(JD - t, &h_mercury);
-		ln_get_rect_from_helio(&h_mercury, &g_mercury);
+		ln_get_mercury_helio_coords(JD - t, h_mercury);
+		ln_get_rect_from_helio(h_mercury, g_mercury);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_mercury.X;
@@ -7306,7 +7310,7 @@ void ln_get_mercury_equ_coords(double JD, ln_equ_posn *position)
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87
 */
-void ln_get_mercury_helio_coords(double JD, ln_helio_posn *position)
+export @nogc void ln_get_mercury_helio_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	double t, t2, t3, t4, t5;
 	double L0, L1, L2, L3, L4, L5;
@@ -7381,19 +7385,19 @@ void ln_get_mercury_helio_coords(double JD, ln_helio_posn *position)
 * Calculates the distance in AU between the Earth and Mercury for
 * the given julian day.
 */
-double ln_get_mercury_earth_dist(double JD)
+export @nogc double ln_get_mercury_earth_dist(double JD) nothrow
 {
 	ln_helio_posn h_mercury, h_earth;
 	ln_rect_posn g_mercury, g_earth;
 	double x, y, z;
 
 	/* get heliocentric positions */
-	ln_get_mercury_helio_coords(JD, &h_mercury);
-	ln_get_earth_helio_coords(JD, &h_earth);
+	ln_get_mercury_helio_coords(JD, h_mercury);
+	ln_get_earth_helio_coords(JD, h_earth);
 
 	/* get geocentric coords */
-	ln_get_rect_from_helio(&h_mercury, &g_mercury);
-	ln_get_rect_from_helio(&h_earth, &g_earth);
+	ln_get_rect_from_helio(h_mercury, g_mercury);
+	ln_get_rect_from_helio(h_earth, g_earth);
 
 	/* use pythag */
 	x = g_mercury.X - g_earth.X;
@@ -7414,12 +7418,12 @@ double ln_get_mercury_earth_dist(double JD)
 * Calculates the distance in AU between the Sun and Mercury for
 * the given julian day.
 */
-double ln_get_mercury_solar_dist(double JD)
+export @nogc double ln_get_mercury_solar_dist(double JD) nothrow
 {
 	ln_helio_posn h_mercury;
 
 	/* get heliocentric position */
-	ln_get_mercury_helio_coords(JD, &h_mercury);
+	ln_get_mercury_helio_coords(JD, h_mercury);
 
 	return h_mercury.R;
 }
@@ -7432,7 +7436,7 @@ double ln_get_mercury_solar_dist(double JD)
 * Calculate the visisble magnitude of Mercury for the given
 * julian day.
 */
-double ln_get_mercury_magnitude(double JD)
+export @nogc double ln_get_mercury_magnitude(double JD) nothrow
 {
 	double delta, r, i, i2, i3;
 
@@ -7458,7 +7462,7 @@ double ln_get_mercury_magnitude(double JD)
 * day.
 */
 /* Chapter 41 */
-double ln_get_mercury_disk(double JD)
+export @nogc double ln_get_mercury_disk(double JD) nothrow
 {
 	double r,delta,R;
 
@@ -7480,7 +7484,7 @@ double ln_get_mercury_disk(double JD)
 * Mercury - Earth for the given Julian day.
 */
 /* Chapter 41 */
-double ln_get_mercury_phase(double JD)
+export @nogc double ln_get_mercury_phase(double JD) nothrow
 {
 	double i, r, delta, R;
 
@@ -7508,8 +7512,8 @@ double ln_get_mercury_phase(double JD)
 * Note: this functions returns 1 if Mercury is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_mercury_rst(double JD, const ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+export @nogc int ln_get_mercury_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_rst_horizon(JD, observer, &ln_get_mercury_equ_coords,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -7522,7 +7526,7 @@ int ln_get_mercury_rst(double JD, const ln_lnlat_posn *observer,
 * Calculate the semidiameter of Mercury in arc seconds for the
 * given julian day.
 */
-double ln_get_mercury_sdiam(double JD)
+export @nogc double ln_get_mercury_sdiam(double JD) nothrow
 {
 	double So = 3.36; /* at 1 AU */
 	double dist;
@@ -7538,10 +7542,12 @@ double ln_get_mercury_sdiam(double JD)
 * Calculate Mercurys rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_mercury_rect_helio(double JD, ln_rect_posn *position)
+export @nogc void ln_get_mercury_rect_helio(double JD, ref ln_rect_posn position) nothrow
 {
 	ln_helio_posn mercury;
 
-	ln_get_mercury_helio_coords(JD, &mercury);
-	ln_get_rect_from_helio(&mercury, position);
+	ln_get_mercury_helio_coords(JD, mercury);
+	ln_get_rect_from_helio(mercury, position);
+}
+
 }

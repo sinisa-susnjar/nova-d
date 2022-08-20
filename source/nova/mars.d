@@ -6523,6 +6523,8 @@ static const ln_vsop[RADIUS_R5] mars_radius_r5 = [
     {     0.00000000002,  0.40954426011,     9866.41688066520},
 ];
 
+extern (C) {
+
 /*! \fn void ln_get_mars_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position Pointer to store position
@@ -6536,7 +6538,7 @@ static const ln_vsop[RADIUS_R5] mars_radius_r5 = [
 *
 * The position returned is accurate to within 0.1 arcsecs.
 */
-void ln_get_mars_equ_coords(double JD, ln_equ_posn *position)
+export @nogc void ln_get_mars_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_helio_posn h_sol, h_mars;
 	ln_rect_posn g_sol, g_mars;
@@ -6544,13 +6546,13 @@ void ln_get_mars_equ_coords(double JD, ln_equ_posn *position)
 	double ra, dec, delta, diff, last, t = 0;
 
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords(JD, &h_sol);
-	ln_get_rect_from_helio(&h_sol, &g_sol);
+	ln_get_solar_geom_coords(JD, h_sol);
+	ln_get_rect_from_helio(h_sol, g_sol);
 
 	do {
 		last = t;
-		ln_get_mars_helio_coords(JD - t, &h_mars);
-		ln_get_rect_from_helio(&h_mars, &g_mars);
+		ln_get_mars_helio_coords(JD - t, h_mars);
+		ln_get_rect_from_helio(h_mars, g_mars);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_mars.X;
@@ -6583,7 +6585,7 @@ void ln_get_mars_equ_coords(double JD, ln_equ_posn *position)
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87
 */
-void ln_get_mars_helio_coords(double JD, ln_helio_posn *position)
+@nogc void ln_get_mars_helio_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	double t, t2, t3, t4, t5;
 	double L0, L1, L2, L3, L4, L5;
@@ -6657,19 +6659,19 @@ void ln_get_mars_helio_coords(double JD, ln_helio_posn *position)
 * Calculates the distance in AU between the Earth and Mars for the given
 * julian day.
 */
-double ln_get_mars_earth_dist(double JD)
+@nogc double ln_get_mars_earth_dist(double JD) nothrow
 {
 	ln_helio_posn h_mars, h_earth;
 	ln_rect_posn g_mars, g_earth;
 	double x, y, z;
 
 	/* get heliocentric positions */
-	ln_get_mars_helio_coords(JD, &h_mars);
-	ln_get_earth_helio_coords(JD, &h_earth);
+	ln_get_mars_helio_coords(JD, h_mars);
+	ln_get_earth_helio_coords(JD, h_earth);
 
 	/* get geocentric coords */
-	ln_get_rect_from_helio(&h_mars, &g_mars);
-	ln_get_rect_from_helio(&h_earth, &g_earth);
+	ln_get_rect_from_helio(h_mars, g_mars);
+	ln_get_rect_from_helio(h_earth, g_earth);
 
 	/* use pythag */
 	x = g_mars.X - g_earth.X;
@@ -6690,12 +6692,12 @@ double ln_get_mars_earth_dist(double JD)
 * Calculates the distance in AU between the Sun and Mars for the given
 * julian day.
 */
-double ln_get_mars_solar_dist(double JD)
+@nogc double ln_get_mars_solar_dist(double JD) nothrow
 {
 	ln_helio_posn h_mars;
 
 	/* get heliocentric position */
-	ln_get_mars_helio_coords(JD, &h_mars);
+	ln_get_mars_helio_coords(JD, h_mars);
 
 	return h_mars.R;
 }
@@ -6707,7 +6709,7 @@ double ln_get_mars_solar_dist(double JD)
 *
 * Calculate the visisble magnitude of Mars for given julian day.
 */
-double ln_get_mars_magnitude(double JD)
+@nogc double ln_get_mars_magnitude(double JD) nothrow
 {
 	double delta, r, i;
 
@@ -6729,7 +6731,7 @@ double ln_get_mars_magnitude(double JD)
 * Calculates the illuminated fraction of Mars disk for given julian day.
 */
 /* Chapter 41 */
-double ln_get_mars_disk(double JD)
+@nogc double ln_get_mars_disk(double JD) nothrow
 {
 	double r, delta, R;
 
@@ -6751,7 +6753,7 @@ double ln_get_mars_disk(double JD)
 * Calculates the phase angle of Mars for the given julian day.
 */
 /* Chapter 41 */
-double ln_get_mars_phase(double JD)
+@nogc double ln_get_mars_phase(double JD) nothrow
 {
 	double i, r, delta, R;
 
@@ -6779,8 +6781,8 @@ double ln_get_mars_phase(double JD)
 * Note: this functions returns 1 if Mars is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_mars_rst(double JD, const ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+@nogc int ln_get_mars_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_rst_horizon(JD, observer, &ln_get_mars_equ_coords,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -6794,7 +6796,7 @@ int ln_get_mars_rst(double JD, const ln_lnlat_posn *observer,
 * Calculate the semidiameter of Mars in arc seconds for the
 * given julian day.
 */
-double ln_get_mars_sdiam(double JD)
+@nogc double ln_get_mars_sdiam(double JD) nothrow
 {
 	double So = 4.68; /* at 1 AU */
 	double dist;
@@ -6810,15 +6812,17 @@ double ln_get_mars_sdiam(double JD)
 * Calculate Mars rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_mars_rect_helio(double JD, ln_rect_posn *position)
+@nogc void ln_get_mars_rect_helio(double JD, ref ln_rect_posn position) nothrow
 {
 	ln_helio_posn mars;
 
-	ln_get_mars_helio_coords(JD, &mars);
-	ln_get_rect_from_helio(&mars, position);
+	ln_get_mars_helio_coords(JD, mars);
+	ln_get_rect_from_helio(mars, position);
 }
 
 /*! \example mars.c
  *
  * Examples of how to use planetary functions.
  */
+
+}

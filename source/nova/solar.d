@@ -30,6 +30,8 @@ import nova.ln_types;
 
 enum LN_SOLAR_STANDART_HORIZON =            -0.8333;
 
+extern (C) {
+
 /*! \fn void ln_get_solar_geom_coords(double JD, struct ln_helio_posn *position)
 * \param JD Julian day
 * \param position Pointer to store calculated solar position.
@@ -41,7 +43,7 @@ enum LN_SOLAR_STANDART_HORIZON =            -0.8333;
 * vector returned is in AU.
 */
 
-void ln_get_solar_geom_coords(double JD, ln_helio_posn *position)
+@nogc void ln_get_solar_geom_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	/* get earths heliocentric position */
 	ln_get_earth_helio_coords(JD, position);
@@ -58,7 +60,7 @@ void ln_get_solar_geom_coords(double JD, ln_helio_posn *position)
 * Calculate apparent equatorial solar coordinates for given julian day.
 * This function includes the effects of aberration and nutation.
 */
-void ln_get_solar_equ_coords(double JD, ln_equ_posn *position)
+@nogc void ln_get_solar_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_helio_posn sol;
 	ln_lnlat_posn LB;
@@ -66,10 +68,10 @@ void ln_get_solar_equ_coords(double JD, ln_equ_posn *position)
 	double aberration;
 
 	/* get geometric coords */
-	ln_get_solar_geom_coords(JD, &sol);
+	ln_get_solar_geom_coords(JD, sol);
 
 	/* add nutation */
-	ln_get_nutation(JD, &nutation);
+	ln_get_nutation(JD, nutation);
 	sol.L += nutation.longitude;
 
 	/* aberration */
@@ -79,7 +81,7 @@ void ln_get_solar_equ_coords(double JD, ln_equ_posn *position)
 	/* transform to equatorial */
 	LB.lat = sol.B;
 	LB.lng = sol.L;
-	ln_get_equ_from_ecl(&LB, JD, position);
+	ln_get_equ_from_ecl(LB, JD, position);
 }
 
 /*! \fn void ln_get_solar_ecl_coords(double JD, struct ln_lnlat_posn *position)
@@ -89,17 +91,17 @@ void ln_get_solar_equ_coords(double JD, ln_equ_posn *position)
 * Calculate apparent ecliptical solar coordinates for given julian day.
 * This function includes the effects of aberration and nutation.
 */
-void ln_get_solar_ecl_coords(double JD, ln_lnlat_posn *position)
+@nogc void ln_get_solar_ecl_coords(double JD, ref ln_lnlat_posn position) nothrow
 {
 	ln_helio_posn sol;
 	ln_nutation nutation;
 	double aberration;
 
 	/* get geometric coords */
-	ln_get_solar_geom_coords(JD, &sol);
+	ln_get_solar_geom_coords(JD, sol);
 
 	/* add nutation */
-	ln_get_nutation(JD, &nutation);
+	ln_get_nutation(JD, nutation);
 	sol.L += nutation.longitude;
 
 	/* aberration */
@@ -118,21 +120,21 @@ void ln_get_solar_ecl_coords(double JD, ln_lnlat_posn *position)
 * Accuracy 0.01 arc second error - uses VSOP87 solution.
 * Position returned is in units of AU.
 */
-void ln_get_solar_geo_coords(double JD, ln_rect_posn *position)
+@nogc void ln_get_solar_geo_coords(double JD, ref ln_rect_posn position) nothrow
 {
 	/* get earths's heliocentric position */
 	ln_helio_posn sol;
-	ln_get_earth_helio_coords(JD, &sol);
+	ln_get_earth_helio_coords(JD, sol);
 
 	/* now get rectangular coords */
-	ln_get_rect_from_helio(&sol, position);
+	ln_get_rect_from_helio(sol, position);
 	position.X *=-1.0;
 	position.Y *=-1.0;
 	position.Z *=-1.0;
 }
 
-int ln_get_solar_rst_horizon(double JD, const ln_lnlat_posn *observer,
-	double horizon, ln_rst_time *rst)
+@nogc int ln_get_solar_rst_horizon(double JD, const ref ln_lnlat_posn observer,
+	double horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_rst_horizon(JD, observer, &ln_get_solar_equ_coords, horizon, rst);
 }
@@ -142,8 +144,8 @@ int ln_get_solar_rst_horizon(double JD, const ln_lnlat_posn *observer,
  * Calls get_solar_rst_horizon with horizon set to LN_SOLAR_STANDART_HORIZON.
  */
 
-int ln_get_solar_rst(double JD, const ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+@nogc int ln_get_solar_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_solar_rst_horizon(JD, observer,
 		LN_SOLAR_STANDART_HORIZON, rst);
@@ -156,7 +158,7 @@ int ln_get_solar_rst(double JD, const ln_lnlat_posn *observer,
 * Calculate the semidiameter of the Sun in arc seconds for the
 * given julian day.
 */
-double ln_get_solar_sdiam(double JD)
+@nogc double ln_get_solar_sdiam(double JD) nothrow
 {
 	double So = 959.63; /* at 1 AU */
 	double dist;
@@ -169,3 +171,5 @@ double ln_get_solar_sdiam(double JD)
  *
  * Examples of how to use solar functions.
  */
+
+}

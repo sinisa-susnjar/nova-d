@@ -179,6 +179,7 @@ const static nutation_coefficients[TERMS] coefficients = [
 /* cache values */
 static real c_JD = 0.0, c_longitude = 0.0, c_obliquity = 0.0, c_ecliptic = 0.0;
 
+extern (C) {
 
 /*! \fn void ln_get_nutation(double JD, struct ln_nutation *nutation)
 * \param JD Julian Day.
@@ -190,9 +191,8 @@ static real c_JD = 0.0, c_longitude = 0.0, c_obliquity = 0.0, c_ecliptic = 0.0;
 */
 /* TODO: add argument to specify this */
 /* TODO: use JD or JDE. confirm */
-void ln_get_nutation(double JD, ln_nutation *nutation)
+@nogc void ln_get_nutation(double JD, ref ln_nutation nutation) nothrow
 {
-
 	real D, M, MM, F, O, T, T2, T3, JDE;
 	real coeff_sine, coeff_cos;
 	real argument;
@@ -280,11 +280,11 @@ void ln_get_nutation(double JD, ln_nutation *nutation)
 */
 /* Equ 22.1
 */
-void ln_get_equ_nut(const ln_equ_posn *mean_position, double JD,
-	ln_equ_posn *position)
+@nogc void ln_get_equ_nut(const ref ln_equ_posn mean_position, double JD,
+	ref ln_equ_posn position) nothrow
 {
 	ln_nutation nut;
-	ln_get_nutation (JD, &nut);
+	ln_get_nutation (JD, nut);
 
 	real mean_ra, mean_dec, delta_ra, delta_dec;
 
@@ -306,4 +306,6 @@ void ln_get_equ_nut(const ln_equ_posn *mean_position, double JD,
 
 	position.ra = mean_position.ra + delta_ra;
 	position.dec = mean_position.dec + delta_dec;
+}
+
 }

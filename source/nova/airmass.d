@@ -23,6 +23,8 @@ import std.math;
 import nova.airmass;
 import nova.utility;
 
+extern (C) {
+
 /*
 ** Airmass
 */
@@ -32,7 +34,7 @@ import nova.utility;
 * \param airmass_scale  Airmass scale - usually 750.
 * \return  Airmass for give altitude.
 */
-double ln_get_airmass(double alt, double airmass_scale)
+@nogc double ln_get_airmass(double alt, double airmass_scale) nothrow
 {
     double a;
 
@@ -75,4 +77,6 @@ unittest {
         assert(fabs(res - x) < 0.000000001, "(Airmass) Altitude->Airmass->Altitude at 10 degrees "
                 ~ format("%.12f", res) ~ " != " ~ format("%.12f", x));
     }
+}
+
 }

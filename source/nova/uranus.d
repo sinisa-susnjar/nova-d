@@ -5372,6 +5372,8 @@ static const ln_vsop[RADIUS_R4] uranus_radius_r4 = [
     {     0.00000002837,  3.14159265359,        0.00000000000},
 ];
 
+extern (C) {
+
 /*! \fn void ln_get_uranus_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position pointer to store position
@@ -5385,7 +5387,7 @@ static const ln_vsop[RADIUS_R4] uranus_radius_r4 = [
 *
 * The position returned is accurate to within 0.1 arcsecs.
 */
-void ln_get_uranus_equ_coords(double JD, ln_equ_posn *position)
+@nogc void ln_get_uranus_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_helio_posn h_sol, h_uranus;
 	ln_rect_posn g_sol, g_uranus;
@@ -5393,13 +5395,13 @@ void ln_get_uranus_equ_coords(double JD, ln_equ_posn *position)
 	double ra, dec, delta, diff, last, t = 0;
 
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords(JD, &h_sol);
-	ln_get_rect_from_helio(&h_sol,  &g_sol);
+	ln_get_solar_geom_coords(JD, h_sol);
+	ln_get_rect_from_helio(h_sol, g_sol);
 
 	do {
 		last = t;
-		ln_get_uranus_helio_coords(JD - t, &h_uranus);
-		ln_get_rect_from_helio(&h_uranus, &g_uranus);
+		ln_get_uranus_helio_coords(JD - t, h_uranus);
+		ln_get_rect_from_helio(h_uranus, g_uranus);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_uranus.X;
@@ -5432,7 +5434,7 @@ void ln_get_uranus_equ_coords(double JD, ln_equ_posn *position)
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87
 */
-void ln_get_uranus_helio_coords(double JD, ln_helio_posn *position)
+@nogc void ln_get_uranus_helio_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	double t, t2, t3, t4;
 
@@ -5503,19 +5505,19 @@ void ln_get_uranus_helio_coords(double JD, ln_helio_posn *position)
 * Calculates the distance in AU between the Earth and Uranus for
 * the given julian day.
 */
-double ln_get_uranus_earth_dist(double JD)
+@nogc double ln_get_uranus_earth_dist(double JD) nothrow
 {
 	ln_helio_posn h_uranus, h_earth;
 	ln_rect_posn g_uranus, g_earth;
 	double x, y, z;
 
 	/* get heliocentric positions */
-	ln_get_uranus_helio_coords(JD, &h_uranus);
-	ln_get_earth_helio_coords(JD, &h_earth);
+	ln_get_uranus_helio_coords(JD, h_uranus);
+	ln_get_earth_helio_coords(JD, h_earth);
 
 	/* get geocentric coords */
-	ln_get_rect_from_helio(&h_uranus, &g_uranus);
-	ln_get_rect_from_helio(&h_earth, &g_earth);
+	ln_get_rect_from_helio(h_uranus, g_uranus);
+	ln_get_rect_from_helio(h_earth, g_earth);
 
 	/* use pythag */
 	x = g_uranus.X - g_earth.X;
@@ -5536,12 +5538,12 @@ double ln_get_uranus_earth_dist(double JD)
 * Calculates the distance in AU between the Sun and Uranus for
 * the given julian day.
 */
-double ln_get_uranus_solar_dist(double JD)
+@nogc double ln_get_uranus_solar_dist(double JD) nothrow
 {
 	ln_helio_posn h_uranus;
 
 	/* get heliocentric position */
-	ln_get_uranus_helio_coords(JD, &h_uranus);
+	ln_get_uranus_helio_coords(JD, h_uranus);
 	return h_uranus.R;
 }
 
@@ -5553,7 +5555,7 @@ double ln_get_uranus_solar_dist(double JD)
 * Calculate the visible magnitude of Uranus for the given
 * julian day.
 */
-double ln_get_uranus_magnitude(double JD)
+@nogc double ln_get_uranus_magnitude(double JD) nothrow
 {
 	double delta, r;
 
@@ -5573,7 +5575,7 @@ double ln_get_uranus_magnitude(double JD)
 * day.
 */
 /* Chapter 41 */
-double ln_get_uranus_disk(double JD)
+@nogc double ln_get_uranus_disk(double JD) nothrow
 {
 	double r, delta, R;
 
@@ -5595,7 +5597,7 @@ double ln_get_uranus_disk(double JD)
 * Uranus - Earth for the given Julian day.
 */
 /* Chapter 41 */
-double ln_get_uranus_phase(double JD)
+@nogc double ln_get_uranus_phase(double JD) nothrow
 {
 	double i, r, delta, R;
 
@@ -5622,8 +5624,8 @@ double ln_get_uranus_phase(double JD)
 * Note: this functions returns 1 if Uranus is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_uranus_rst(double JD, const ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+@nogc int ln_get_uranus_rst(double JD, const ref ln_lnlat_posn observer,
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_rst_horizon(JD, observer, &ln_get_uranus_equ_coords,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -5637,7 +5639,7 @@ int ln_get_uranus_rst(double JD, const ln_lnlat_posn *observer,
 * Calculate the semidiameter of Uranus in arc seconds for the
 * given julian day.
 */
-double ln_get_uranus_sdiam(double JD)
+@nogc double ln_get_uranus_sdiam(double JD) nothrow
 {
 	double So = 35.02; /* at 1 AU */
 	double dist;
@@ -5653,10 +5655,12 @@ double ln_get_uranus_sdiam(double JD)
 * Calculate Uranus rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_uranus_rect_helio(double JD, ln_rect_posn *position)
+@nogc void ln_get_uranus_rect_helio(double JD, ref ln_rect_posn position) nothrow
 {
 	ln_helio_posn uranus;
 
-	ln_get_uranus_helio_coords(JD, &uranus);
-	ln_get_rect_from_helio(&uranus, position);
+	ln_get_uranus_helio_coords(JD, uranus);
+	ln_get_rect_from_helio(uranus, position);
+}
+
 }

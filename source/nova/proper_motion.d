@@ -21,6 +21,8 @@ module nova.proper_motion;
 import nova.utility;
 import nova.ln_types;
 
+extern (C) {
+
 /*
 ** Proper Motion.
 */
@@ -36,8 +38,8 @@ import nova.ln_types;
 */
 /* Example 20.b pg 126
 */
-void ln_get_equ_pm(const ln_equ_posn *mean_position,
-	const ln_equ_posn *proper_motion, double JD, ln_equ_posn *position)
+@nogc void ln_get_equ_pm(const ref ln_equ_posn mean_position,
+	const ref ln_equ_posn proper_motion, double JD, ref ln_equ_posn position) nothrow
 {
 	ln_get_equ_pm_epoch (mean_position, proper_motion, JD, JD2000, position);
 }
@@ -54,9 +56,9 @@ void ln_get_equ_pm(const ln_equ_posn *mean_position,
 */
 /* Example 20.b, pg 126
 */
-void ln_get_equ_pm_epoch(const ln_equ_posn *mean_position,
-	const ln_equ_posn *proper_motion, double JD, double epoch_JD,
-	ln_equ_posn *position)
+@nogc void ln_get_equ_pm_epoch(const ref ln_equ_posn mean_position,
+	const ref ln_equ_posn proper_motion, double JD, double epoch_JD,
+	ref ln_equ_posn position) nothrow
 {
 	real T;
 
@@ -68,4 +70,6 @@ void ln_get_equ_pm_epoch(const ln_equ_posn *mean_position,
 
 	/* change to degrees */
 	position.ra = ln_range_degrees(position.ra);
+}
+
 }

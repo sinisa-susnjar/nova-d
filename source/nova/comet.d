@@ -24,6 +24,8 @@ import nova.elliptic_motion;
 import nova.parabolic_motion;
 import nova.ln_types;
 
+extern (C) {
+
 /*!
 * \fn double ln_get_ell_comet_mag(double JD, struct ln_ell_orbit *orbit, double g, double k)
 * \param JD Julian day.
@@ -36,8 +38,8 @@ import nova.ln_types;
 *
 * Note: modifies orbit.n if it's zero
 */
-double ln_get_ell_comet_mag(double JD, ln_ell_orbit *orbit, double g,
-	double k)
+@nogc double ln_get_ell_comet_mag(double JD, ref ln_ell_orbit orbit, double g,
+	double k) nothrow
 {
 	double d, r;
 	double E,M;
@@ -69,8 +71,8 @@ double ln_get_ell_comet_mag(double JD, ln_ell_orbit *orbit, double g,
 *
 * Note: modifies orbit.n if it's zero
 */
-double ln_get_par_comet_mag(double JD, ln_par_orbit *orbit, double g,
-	double k)
+@nogc double ln_get_par_comet_mag(double JD, ref ln_par_orbit orbit, double g,
+	double k) nothrow
 {
 	double d,r,t;
 
@@ -88,3 +90,5 @@ double ln_get_par_comet_mag(double JD, ln_par_orbit *orbit, double g,
  *
  * Examples of how to use comet functions.
  */
+
+}
