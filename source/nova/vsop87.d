@@ -34,8 +34,9 @@ struct ln_vsop
     double C;
 }
 
+extern (C) {
 
-double ln_calc_series(const ln_vsop[] data, double t)
+@nogc double ln_calc_series(const ln_vsop[] data, double t) nothrow
 {
 	double value = 0.0;
 
@@ -54,7 +55,7 @@ double ln_calc_series(const ln_vsop[] data, double t)
 */
 /* Equation 31.3 Pg 207.
 */
-void ln_vsop87_to_fk5(ln_helio_posn *position, double JD)
+@nogc void ln_vsop87_to_fk5(ref ln_helio_posn position, double JD) nothrow
 {
 	double LL, cos_LL, sin_LL, T, delta_L, delta_B, B;
 
@@ -73,4 +74,6 @@ void ln_vsop87_to_fk5(ln_helio_posn *position, double JD)
 
 	position.L += delta_L;
 	position.B += delta_B;
+}
+
 }

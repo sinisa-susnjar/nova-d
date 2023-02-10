@@ -25,6 +25,8 @@ import nova.ln_types;
 
 // fixed missing *l functions
 
+extern (C) {
+
 /*
 ** Precession
 */
@@ -40,8 +42,8 @@ import nova.ln_types;
 */
 /* Equ 20.3, 20.4 pg 126
 */
-void ln_get_equ_prec(const ln_equ_posn *mean_position, double JD,
-	ln_equ_posn *position)
+@nogc void ln_get_equ_prec(const ref ln_equ_posn mean_position, double JD,
+	ref ln_equ_posn position) nothrow
 {
 	real t, t2, t3, A, B, C, zeta, eta, theta,
 		ra, dec, mean_ra, mean_dec;
@@ -99,8 +101,8 @@ void ln_get_equ_prec(const ln_equ_posn *mean_position, double JD,
 */
 
 /* Equ 20.2, 20.4 pg 126 */
-void ln_get_equ_prec2(const ln_equ_posn *mean_position, double fromJD,
-	double toJD, ln_equ_posn *position)
+@nogc void ln_get_equ_prec2(const ref ln_equ_posn mean_position, double fromJD,
+	double toJD, ref ln_equ_posn position) nothrow
 {
 	real t, t2, t3, A, B, C, zeta, eta, theta, ra, dec, mean_ra,
 		mean_dec, T, T2;
@@ -164,8 +166,9 @@ void ln_get_equ_prec2(const ln_equ_posn *mean_position, double fromJD,
 */
 /* Equ 20.5, 20.6 pg 128
 */
-void ln_get_ecl_prec(const ln_lnlat_posn *mean_position, double JD,
-		ln_lnlat_posn *position)
+@nogc void ln_get_ecl_prec(const ln_lnlat_posn *mean_position, double JD,
+		ln_lnlat_posn *position) nothrow
 {
+}
 
 }

@@ -23,6 +23,8 @@ import nova.angular_separation;
 import nova.utility;
 import nova.ln_types;
 
+extern (C) {
+
 /*! \fn double ln_get_angular_separation(struct ln_equ_posn* posn1, struct ln_equ_posn* posn2);
 * \param posn1 Equatorial position of body 1
 * \param posn2 Equatorial position of body 2
@@ -38,8 +40,8 @@ import nova.ln_types;
 *
 * From Meeus, Chap 17 page 115
 */
-double ln_get_angular_separation(const ln_equ_posn* posn1,
-	const ln_equ_posn* posn2)
+@nogc double ln_get_angular_separation(const ref ln_equ_posn posn1,
+	const ln_equ_posn* posn2) nothrow
 {
 	double d;
 	double x,y,z;
@@ -77,8 +79,8 @@ double ln_get_angular_separation(const ln_equ_posn* posn1,
 *
 * From Meeus, Chap 17, page 116
 */
-double ln_get_rel_posn_angle(const ln_equ_posn* posn1,
-	const ln_equ_posn* posn2)
+@nogc double ln_get_rel_posn_angle(const ref ln_equ_posn posn1,
+	const ref ln_equ_posn posn2) nothrow
 {
 	double P;
 	double a1,a2,d1,d2;
@@ -95,4 +97,6 @@ double ln_get_rel_posn_angle(const ln_equ_posn* posn1,
 
 	P = atan2(y, x);
 	return ln_rad_to_deg(P);
+}
+
 }

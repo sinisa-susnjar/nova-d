@@ -49,10 +49,6 @@ enum RADIUS_R3 = 20;
 enum RADIUS_R4 = 9;
 enum RADIUS_R5 = 2;
 
-
-/* cache variables */
-static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
-
 static const ln_vsop[LONG_L0] earth_longitude_l0 = [
     {     1.75347045673,  0.00000000000,        0.00000000000},
     {     0.03341656453,  4.66925680415,     6283.07584999140},
@@ -2687,6 +2683,8 @@ static const ln_vsop[RADIUS_R5] earth_radius_r5 = [
     {     0.00000000012,  0.65572878044,    12566.15169998280},
 ];
 
+extern (C) {
+
 /*! \fn void ln_get_earth_helio_coords(double JD, struct ln_helio_posn *position)
 * \param JD Julian day
 * \param position Pointer to store heliocentric position
@@ -2697,16 +2695,19 @@ static const ln_vsop[RADIUS_R5] earth_radius_r5 = [
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87
 */
-void ln_get_earth_helio_coords(double JD, ln_helio_posn *position)
+@nogc void ln_get_earth_helio_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	double t, t2, t3, t4, t5;
 	double L0, L1, L2, L3, L4, L5;
 	double B0, B1, B2, B3, B4, B5;
 	double R0, R1, R2, R3, R4, R5;
 
+    /* cache variables */
+    static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
+
 	/* check cache first */
 	if (JD == cJD) {
-		/* cache hit */
+		// cache hit
 		position.L = cL;
 		position.B = cB;
 		position.R = cR;
@@ -2770,12 +2771,12 @@ void ln_get_earth_helio_coords(double JD, ln_helio_posn *position)
 * Calculates the distance in AU between the Sun and Earth for
 * the given julian day.
 */
-double ln_get_earth_solar_dist(double JD)
+@nogc double ln_get_earth_solar_dist(double JD) nothrow
 {
 	ln_helio_posn h_earth;
 
 	/* get heliocentric position */
-	ln_get_earth_helio_coords(JD, &h_earth);
+	ln_get_earth_helio_coords(JD, h_earth);
 
 	return h_earth.R;
 }
@@ -2791,8 +2792,8 @@ double ln_get_earth_solar_dist(double JD)
 * in metres above sea level and there latitude in degrees.
 */
 
-void ln_get_earth_centre_dist (float height, double latitude, double *p_sin_o,
-	double *p_cos_o)
+@nogc void ln_get_earth_centre_dist (float height, double latitude, ref double p_sin_o,
+	ref double p_cos_o) nothrow
 {
      double a,b,f,u;
 
@@ -2803,8 +2804,8 @@ void ln_get_earth_centre_dist (float height, double latitude, double *p_sin_o,
      b = a * (1.0 - f);
 
      u = atan2(b, a * tan(lat_rad));
-     *p_sin_o = b / a * sin(u) + (height / 6378140.0) * sin(lat_rad);
-     *p_cos_o = cos(u) + (height / 6378140.0) * cos(lat_rad);
+     p_sin_o = b / a * sin(u) + (height / 6378140.0) * sin(lat_rad);
+     p_cos_o = cos(u) + (height / 6378140.0) * cos(lat_rad);
 }
 
 /*! \fn void ln_get_earth_rect_helio(double JD, struct ln_rect_posn *position)
@@ -2814,10 +2815,12 @@ void ln_get_earth_centre_dist (float height, double latitude, double *p_sin_o,
 * Calculate the Earths rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_earth_rect_helio(double JD, ln_rect_posn *position)
+@nogc void ln_get_earth_rect_helio(double JD, ref ln_rect_posn position) nothrow
 {
 	ln_helio_posn earth;
 
-	ln_get_earth_helio_coords(JD, &earth);
-	ln_get_rect_from_helio(&earth, position);
+	ln_get_earth_helio_coords(JD, earth);
+	ln_get_rect_from_helio(earth, position);
+}
+
 }

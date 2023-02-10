@@ -24,6 +24,8 @@ import nova.nutation;
 import nova.utility;
 import nova.ln_types;
 
+extern (C) {
+
 /*! \fn double ln_get_mean_sidereal_time(double JD)
 * \param JD Julian Day
 * \return Mean sidereal time (hours).
@@ -33,7 +35,7 @@ import nova.ln_types;
 /* Formula 11.1, 11.4 pg 83
 */
 
-double ln_get_mean_sidereal_time(double JD)
+@nogc double ln_get_mean_sidereal_time(double JD) nothrow
 {
 	real sidereal;
 	real T;
@@ -63,7 +65,7 @@ double ln_get_mean_sidereal_time(double JD)
 /* Formula 11.1, 11.4 pg 83
 */
 
-double ln_get_apparent_sidereal_time(double JD)
+@nogc double ln_get_apparent_sidereal_time(double JD) nothrow
 {
 	double correction, sidereal;
 	ln_nutation nutation;
@@ -73,7 +75,7 @@ double ln_get_apparent_sidereal_time(double JD)
 
 	/* add corrections for nutation in longitude and for the true obliquity of
 	the ecliptic */
-	ln_get_nutation(JD, &nutation);
+	ln_get_nutation(JD, nutation);
 
 	correction = (nutation.longitude / 15.0 *
 	cos(ln_deg_to_rad(nutation.obliquity)));
@@ -81,4 +83,6 @@ double ln_get_apparent_sidereal_time(double JD)
 	sidereal += correction;
 
 	return sidereal;
+}
+
 }

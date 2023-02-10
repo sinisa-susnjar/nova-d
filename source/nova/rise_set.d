@@ -29,12 +29,15 @@ public import nova.ln_types;
 
 enum LN_STAR_STANDART_HORIZON = -0.5667;
 
-alias get_equ_body_coords_t = void function(double, ln_equ_posn *); // pure nothrow;
-alias get_motion_body_coords_t = void function(double, void * orbit, ln_equ_posn *); // pure nothrow;
+extern (C) {
+
+@nogc alias get_equ_body_coords_t = void function(double, ref ln_equ_posn) nothrow;
+@nogc alias get_motion_body_coords_t = void function(double, void *, ref ln_equ_posn) nothrow;
+// alias get_motion_body_coords_t = void function(double, void * orbit, ref ln_equ_posn); // pure nothrow;
 
 // helper function to check if object can be visible
-static int check_coords(const ln_lnlat_posn *observer, double H1,
-	double horizon, const ln_equ_posn *object)
+static @nogc int check_coords(const ref ln_lnlat_posn observer, double H1,
+	double horizon, const ref ln_equ_posn object) nothrow
 {
 	double h;
 
@@ -69,8 +72,8 @@ static int check_coords(const ln_lnlat_posn *observer, double H1,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day bellow the horizon.
 */
-int ln_get_object_rst(double JD, const ln_lnlat_posn *observer,
-	const ln_equ_posn *object, ln_rst_time *rst)
+@nogc int ln_get_object_rst(double JD, const ref ln_lnlat_posn observer,
+	const ref ln_equ_posn object, ref ln_rst_time rst) nothrow
 {
 	return ln_get_object_rst_horizon(JD, observer, object,
 		LN_STAR_STANDART_HORIZON, rst);	/* standard altitude of stars */
@@ -90,16 +93,16 @@ int ln_get_object_rst(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_rst_horizon(double JD, const ln_lnlat_posn *observer,
-	const ln_equ_posn *object, real horizon, ln_rst_time *rst)
+@nogc int ln_get_object_rst_horizon(double JD, const ref ln_lnlat_posn observer,
+	const ref ln_equ_posn object, real horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_object_rst_horizon_offset(JD, observer, object, horizon,
 			rst, 0.5);
 }
 
-int ln_get_object_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
-	const ln_equ_posn *object, real horizon, ln_rst_time *rst,
-	double ut_offset)
+@nogc int ln_get_object_rst_horizon_offset(double JD, const ref ln_lnlat_posn observer,
+	const ref ln_equ_posn object, real horizon, ref ln_rst_time rst,
+	double ut_offset) nothrow
 {
 	int jd;
 	real O, JD_UT, H0, H1;
@@ -226,22 +229,22 @@ int ln_get_object_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_next_rst(double JD, const ln_lnlat_posn *observer,
-	const ln_equ_posn *object, ln_rst_time *rst)
+@nogc int ln_get_object_next_rst(double JD, const ref ln_lnlat_posn observer,
+	const ref ln_equ_posn object, ref ln_rst_time rst) nothrow
 {
 	return ln_get_object_next_rst_horizon(JD, observer, object,
 		LN_STAR_STANDART_HORIZON, rst);
 }
 
 //helper functions for ln_get_object_next_rst_horizon
-static void set_next_rst(ln_rst_time *rst, double diff, ln_rst_time *rst2)
+static @nogc void set_next_rst(ref ln_rst_time rst, double diff, ref ln_rst_time rst2) nothrow
 {
 	rst2.rise = rst.rise + diff;
 	rst2.transit = rst.transit + diff;
 	rst2.set = rst.set + diff;
 }
 
-static double find_next(double JD, double jd1, double jd2, double jd3)
+static @nogc double find_next(double JD, double jd1, double jd2, double jd3) nothrow
 {
 	if (isNaN(jd1) && isNaN(jd2))
 		return jd3;
@@ -271,8 +274,8 @@ static double find_next(double JD, double jd1, double jd2, double jd3)
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
-	const ln_equ_posn *object, double horizon, ln_rst_time *rst)
+@nogc int ln_get_object_next_rst_horizon(double JD, const ref ln_lnlat_posn observer,
+	const ref ln_equ_posn object, double horizon, ref ln_rst_time rst) nothrow
 {
 	int ret;
 	ln_rst_time rst_1, rst_2;
@@ -285,15 +288,15 @@ int ln_get_object_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
 	if (rst.rise > (JD + 0.5) || rst.transit > (JD + 0.5)
 			|| rst.set > (JD + 0.5))
 		ln_get_object_rst_horizon_offset(JD - 1.0, observer, object, horizon,
-				&rst_1, double.nan);
+				rst_1, double.nan);
 	else
-		set_next_rst(rst, -1.0, &rst_1);
+		set_next_rst(rst, -1.0, rst_1);
 
 	if (rst.rise < JD || rst.transit < JD || rst.set < JD)
 		ln_get_object_rst_horizon_offset(JD + 1.0, observer, object, horizon,
-				&rst_2, double.nan);
+				rst_2, double.nan);
 	else
-		set_next_rst (rst, 1.0, &rst_2);
+		set_next_rst (rst, 1.0, rst_2);
 
 	rst.rise = find_next(JD, rst_1.rise, rst.rise, rst_2.rise);
 	rst.transit = find_next(JD, rst_1.transit, rst.transit, rst_2.transit);
@@ -326,16 +329,16 @@ int ln_get_object_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
 * you should't use that function for any body which moves to fast..use
 * some special function for such things.
 */
-int ln_get_body_rst_horizon(double JD, const ln_lnlat_posn *observer,
+@nogc int ln_get_body_rst_horizon(double JD, const ref ln_lnlat_posn observer,
 	get_equ_body_coords_t get_equ_body_coords, double horizon,
-	ln_rst_time *rst)
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_rst_horizon_offset(JD, observer, get_equ_body_coords, horizon, rst, 0.5);
 }
 
-int ln_get_body_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
+@nogc int ln_get_body_rst_horizon_offset(double JD, const ref ln_lnlat_posn observer,
 	get_equ_body_coords_t get_equ_body_coords, double horizon,
-	ln_rst_time *rst, double ut_offset)
+	ref ln_rst_time rst, double ut_offset) nothrow
 {
 	int jd;
 	double T, O, JD_UT, H0, H1;
@@ -361,9 +364,9 @@ int ln_get_body_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
 	O *= 15.0;
 
 	/* get body coords for JD_UT -1, JD_UT and JD_UT + 1 */
-	get_equ_body_coords(JD_UT - 1.0, &sol1);
-	get_equ_body_coords(JD_UT, &sol2);
-	get_equ_body_coords(JD_UT + 1.0, &sol3);
+	get_equ_body_coords(JD_UT - 1.0, sol1);
+	get_equ_body_coords(JD_UT, sol2);
+	get_equ_body_coords(JD_UT + 1.0, sol3);
 
 	/* equ 15.1 */
 	H0 =
@@ -373,7 +376,7 @@ int ln_get_body_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
 
 	H1 = H0 / H1;
 
-	ret = check_coords (observer, H1, horizon, &sol2);
+	ret = check_coords (observer, H1, horizon, sol2);
 	if (ret)
 		return ret;
 
@@ -503,9 +506,9 @@ int ln_get_body_rst_horizon_offset(double JD, const ln_lnlat_posn *observer,
 * you should't use that function for any body which moves to fast..use
 * some special function for such things.
 */
-int ln_get_body_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
+@nogc int ln_get_body_next_rst_horizon(double JD, const ref ln_lnlat_posn observer,
 	get_equ_body_coords_t get_equ_body_coords, double horizon,
-	ln_rst_time *rst)
+	ref ln_rst_time rst) nothrow
 {
 	return ln_get_body_next_rst_horizon_future(JD, observer, get_equ_body_coords, horizon, 1, rst);
 }
@@ -533,10 +536,10 @@ int ln_get_body_next_rst_horizon(double JD, const ln_lnlat_posn *observer,
 * you should't use that function for any body which moves to fast..use
 * some special function for such things.
 */
-int ln_get_body_next_rst_horizon_future(double JD,
-	const ln_lnlat_posn *observer,
+@nogc int ln_get_body_next_rst_horizon_future(double JD,
+	const ref ln_lnlat_posn observer,
 	get_equ_body_coords_t get_equ_body_coords,
-	double horizon, int day_limit, ln_rst_time *rst)
+	double horizon, int day_limit, ref ln_rst_time rst) nothrow
 {
 	int ret;
 	ln_rst_time rst_1, rst_2;
@@ -552,15 +555,15 @@ int ln_get_body_next_rst_horizon_future(double JD,
 		rst.set >(JD + 0.5))) {
 
 		ret = ln_get_body_rst_horizon_offset(JD - 1, observer,
-			get_equ_body_coords, horizon, &rst_1, double.nan);
+                            get_equ_body_coords, horizon, rst_1, double.nan);
 		if (ret)
-			set_next_rst (rst, -1, &rst_1);
+			set_next_rst (rst, -1, rst_1);
 	} else {
 		rst.rise = double.nan;
 		rst.transit = double.nan;
 		rst.set = double.nan;
 
-		set_next_rst(rst, -1, &rst_1);
+		set_next_rst(rst, -1, rst_1);
 	}
 
 	if (ret || (rst.rise < JD || rst.transit < JD || rst.set < JD)) {
@@ -569,7 +572,7 @@ int ln_get_body_next_rst_horizon_future(double JD,
 
 		while (day <= day_limit) {
 			ret = ln_get_body_rst_horizon_offset(JD + day, observer,
-				get_equ_body_coords, horizon, &rst_2, double.nan);
+                            get_equ_body_coords, horizon, rst_2, double.nan);
 
 			if (!ret) {
 				day = day_limit + 2;
@@ -581,7 +584,7 @@ int ln_get_body_next_rst_horizon_future(double JD,
 			// it's then really circumpolar in searched period
 			return ret;
 	} else {
-		set_next_rst(rst, +1, &rst_2);
+		set_next_rst(rst, +1, rst_2);
 	}
 
 	rst.rise = find_next(JD, rst_1.rise, rst.rise, rst_2.rise);
@@ -608,18 +611,18 @@ int ln_get_body_next_rst_horizon_future(double JD,
 * Note 1: this functions returns 1 if the body is circumpolar, that is it remains
 * the whole day either above or below the horizon.
 */
-int ln_get_motion_body_rst_horizon(double JD, const ln_lnlat_posn *observer,
+@nogc int ln_get_motion_body_rst_horizon(double JD, const ref ln_lnlat_posn observer,
 	get_motion_body_coords_t get_motion_body_coords,
-	void * orbit, double horizon, ln_rst_time *rst)
+	void * orbit, double horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_motion_body_rst_horizon_offset(JD, observer,
-		get_motion_body_coords, orbit, horizon, rst, 0.5);
+                        get_motion_body_coords, orbit, horizon, rst, 0.5);
 }
 
-int ln_get_motion_body_rst_horizon_offset(double JD,
-	const ln_lnlat_posn *observer,
+@nogc int ln_get_motion_body_rst_horizon_offset(double JD,
+	const ref ln_lnlat_posn observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
-	double horizon, ln_rst_time *rst, double ut_offset)
+	double horizon, ref ln_rst_time rst, double ut_offset) nothrow
 {
 	int jd;
 	double T, O, JD_UT, H0, H1;
@@ -642,9 +645,9 @@ int ln_get_motion_body_rst_horizon_offset(double JD,
 	O *= 15.0;
 
 	/* get body coords for JD_UT -1, JD_UT and JD_UT + 1 */
-	get_motion_body_coords(JD_UT - 1.0, orbit, &sol1);
-	get_motion_body_coords(JD_UT, orbit, &sol2);
-	get_motion_body_coords(JD_UT + 1.0, orbit, &sol3);
+	get_motion_body_coords(JD_UT - 1.0, orbit, sol1);
+	get_motion_body_coords(JD_UT, orbit, sol2);
+	get_motion_body_coords(JD_UT + 1.0, orbit, sol3);
 
 	/* equ 15.1 */
 	H0 = (sin(ln_deg_to_rad(horizon)) - sin(ln_deg_to_rad(observer.lat)) *
@@ -653,7 +656,7 @@ int ln_get_motion_body_rst_horizon_offset(double JD,
 
 	H1 = H0 / H1;
 
-	ret = check_coords(observer, H1, horizon, &sol2);
+	ret = check_coords(observer, H1, horizon, sol2);
 	if (ret)
 		return ret;
 
@@ -769,10 +772,10 @@ int ln_get_motion_body_rst_horizon_offset(double JD,
 * Note 1: this functions returns 1 if the body is circumpolar, that is it remains
 * the whole day either above or below the horizon.
 */
-int ln_get_motion_body_next_rst_horizon(double JD,
-	const ln_lnlat_posn *observer,
+@nogc int ln_get_motion_body_next_rst_horizon(double JD,
+	const ref ln_lnlat_posn observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
-	double horizon, ln_rst_time *rst)
+	double horizon, ref ln_rst_time rst) nothrow
 {
 	return ln_get_motion_body_next_rst_horizon_future(JD, observer,
 		get_motion_body_coords, orbit, horizon, 1, rst);
@@ -796,10 +799,10 @@ int ln_get_motion_body_next_rst_horizon(double JD,
 * Note 1: this functions returns 1 if the body is circumpolar, that is it remains
 * the whole day either above or below the horizon.
 */
-int ln_get_motion_body_next_rst_horizon_future(double JD,
-	const ln_lnlat_posn *observer,
+@nogc int ln_get_motion_body_next_rst_horizon_future(double JD,
+	const ref ln_lnlat_posn observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
-	double horizon, int day_limit, ln_rst_time *rst)
+	double horizon, int day_limit, ref ln_rst_time rst) nothrow
 {
 	int ret;
 	ln_rst_time rst_1, rst_2;
@@ -815,15 +818,15 @@ int ln_get_motion_body_next_rst_horizon_future(double JD,
 		rst.set >(JD + 0.5))) {
 
 		ret = ln_get_motion_body_rst_horizon_offset(JD - 1.0, observer,
-			get_motion_body_coords, orbit, horizon, &rst_1, double.nan);
+			get_motion_body_coords, orbit, horizon, rst_1, double.nan);
 		if (ret)
-			set_next_rst(rst, -1.0, &rst_1);
+			set_next_rst(rst, -1.0, rst_1);
 	} else {
 		rst.rise = double.nan;
 		rst.transit = double.nan;
 		rst.set = double.nan;
 
-		set_next_rst(rst, -1.0, &rst_1);
+		set_next_rst(rst, -1.0, rst_1);
 	}
 
 	if (ret || (rst.rise < JD || rst.transit < JD || rst.set < JD)) {
@@ -833,7 +836,7 @@ int ln_get_motion_body_next_rst_horizon_future(double JD,
 		while (day <= day_limit) {
 
 			ret = ln_get_motion_body_rst_horizon_offset(JD + day, observer,
-				get_motion_body_coords, orbit, horizon, &rst_2, double.nan);
+				get_motion_body_coords, orbit, horizon, rst_2, double.nan);
 
 			if (!ret) {
 				day = day_limit + 2;
@@ -847,7 +850,7 @@ int ln_get_motion_body_next_rst_horizon_future(double JD,
 			// it's then really circumpolar in searched period
 			return ret;
 	} else {
-		set_next_rst(rst, +1.0, &rst_2);
+		set_next_rst(rst, +1.0, rst_2);
 	}
 
 	rst.rise = find_next(JD, rst_1.rise, rst.rise, rst_2.rise);
@@ -858,4 +861,6 @@ int ln_get_motion_body_next_rst_horizon_future(double JD,
 		return ret;
 
 	return 0;
+}
+
 }

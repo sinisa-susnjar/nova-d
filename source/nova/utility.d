@@ -55,8 +55,9 @@ enum R2D = (5.7295779513082320877e1);   /* radian->deg */
 enum R2S = (2.0626480624709635516e5);   /* arc seconds per radian */
 enum S2R = (4.8481368110953599359e-6);  /* radians per arc second */
 
-
 static string ln_version = LIBNOVA_VERSION;
+
+extern (C) {
 
 /**
  * \fn double ln_rad_to_deg(double radians)
@@ -65,7 +66,10 @@ static string ln_version = LIBNOVA_VERSION;
  * \param radians Angle in radians
  * \return Angle in degrees
  */
-static double ln_rad_to_deg(double radians) { return radians * R2D; }
+static @nogc double ln_rad_to_deg(double radians) nothrow
+{
+    return radians * R2D;
+}
 
 /**
  * convert degrees to radians
@@ -73,7 +77,10 @@ static double ln_rad_to_deg(double radians) { return radians * R2D; }
  * \param degrees Angle in degrees
  * \return Angle in radians
  */
-static double ln_deg_to_rad(double degrees) { return degrees * D2R; }
+static @nogc double ln_deg_to_rad(double degrees) nothrow
+{
+    return degrees * D2R;
+}
 
 /*! \fn char * ln_get_version (void)
 * \return Null terminated version string.
@@ -81,13 +88,13 @@ static double ln_deg_to_rad(double degrees) { return degrees * D2R; }
 * Return the libnova library version number string
 * e.g. "0.4.0"
 */
-string ln_get_version()
+@nogc string ln_get_version() nothrow
 {
     return ln_version;
 }
 
 /* convert hours:mins:secs to degrees */
-double ln_hms_to_deg(const ln_hms *hms)
+@nogc double ln_hms_to_deg(const ref ln_hms hms) nothrow
 {
     double degrees;
 
@@ -99,7 +106,7 @@ double ln_hms_to_deg(const ln_hms *hms)
 }
 
 /* convert hours:mins:secs to radians */
-double ln_hms_to_rad(const ln_hms *hms)
+@nogc double ln_hms_to_rad(const ref ln_hms hms) nothrow
 {
     double radians;
 
@@ -112,7 +119,7 @@ double ln_hms_to_rad(const ln_hms *hms)
 
 
 /* convert degrees to hh:mm:ss */
-void ln_deg_to_hms (double degrees, ln_hms *hms)
+@nogc void ln_deg_to_hms (double degrees, ref ln_hms hms) nothrow
 {
     double dtemp;
 
@@ -141,7 +148,7 @@ void ln_deg_to_hms (double degrees, ln_hms *hms)
 }
 
 /* convert radians to hh:mm:ss */
-void ln_rad_to_hms (double radians, ln_hms *hms)
+@nogc void ln_rad_to_hms (double radians, ref ln_hms hms) nothrow
 {
     double degrees;
 
@@ -153,7 +160,7 @@ void ln_rad_to_hms (double radians, ln_hms *hms)
 
 
 /* convert dms to degrees */
-double ln_dms_to_deg(const ln_dms *dms)
+@nogc double ln_dms_to_deg(const ref ln_dms dms) nothrow
 {
     double degrees;
 
@@ -169,7 +176,7 @@ double ln_dms_to_deg(const ln_dms *dms)
 }
 
 /* convert dms to radians */
-double ln_dms_to_rad(const ln_dms *dms)
+@nogc double ln_dms_to_rad(const ref ln_dms dms) nothrow
 {
     double radians;
 
@@ -185,7 +192,7 @@ double ln_dms_to_rad(const ln_dms *dms)
 }
 
 /* convert degrees to dms */
-void ln_deg_to_dms (double degrees, ln_dms *dms)
+@nogc void ln_deg_to_dms (double degrees, ref ln_dms dms) nothrow
 {
     double dtemp;
 
@@ -216,7 +223,7 @@ void ln_deg_to_dms (double degrees, ln_dms *dms)
 }
 
 /* convert radians to dms */
-void ln_rad_to_dms (double radians, ln_dms *dms)
+@nogc void ln_rad_to_dms (double radians, ref ln_dms dms) nothrow
 {
     double degrees = ln_rad_to_deg(radians);
 
@@ -225,7 +232,7 @@ void ln_rad_to_dms (double radians, ln_dms *dms)
 
 
 /* puts a large angle in the correct range 0 - 360 degrees */
-double ln_range_degrees(double angle)
+@nogc double ln_range_degrees(double angle) nothrow
 {
     double temp;
 
@@ -240,7 +247,7 @@ double ln_range_degrees(double angle)
 }
 
 /* puts a large angle in the correct range 0 - 2PI radians */
-double ln_range_radians(double angle)
+@nogc double ln_range_radians(double angle) nothrow
 {
     double temp;
 
@@ -257,7 +264,7 @@ double ln_range_radians(double angle)
 
 /* puts a large angle in the correct range -2PI - 2PI radians */
 /* preserve sign */
-double ln_range_radians2(double angle)
+@nogc double ln_range_radians2(double angle) nothrow
 {
     double temp;
 
@@ -271,7 +278,7 @@ double ln_range_radians2(double angle)
 
 
 /* add seconds to hms */
-void ln_add_secs_hms(ln_hms *hms, double seconds)
+@nogc void ln_add_secs_hms(ref ln_hms hms, double seconds) nothrow
 {
     ln_hms source_hms;
 
@@ -283,12 +290,12 @@ void ln_add_secs_hms(ln_hms *hms, double seconds)
     source_hms.seconds = seconds;
 
     /* add hms to hms */
-    ln_add_hms(&source_hms, hms);
+    ln_add_hms(source_hms, hms);
 }
 
 
 /* add hms to hms */
-void ln_add_hms(const ln_hms *source, ln_hms *dest)
+@nogc void ln_add_hms(const ref ln_hms source, ref ln_hms dest) nothrow
 {
     dest.seconds += source.seconds;
     if (dest.seconds >= 60.0) {
@@ -323,49 +330,49 @@ void ln_add_hms(const ln_hms *source, ln_hms *dest)
 * \brief human readable equatorial position to double equatorial position
 * \ingroup conversion
 */
-void ln_hequ_to_equ(const lnh_equ_posn *hpos, ln_equ_posn *pos)
+@nogc void ln_hequ_to_equ(const ref lnh_equ_posn hpos, ref ln_equ_posn pos) nothrow
 {
-	pos.ra = ln_hms_to_deg(&hpos.ra);
-	pos.dec = ln_dms_to_deg(&hpos.dec);
+	pos.ra = ln_hms_to_deg(hpos.ra);
+	pos.dec = ln_dms_to_deg(hpos.dec);
 }
 
 /*! \fn void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 * \brief human double equatorial position to human readable equatorial position
 * \ingroup conversion
 */
-void ln_equ_to_hequ(const ln_equ_posn *pos, lnh_equ_posn *hpos)
+@nogc void ln_equ_to_hequ(const ref ln_equ_posn pos, ref lnh_equ_posn hpos) nothrow
 {
-	ln_deg_to_hms(pos.ra, &hpos.ra);
-	ln_deg_to_dms(pos.dec, &hpos.dec);
+	ln_deg_to_hms(pos.ra, hpos.ra);
+	ln_deg_to_dms(pos.dec, hpos.dec);
 }
 
 /*! \fn void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 * \brief human readable horizontal position to double horizontal position
 * \ingroup conversion
 */
-void ln_hhrz_to_hrz(const lnh_hrz_posn *hpos, ln_hrz_posn *pos)
+@nogc void ln_hhrz_to_hrz(const ref lnh_hrz_posn hpos, ref ln_hrz_posn pos) nothrow
 {
-	pos.alt = ln_dms_to_deg(&hpos.alt);
-	pos.az = ln_dms_to_deg(&hpos.az);
+	pos.alt = ln_dms_to_deg(hpos.alt);
+	pos.az = ln_dms_to_deg(hpos.az);
 }
 
 /*! \fn void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
 * \brief double horizontal position to human readable horizontal position
 * \ingroup conversion
 */
-void ln_hrz_to_hhrz(const ln_hrz_posn *pos, lnh_hrz_posn *hpos)
+@nogc void ln_hrz_to_hhrz(const ref ln_hrz_posn pos, ref lnh_hrz_posn hpos) nothrow
 {
-	ln_deg_to_dms(pos.alt, &hpos.alt);
-	ln_deg_to_dms(pos.az, &hpos.az);
+	ln_deg_to_dms(pos.alt, hpos.alt);
+	ln_deg_to_dms(pos.az, hpos.az);
 }
 
 /*! \fn const char * ln_hrz_to_nswe(struct ln_hrz_posn *pos);
  * \brief returns direction of given azimuth - like N,S,W,E,NSW,...
  * \ingroup conversion
  */
-const (char *)ln_hrz_to_nswe(const ln_hrz_posn *pos)
+@nogc string ln_hrz_to_nswe(const ref ln_hrz_posn pos) nothrow
 {
-	const char *[]directions =
+	static immutable directions =
 		["S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW",
 		"N", "NNE", "NE", "NEE", "E", "SEE", "SE", "SSE"];
 
@@ -376,20 +383,20 @@ const (char *)ln_hrz_to_nswe(const ln_hrz_posn *pos)
 * \brief human readable long/lat position to double long/lat position
 * \ingroup conversion
 */
-void ln_hlnlat_to_lnlat(const lnh_lnlat_posn *hpos, ln_lnlat_posn *pos)
+@nogc void ln_hlnlat_to_lnlat(const ref lnh_lnlat_posn hpos, ref ln_lnlat_posn pos) nothrow
 {
-	pos.lng = ln_dms_to_deg(&hpos.lng);
-	pos.lat = ln_dms_to_deg(&hpos.lat);
+	pos.lng = ln_dms_to_deg(hpos.lng);
+	pos.lat = ln_dms_to_deg(hpos.lat);
 }
 
 /*! \fn void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 * \brief double long/lat position to human readable long/lat position
 * \ingroup conversion
 */
-void ln_lnlat_to_hlnlat(const ln_lnlat_posn *pos, lnh_lnlat_posn *hpos)
+@nogc void ln_lnlat_to_hlnlat(const ref ln_lnlat_posn pos, ref lnh_lnlat_posn hpos) nothrow
 {
-	ln_deg_to_dms(pos.lng, &hpos.lng);
-	ln_deg_to_dms(pos.lat, &hpos.lat);
+	ln_deg_to_dms(pos.lng, hpos.lng);
+	ln_deg_to_dms(pos.lat, hpos.lat);
 }
 
 /*
@@ -400,7 +407,7 @@ void ln_lnlat_to_hlnlat(const ln_lnlat_posn *pos, lnh_lnlat_posn *hpos)
 *
 * Calculate the distance between rectangular points a and b.
 */
-double ln_get_rect_distance(const ln_rect_posn *a, const ln_rect_posn *b)
+@nogc double ln_get_rect_distance(const ref ln_rect_posn a, const ref ln_rect_posn b) nothrow
 {
 	double x,y,z;
 
@@ -422,7 +429,7 @@ double ln_get_rect_distance(const ln_rect_posn *a, const ln_rect_posn *b)
 *
 * Convert units of AU into light days.
 */
-double ln_get_light_time(double dist)
+@nogc double ln_get_light_time(double dist) nothrow
 {
 	return dist * 0.005775183;
 }
@@ -594,7 +601,7 @@ double ln_get_dec_location(const char *s)
 * Obtains a human readable location in the form: ddºmm'ss.ss"
 * String must be freed after use.
 */
-string ln_get_humanr_location(real location)
+@nogc string ln_get_humanr_location(real location) nothrow
 {
     import std.format;
 
@@ -602,10 +609,11 @@ string ln_get_humanr_location(real location)
 
 	sec = fabs(60.0 * (modf(location, deg)));
 	sec = 60.0 * (modf(sec, min));
-	return format("%+dº%d'%.2f\"",cast(int)deg, cast(int) min, sec);
+	// TODO // return format("%+dº%d'%.2f\"",cast(int)deg, cast(int) min, sec);
+    return "TODO";
 }
 
-double ln_interpolate3(double n, double y1, double y2, double y3)
+@nogc double ln_interpolate3(double n, double y1, double y2, double y3) nothrow
 {
 	double y, a, b, c;
 
@@ -633,8 +641,8 @@ double ln_interpolate3(double n, double y1, double y2, double y3)
 * Calculate an intermediate value of the 5 arguments for the given interpolation
 * factor.
 */
-double ln_interpolate5(double n, double y1, double y2, double y3,
-	double y4, double y5)
+@nogc double ln_interpolate5(double n, double y1, double y2, double y3,
+	double y4, double y5) nothrow
 {
 	double y, A, B, C, D, E, F, G, H, J, K;
 	double n2, n3, n4;
@@ -675,10 +683,10 @@ double ln_interpolate5(double n, double y1, double y2, double y3,
 * Find zero of function f() at given interval by Newton method.
 *
 */
-alias find_zero_t = double function(double, double *);
+@nogc alias find_zero_t = double function(double, ref double) nothrow;
 
-double ln_find_zero(find_zero_t func,
-	double from, double to, double *arg)
+@nogc double ln_find_zero(find_zero_t func,
+	double from, double to, ref double arg) nothrow
 {
 	double x, x1, x2, f;
 	int i = 0;
@@ -705,8 +713,8 @@ double ln_find_zero(find_zero_t func,
 * Find local maximum of function f() at given interval by Golden Section method.
 *
 */
-double ln_find_max(double function(double, double *) func,
-	double from, double to, double *arg)
+@nogc double ln_find_max(find_zero_t func,
+	double from, double to, ref double arg) nothrow
 {
 	double	a, b, xl, xu, eps;
 
@@ -733,3 +741,4 @@ double ln_find_max(double function(double, double *) func,
 	return (xu + xl) * 0.5;
 }
 
+}

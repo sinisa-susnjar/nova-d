@@ -24,6 +24,8 @@ import nova.elliptic_motion;
 import nova.utility;
 import nova.ln_types;
 
+extern (C) {
+
 /*!
 * \brief Calculate the visual magnitude of an asteroid
 * \param JD Julian day.
@@ -34,8 +36,8 @@ import nova.ln_types;
 *
 * Calculate the visual magnitude of an asteroid.
 */
-double ln_get_asteroid_mag(double JD, ln_ell_orbit *orbit, double H,
-	double G)
+@nogc double ln_get_asteroid_mag(double JD, ref ln_ell_orbit orbit, double H,
+	double G) nothrow
 {
 	double t1,t2;
 	double b,r,d;
@@ -73,7 +75,7 @@ double ln_get_asteroid_mag(double JD, ln_ell_orbit *orbit, double H,
 * Note: Many asteroids have an irregular shape and therefore this function returns
 * an approximate value of the diameter.
 */
-double ln_get_asteroid_sdiam_km (double H, double A)
+@nogc double ln_get_asteroid_sdiam_km (double H, double A) nothrow
 {
 	return 3.13 - 0.2 * H - (0.5 * log10(A));
 }
@@ -90,7 +92,7 @@ double ln_get_asteroid_sdiam_km (double H, double A)
 * Note: Many asteroids have an irregular shape and therefore this function returns
 * an approximate value of the diameter.
 */
-double ln_get_asteroid_sdiam_arc(double JD, ln_ell_orbit *orbit, double H, double A)
+@nogc double ln_get_asteroid_sdiam_arc(double JD, ref ln_ell_orbit orbit, double H, double A) nothrow
 {
 	double d, dist;
 
@@ -105,3 +107,5 @@ double ln_get_asteroid_sdiam_arc(double JD, ln_ell_orbit *orbit, double H, doubl
  *
  * Examples of how to use asteroid functions.
  */
+
+}

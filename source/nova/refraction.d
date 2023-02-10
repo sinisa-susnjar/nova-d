@@ -21,6 +21,8 @@ module nova.refraction;
 import std.math;
 import nova.utility;
 
+extern (C) {
+
 /*! \fn double ln_get_refraction_adj (double altitude, double atm_pres, double temp)
 * \param altitude The altitude of the object above the horizon in degrees
 * \param atm_pres Atmospheric pressure in milibars
@@ -33,7 +35,7 @@ import nova.utility;
 * Note: Default values for pressure and teperature are 1010 mBar and 10C
 * respectively.
 */
-double ln_get_refraction_adj(double altitude, double atm_pres, double temp)
+@nogc double ln_get_refraction_adj(double altitude, double atm_pres, double temp) nothrow
 {
 	real R;
 
@@ -48,4 +50,6 @@ double ln_get_refraction_adj(double altitude, double atm_pres, double temp)
 	R /= 60.0;
 
 	return R;
+}
+
 }

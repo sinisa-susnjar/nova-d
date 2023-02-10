@@ -48,9 +48,6 @@ enum RADIUS_R3 = 97;
 enum RADIUS_R4 = 45;
 enum RADIUS_R5 = 9;
 
-/* cache variables */
-static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
-
 static const ln_vsop[LONG_L0] jupiter_longitude_l0 = [
     {     0.59954691494,  0.00000000000,        0.00000000000},
     {     0.09695898719,  5.06191793158,      529.69096509460},
@@ -3747,6 +3744,8 @@ static const ln_vsop[RADIUS_R5] jupiter_radius_r5 = [
     {     0.00000001033,  4.50671820436,      529.69096509460},
 ];
 
+extern (C) {
+
 /*! \fn void ln_get_jupiter_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position Pointer to store position
@@ -3760,7 +3759,7 @@ static const ln_vsop[RADIUS_R5] jupiter_radius_r5 = [
 *
 * The position returned is accurate to within 0.1 arcsecs.
 */
-void ln_get_jupiter_equ_coords(double JD, ln_equ_posn *position)
+@nogc export void ln_get_jupiter_equ_coords(double JD, ref ln_equ_posn position) nothrow
 {
 	ln_helio_posn h_sol, h_jupiter;
 	ln_rect_posn g_sol, g_jupiter;
@@ -3768,13 +3767,13 @@ void ln_get_jupiter_equ_coords(double JD, ln_equ_posn *position)
 	double ra, dec, delta, diff, last, t = 0;
 
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords(JD, &h_sol);
-	ln_get_rect_from_helio(&h_sol,  &g_sol);
+	ln_get_solar_geom_coords(JD, h_sol);
+	ln_get_rect_from_helio(h_sol, g_sol);
 
 	do {
 		last = t;
-		ln_get_jupiter_helio_coords(JD - t, &h_jupiter);
-		ln_get_rect_from_helio(&h_jupiter, &g_jupiter);
+		ln_get_jupiter_helio_coords(JD - t, h_jupiter);
+		ln_get_rect_from_helio(h_jupiter, g_jupiter);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_jupiter.X;
@@ -3806,16 +3805,20 @@ void ln_get_jupiter_equ_coords(double JD, ln_equ_posn *position)
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87
 */
-void ln_get_jupiter_helio_coords(double JD, ln_helio_posn *position)
+
+@nogc void ln_get_jupiter_helio_coords(double JD, ref ln_helio_posn position) nothrow
 {
 	double t, t2, t3, t4, t5;
 	double L0, L1, L2, L3, L4, L5;
 	double B0, B1, B2, B3, B4, B5;
 	double R0, R1, R2, R3, R4, R5;
 
+    /* cache variables */
+    static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
+
 	/* check cache first */
 	if(JD == cJD) {
-		/* cache hit */
+		// cache hit
 		position.L = cL;
 		position.B = cB;
 		position.R = cR;
@@ -3846,7 +3849,6 @@ void ln_get_jupiter_helio_coords(double JD, ln_helio_posn *position)
 	B4 = ln_calc_series(jupiter_latitude_b4, t);
 	B5 = ln_calc_series(jupiter_latitude_b5, t);
 	position.B = (B0 + B1 * t + B2 * t2 + B3 * t3 + B4 * t4 + B5 * t5);
-
 
 	/* calc R series */
 	R0 = ln_calc_series(jupiter_radius_r0, t);
@@ -3879,19 +3881,19 @@ void ln_get_jupiter_helio_coords(double JD, ln_helio_posn *position)
 *
 * Calculates the distance in AU between the Earth and Jupiter for the given julian day.
 */
-double ln_get_jupiter_earth_dist(double JD)
+@nogc double ln_get_jupiter_earth_dist(double JD) nothrow
 {
 	ln_helio_posn h_jupiter, h_earth;
 	ln_rect_posn g_jupiter, g_earth;
 	double x, y, z;
 
 	/* get heliocentric positions */
-	ln_get_jupiter_helio_coords(JD, &h_jupiter);
-	ln_get_earth_helio_coords(JD, &h_earth);
+	ln_get_jupiter_helio_coords(JD, h_jupiter);
+	ln_get_earth_helio_coords(JD, h_earth);
 
 	/* get geocentric coords */
-	ln_get_rect_from_helio(&h_jupiter, &g_jupiter);
-	ln_get_rect_from_helio(&h_earth, &g_earth);
+	ln_get_rect_from_helio(h_jupiter, g_jupiter);
+	ln_get_rect_from_helio(h_earth, g_earth);
 
 	/* use pythag */
 	x = g_jupiter.X - g_earth.X;
@@ -3911,12 +3913,12 @@ double ln_get_jupiter_earth_dist(double JD)
 *
 * Calculates the distance in AU between the Sun and Jupiter for the given julian day.
 */
-double ln_get_jupiter_solar_dist(double JD)
+@nogc double ln_get_jupiter_solar_dist(double JD) nothrow
 {
 	ln_helio_posn h_jupiter;
 
 	/* get heliocentric position */
-	ln_get_jupiter_helio_coords(JD, &h_jupiter);
+	ln_get_jupiter_helio_coords(JD, h_jupiter);
 	return h_jupiter.R;
 }
 
@@ -3927,7 +3929,7 @@ double ln_get_jupiter_solar_dist(double JD)
 *
 * Calculate the visible magnitude of jupiter for the given julian day.
 */
-double ln_get_jupiter_magnitude(double JD)
+@nogc double ln_get_jupiter_magnitude(double JD) nothrow
 {
 	double delta, r, i;
 
@@ -3950,7 +3952,7 @@ double ln_get_jupiter_magnitude(double JD)
 * day.
 */
 /* Chapter 41 */
-double ln_get_jupiter_disk(double JD)
+@nogc double ln_get_jupiter_disk(double JD) nothrow
 {
 	double r, delta, R;
 
@@ -3971,7 +3973,7 @@ double ln_get_jupiter_disk(double JD)
 * Jupiter - Earth for the given Julian day.
 */
 /* Chapter 41 */
-double ln_get_jupiter_phase(double JD)
+@nogc double ln_get_jupiter_phase(double JD) nothrow
 {
 	double i,r,delta,R;
 
@@ -3999,8 +4001,7 @@ double ln_get_jupiter_phase(double JD)
 * Note: this functions returns 1 if Jupiter is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_jupiter_rst(double JD, ln_lnlat_posn *observer,
-	ln_rst_time *rst)
+@nogc int ln_get_jupiter_rst(double JD, ref ln_lnlat_posn observer, ref ln_rst_time rst) nothrow
 {
     return ln_get_body_rst_horizon(JD, observer,
                     cast(get_equ_body_coords_t)&ln_get_jupiter_equ_coords,
@@ -4015,7 +4016,7 @@ int ln_get_jupiter_rst(double JD, ln_lnlat_posn *observer,
 * Calculate the equatorial semidiameter of Jupiter in arc seconds for the
 * given julian day.
 */
-double ln_get_jupiter_equ_sdiam(double JD)
+@nogc double ln_get_jupiter_equ_sdiam(double JD) nothrow
 {
 	double So = 98.44; /* at 1 AU */
 	double dist;
@@ -4032,7 +4033,7 @@ double ln_get_jupiter_equ_sdiam(double JD)
 * Calculate the polar semidiameter of Jupiter in arc seconds for the
 * given julian day.
 */
-double ln_get_jupiter_pol_sdiam(double JD)
+@nogc double ln_get_jupiter_pol_sdiam(double JD) nothrow
 {
 	double So = 92.06; /* at 1 AU */
 	double dist;
@@ -4048,10 +4049,12 @@ double ln_get_jupiter_pol_sdiam(double JD)
 * Calculate Jupiters rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_jupiter_rect_helio(double JD, ln_rect_posn *position)
+@nogc void ln_get_jupiter_rect_helio(double JD, ref ln_rect_posn position) nothrow
 {
 	ln_helio_posn jupiter;
 
-	ln_get_jupiter_helio_coords(JD, &jupiter);
-	ln_get_rect_from_helio(&jupiter, position);
+	ln_get_jupiter_helio_coords(JD, jupiter);
+	ln_get_rect_from_helio(jupiter, position);
+}
+
 }

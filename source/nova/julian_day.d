@@ -27,6 +27,8 @@ import nova.ln_types;
 import core.stdc.time : gmtime, time, localtime;
 import core.stdc.string : memcpy, strlen;
 
+extern (C) {
+
 /*! \fn double ln_get_julian_day(struct ln_date *date)
 * \param date Date required.
 * \return Julian day
@@ -36,7 +38,7 @@ import core.stdc.string : memcpy, strlen;
 */
 /* Formula 7.1 on pg 61
 */
-double ln_get_julian_day(const ln_date *date)
+export @nogc double ln_get_julian_day(const ref ln_date date) nothrow
 {
     double JD;
     double days;
@@ -45,7 +47,7 @@ double ln_get_julian_day(const ln_date *date)
 
 	/* create local copy */
     import core.stdc.string : memcpy;
-    memcpy(&local_date, date, ln_date.sizeof);
+    memcpy(&local_date, &date, ln_date.sizeof);
 
     /* check for month = January or February */
     if (local_date.months < 3 ) {
@@ -87,7 +89,7 @@ double ln_get_julian_day(const ln_date *date)
 * Calculate the day of the week.
 * Returns 0 = Sunday .. 6 = Saturday
 */
-uint ln_get_day_of_week(const ln_date *date)
+export @nogc uint ln_get_day_of_week(const ref ln_date date) nothrow
 {
     uint day;
     double JD;
@@ -106,7 +108,7 @@ uint ln_get_day_of_week(const ln_date *date)
 *
 * Calculate the date from the Julian day
 */
-void ln_get_date(double JD, ln_date *date)
+export @nogc void ln_get_date(double JD, ref ln_date date) nothrow
 {
    int A, a, B, C, D, E;
    double F, Z;
@@ -156,12 +158,12 @@ void ln_get_date(double JD, ln_date *date)
 *
 * Set date from system time
 */
-void ln_get_date_from_timet (time_t *t, ln_date *date)
+export @nogc void ln_get_date_from_timet (ref time_t t, ref ln_date date) nothrow
 {
 	/* convert to UTC time representation */
-	tm gmt = *gmtime(t);
+	tm gmt = *gmtime(&t);
 
-	ln_get_date_from_tm(&gmt, date);
+	ln_get_date_from_tm(gmt, date);
 }
 
 /*! \fn void ln_get_date_from_tm(struct tm *t, struct ln_date *date)
@@ -170,7 +172,7 @@ void ln_get_date_from_timet (time_t *t, ln_date *date)
 *
 * Set date from system tm structure
 */
-void ln_get_date_from_tm(tm *t, ln_date *date)
+export @nogc void ln_get_date_from_tm(ref tm t, ref ln_date date) nothrow
 {
 	/* fill in date struct */
 	date.seconds = t.tm_sec;
@@ -186,7 +188,7 @@ void ln_get_date_from_tm(tm *t, ln_date *date)
 *
 * Calculate local date from system date.
 */
-void ln_get_date_from_sys(ln_date *date)
+export void ln_get_date_from_sys(ref ln_date date)
 {
     import std.datetime.systime;
 
@@ -217,10 +219,10 @@ void ln_get_date_from_sys(ln_date *date)
 *
 * Calculate Julian day from time_t.
 */
-double ln_get_julian_from_timet(time_t * in_time)
+export @nogc double ln_get_julian_from_timet(ref time_t in_time) nothrow
 {
 	/* 1.1.1970 = JD 2440587.5 */
-	return cast(double)(2440587.5 + cast(double)(*in_time / cast(double) 86400.0));
+	return cast(double)(2440587.5 + cast(double)(in_time / cast(double) 86400.0));
 }
 
 /*! \fn void ln_get_timet_from_julian(double JD, time_t * in_time)
@@ -229,9 +231,9 @@ double ln_get_julian_from_timet(time_t * in_time)
 *
 * Calculate time_t from julian day
 */
-void ln_get_timet_from_julian(double JD, time_t * in_time)
+export @nogc void ln_get_timet_from_julian(double JD, ref time_t in_time) nothrow
 {
-	*in_time = cast(time_t)round((JD - cast(double) 2440587.5) * cast(double) 86400.0);
+	in_time = cast(time_t)round((JD - cast(double) 2440587.5) * cast(double) 86400.0);
 }
 
 /*! \fn double ln_get_julian_from_sys()
@@ -239,14 +241,14 @@ void ln_get_timet_from_julian(double JD, time_t * in_time)
 *
 * Calculate the julian day (UT) from the local system time
 */
-double ln_get_julian_from_sys()
+export double ln_get_julian_from_sys()
 {
 	double JD;
 	ln_date date;
 
 	/* get sys date */
-	ln_get_date_from_sys(&date);
-	JD = ln_get_julian_day(&date);
+	ln_get_date_from_sys(date);
+	JD = ln_get_julian_day(date);
 
 	return JD;
 }
@@ -257,13 +259,13 @@ double ln_get_julian_from_sys()
 *
 * Calculate Julian day (UT) from zone date
 */
-double ln_get_julian_local_date(const ln_zonedate* zonedate)
+export @nogc double ln_get_julian_local_date(const ref ln_zonedate zonedate) nothrow
 {
 	ln_date date;
 
-	ln_zonedate_to_date(zonedate, &date);
+	ln_zonedate_to_date(zonedate, date);
 
-	return ln_get_julian_day(&date);
+	return ln_get_julian_day(date);
 }
 
 /*! \fn void ln_get_local_date(double JD, struct ln_zonedate *zonedate)
@@ -273,14 +275,14 @@ double ln_get_julian_local_date(const ln_zonedate* zonedate)
 * Calculate the zone date from the Julian day (UT). Gets zone info from
 * system using either _timezone or tm_gmtoff fields.
 */
-void ln_get_local_date(double JD, ln_zonedate *zonedate)
+export @nogc void ln_get_local_date(double JD, ref ln_zonedate zonedate) nothrow
 {
     ln_date date;
     time_t curtime;
     tm *loctime;
     long gmtoff;
 
-    ln_get_date(JD, &date);
+    ln_get_date(JD, date);
 
     /* add day light savings time and hour angle */
     curtime = time (null);
@@ -296,7 +298,7 @@ void ln_get_local_date(double JD, ln_zonedate *zonedate)
         gmtoff = 0;
     }
 
-    ln_date_to_zonedate(&date, zonedate, gmtoff);
+    ln_date_to_zonedate(date, zonedate, gmtoff);
 }
 
 /*! \fn int ln_get_date_from_mpc(struct ln_date *date, char *mpc_date)
@@ -307,7 +309,7 @@ void ln_get_local_date(double JD, ln_zonedate *zonedate)
 * Calculate the local date from the a MPC packed date.
 * See https://mpcweb1.cfa.harvard.edu/iau/info/PackedDates.html for info.
 */
-int ln_get_date_from_mpc(ln_date *date, const (char *) mpc_date)
+export @nogc int ln_get_date_from_mpc(ref ln_date date, const (char *) mpc_date) nothrow
 {
 	char[3] year;
 	char[2] month;
@@ -364,13 +366,13 @@ int ln_get_date_from_mpc(ln_date *date, const (char *) mpc_date)
 * Calculate the julian day from the a MPC packed date.
 * See http://cfa-www.harvard.edu/iau/info/PackedDates.html for info.
 */
-double ln_get_julian_from_mpc(char *mpc_date)
+export @nogc double ln_get_julian_from_mpc(char *mpc_date) nothrow
 {
 	ln_date date;
 	double JD;
 
-	ln_get_date_from_mpc(&date, mpc_date);
-	JD = ln_get_julian_day(&date);
+	ln_get_date_from_mpc(date, mpc_date);
+	JD = ln_get_julian_day(date);
 
 	return JD;
 }
@@ -382,15 +384,15 @@ double ln_get_julian_from_mpc(char *mpc_date)
 *
 * Converts a ln_date (UT) to a ln_zonedate (local time).
 */
-void ln_date_to_zonedate(ln_date *date,
-	ln_zonedate *zonedate, long gmtoff)
+export @nogc void ln_date_to_zonedate(ref ln_date date,
+	ref ln_zonedate zonedate, long gmtoff) nothrow
 {
 	double jd;
 	ln_date dat;
 
 	jd = ln_get_julian_day(date);
 	jd += gmtoff / 86400.0;
-	ln_get_date(jd, &dat);
+	ln_get_date(jd, dat);
 
 	zonedate.years   = dat.years;
 	zonedate.months  = dat.months;
@@ -408,7 +410,7 @@ void ln_date_to_zonedate(ln_date *date,
 *
 * Converts a ln_zonedate (local time) to a ln_date (UT).
 */
-void ln_zonedate_to_date(const ln_zonedate *zonedate, ln_date *date)
+export @nogc void ln_zonedate_to_date(const ref ln_zonedate zonedate, ref ln_date date) nothrow
 {
 	double jd;
 	ln_date dat;
@@ -420,7 +422,9 @@ void ln_zonedate_to_date(const ln_zonedate *zonedate, ln_date *date)
 	dat.minutes = zonedate.minutes;
 	dat.seconds = zonedate.seconds;
 
-	jd = ln_get_julian_day(&dat);
+	jd = ln_get_julian_day(dat);
 	jd -= zonedate.gmtoff / 86400.0;
 	ln_get_date(jd, date);
+}
+
 }
