@@ -11,7 +11,7 @@ void main() {
     static foreach (p; ["solar","mercury","venus","lunar","mars","jupiter","saturn","uranus","neptune","pluto"]) {{
         /* RA, DEC */
         ln_equ_posn equ;
-        mixin("ln_get_" ~ p ~ "_equ_coords(JD, &equ);");
+        mixin("ln_get_" ~ p ~ "_equ_coords(JD, equ);");
 
         /* Earth dist */
         static if (p == "solar")
