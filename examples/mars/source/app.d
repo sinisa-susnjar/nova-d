@@ -23,7 +23,7 @@ import nova.utility;
 
 import std.stdio;
 
-static void print_date(string title, ln_zonedate *date)
+static void print_date(string title, const ref ln_zonedate date)
 {
     writef("\n%s\n",title);
     writef(" Year    : %d\n", date.years);
@@ -54,12 +54,12 @@ int main(string[] args)
     writef("JD %f\n", JD);
 
     /* longitude, latitude and radius vector */
-    ln_get_mars_helio_coords(JD, &pos);
+    ln_get_mars_helio_coords(JD, pos);
     writef("Mars L %f B %f R %f\n", pos.L, pos.B, pos.R);
 
     /* RA, DEC */
-    ln_get_mars_equ_coords(JD, &equ);
-    ln_equ_to_hequ(&equ, &hequ);
+    ln_get_mars_equ_coords(JD, equ);
+    ln_equ_to_hequ(equ, hequ);
     writef("Mars RA %d:%d:%f Dec %d:%d:%f\n",
             hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds,
             hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
@@ -81,15 +81,15 @@ int main(string[] args)
     writef("mars -> phase %f\n",au);
 
     /* rise, set and transit time */
-    if (ln_get_mars_rst(JD, &observer, &rst) != 0)
+    if (ln_get_mars_rst(JD, observer, rst) != 0)
         writef("Mars is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     return 0;
