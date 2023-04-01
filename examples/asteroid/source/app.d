@@ -29,7 +29,7 @@ import nova.transform;
 import nova.elliptic_motion;
 
 /* just prints the date */
-static void print_date(string title, ln_zonedate *date)
+static void print_date(string title, const ref ln_zonedate date)
 {
     writef("\n%s\n",title);
     writef(" Year    : %d\n", date.years);
@@ -84,65 +84,65 @@ int main(string[] args)
     writef("JD (Perihelion) %f\n", orbit.JD);
 
     /* calc the earth centered position */
-    ln_get_ell_geo_rect_posn(&orbit, JD, &posn);
+    ln_get_ell_geo_rect_posn(orbit, JD, posn);
     writef("(Geocentric Rect Coords X) for Pallas   %f\n", posn.X);
     writef("(Geocentric Rect Coords Y) for Pallas   %f\n", posn.Y);
     writef("(Geocentric Rect Coords Z) for Pallas   %f\n", posn.Z);
 
     /* calc the sun centered position */
-    ln_get_ell_helio_rect_posn(&orbit, JD, &posn);
+    ln_get_ell_helio_rect_posn(orbit, JD, posn);
     writef("(Heliocentric Rect Coords X) for Pallas   %f\n", posn.X);
     writef("(Heliocentric Rect Coords Y) for Pallas   %f\n", posn.Y);
     writef("(Heliocentric Rect Coords Z) for Pallas   %f\n", posn.Z);
 
     /* get the RA and Dec */
-    ln_get_ell_body_equ_coords(JD, &orbit, &equ_posn);
+    ln_get_ell_body_equ_coords(JD, orbit, equ_posn);
     writef("(RA) for Pallas   %f\n", equ_posn.ra);
     writef("(Dec) for Pallas   %f\n", equ_posn.dec);
 
     /* get Alt, Az */
-    ln_get_hrz_from_equ(&equ_posn, &observer, JD, &hrz);
+    ln_get_hrz_from_equ(equ_posn, observer, JD, hrz);
     writef("Az %f\n",hrz.az);
     writef("Alt %f\n", hrz.alt);
 
     /* orbit length */
-    l = ln_get_ell_orbit_len(&orbit);
+    l = ln_get_ell_orbit_len(orbit);
     writef("(Orbit Length) for Pallas in AU   %f\n", l);
 
     /* orbit velocities */
-    V = ln_get_ell_orbit_pvel(&orbit);
+    V = ln_get_ell_orbit_pvel(orbit);
     writef("(Orbit Perihelion Vel) for Pallas in kms   %f\n", V);
-    V = ln_get_ell_orbit_avel(&orbit);
+    V = ln_get_ell_orbit_avel(orbit);
     writef("(Orbit Aphelion Vel) for Pallas in kms   %f\n", V);
-    V = ln_get_ell_orbit_vel(JD, &orbit);
+    V = ln_get_ell_orbit_vel(JD, orbit);
     writef("(Orbit Vel JD) for Pallas in kms   %f\n", V);
 
     /* earth and solar distance */
-    dist = ln_get_ell_body_solar_dist(JD, &orbit);
+    dist = ln_get_ell_body_solar_dist(JD, orbit);
     writef("Solar Dist (AU)  : %f\n", dist);
-    dist = ln_get_ell_body_earth_dist(JD, &orbit);
+    dist = ln_get_ell_body_earth_dist(JD, orbit);
     writef("Earth Dist (AU)  : %f\n", dist);
 
     /* phase angle, elongation */
-    ph = ln_get_ell_body_phase_angle(JD, &orbit);
+    ph = ln_get_ell_body_phase_angle(JD, orbit);
     writef("Phase angle      : %f\n",ph);
-    elong = ln_get_ell_body_elong(JD, &orbit);
+    elong = ln_get_ell_body_elong(JD, orbit);
     writef("Elongation       : %f\n",elong);
 
     /* magnitude */
-    mag = ln_get_asteroid_mag(JD, &orbit, H, G);
+    mag = ln_get_asteroid_mag(JD, orbit, H, G);
     writef("Magnitude        : %f\n", mag);
 
     /* rise, set and transit time */
-    if (ln_get_ell_body_rst(JD, &observer, &orbit, &rst) != 0)
+    if (ln_get_ell_body_rst(JD, observer, orbit, rst) != 0)
         writef("Pallas is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     return 0;
