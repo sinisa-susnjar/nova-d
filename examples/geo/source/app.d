@@ -9,12 +9,8 @@ void main(string[] args) {
     /* get Julian day from local time */
     auto JD = ln_get_julian_from_sys();
 
-    if (args.length == 2) {
-        writefln("date: %s", args[1]);
-        auto dt = SysTime.fromISOExtString(args[1]);
-        auto t = dt.toUnixTime();
-        JD = ln_get_julian_from_timet(t);
-    }
+    if (args.length == 2)
+        JD = ln_get_julian_from_timet( SysTime.fromISOExtString(args[1]).toUnixTime() );
 
     static foreach (p; ["solar","mercury","venus","lunar","mars","jupiter","saturn","uranus","neptune","pluto"]) {{
         /* RA, DEC */
