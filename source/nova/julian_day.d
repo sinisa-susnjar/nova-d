@@ -219,10 +219,10 @@ export void ln_get_date_from_sys(ref ln_date date)
 *
 * Calculate Julian day from time_t.
 */
-export @nogc double ln_get_julian_from_timet(ref time_t in_time) nothrow
+export @nogc double ln_get_julian_from_timet(time_t in_time) nothrow
 {
 	/* 1.1.1970 = JD 2440587.5 */
-	return cast(double)(2440587.5 + cast(double)(in_time / cast(double) 86400.0));
+	return cast(double)(2_440_587.5 + cast(double)(in_time / cast(double) 86_400.0));
 }
 
 /*! \fn void ln_get_timet_from_julian(double JD, time_t * in_time)
