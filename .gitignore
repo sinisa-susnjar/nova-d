@@ -14,3 +14,5 @@ libnova-d-test-*
 *.obj
 *.lst
 *.bak
+nova-d.lib
+*.pdb

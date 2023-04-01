@@ -15,7 +15,9 @@ void main() {
 
         /* Earth dist */
         static if (p == "solar")
-            auto earthDist = ln_get_earth_solar_dist(JD);
+            mixin("auto earthDist = ln_get_earth_solar_dist(JD);");
+        else static if (p == "lunar")
+            mixin("auto earthDist = ln_get_lunar_long_asc_node(JD);");
         else
             mixin("auto earthDist = ln_get_" ~ p ~ "_earth_dist(JD);");
 
