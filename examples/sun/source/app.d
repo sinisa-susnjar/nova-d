@@ -26,7 +26,7 @@ import nova.julian_day;
 import nova.rise_set;
 import nova.transform;
 
-static void print_date (string title, ln_zonedate *date)
+static void print_date (string title, const ref ln_zonedate date)
 {
     writef("\n%s\n",title);
     writef(" Year    : %d\n", date.years);
@@ -55,26 +55,26 @@ int main (string[] args)
     writef("JD %f\n", JD);
 
     /* geometric coordinates */
-    ln_get_solar_geom_coords(JD, &pos);
+    ln_get_solar_geom_coords(JD, pos);
     writef("Solar Coords longitude (deg) %f\n", pos.L);
     writef("             latitude (deg) %f\n", pos.B);
     writef("             radius vector (AU) %f\n", pos.R);
 
     /* ra, dec */
-    ln_get_solar_equ_coords(JD, &equ);
+    ln_get_solar_equ_coords(JD, equ);
     writef("Solar Position RA %f\n", equ.ra);
     writef("               DEC %f\n", equ.dec);
 
     /* rise, set and transit */
-    if (ln_get_solar_rst(JD, &observer, &rst) != 0)
+    if (ln_get_solar_rst(JD, observer, rst) != 0)
         writef("Sun is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     return 0;
