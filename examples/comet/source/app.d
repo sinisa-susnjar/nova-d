@@ -32,7 +32,7 @@ import nova.elliptic_motion;
 /* use the orbital example from Meeus book */
 enum MEEUS = false;
 
-static void print_date(string title, ln_zonedate *date)
+static void print_date(string title, const ref ln_zonedate date)
 {
     writef("\n%s\n",title);
     writef(" Year    : %d\n", date.years);
@@ -69,7 +69,7 @@ int main (string[] args)
         date.hours = 0;
         date.minutes = 0;
         date.seconds = 0;
-        JD = ln_get_julian_day(&date);
+        JD = ln_get_julian_day(date);
     } else {
         /* get Julian day from local time */
         JD = ln_get_julian_from_sys();
@@ -84,7 +84,7 @@ int main (string[] args)
         epoch_date.hours = 12;
         epoch_date.minutes = 30;
         epoch_date.seconds = 0;
-        e_JD = ln_get_julian_day(&epoch_date);
+        e_JD = ln_get_julian_day(epoch_date);
     } else {
         e_JD = 2_456_617.5;
     }
@@ -131,56 +131,56 @@ int main (string[] args)
     writef("(Radius Vector) r when e is %f and E is %f = %f\n", orbit.e, E, r);
 
     /* geocentric rect coords */
-    ln_get_ell_geo_rect_posn(&orbit, JD, &posn);
+    ln_get_ell_geo_rect_posn(orbit, JD, posn);
     writef("(Geocentric Rect Coords X) for comet Encke  %f\n", posn.X);
     writef("(Geocentric Rect Coords Y) for comet Encke  %f\n", posn.Y);
     writef("(Geocentric Rect Coords Z) for comet Encke  %f\n", posn.Z);
 
     /* rectangular coords */
-    ln_get_ell_helio_rect_posn(&orbit, JD, &posn);
+    ln_get_ell_helio_rect_posn(orbit, JD, posn);
     writef("(Heliocentric Rect Coords X) for comet Encke  %f\n", posn.X);
     writef("(Heliocentric Rect Coords Y) for comet Encke  %f\n", posn.Y);
     writef("(Heliocentric Rect Coords Z) for comet Encke  %f\n", posn.Z);
 
     /* ra, dec */
-    ln_get_ell_body_equ_coords(JD, &orbit, &equ);
+    ln_get_ell_body_equ_coords(JD, orbit, equ);
     writef("(RA) for comet Encke  %f\n", equ.ra);
     writef("(Dec) for comet Encke  %f\n", equ.dec);
 
     /* orbit length */
-    l = ln_get_ell_orbit_len(&orbit);
+    l = ln_get_ell_orbit_len(orbit);
     writef("(Orbit Length) for comet Encke in AU  %f\n", l);
 
     /* orbital velocity at perihelion */
-    V = ln_get_ell_orbit_pvel(&orbit);
+    V = ln_get_ell_orbit_pvel(orbit);
     writef("(Orbit Perihelion Vel) for comet Encke in kms  %f\n", V);
 
     /* orbital velocity at aphelion */
-    V = ln_get_ell_orbit_avel(&orbit);
+    V = ln_get_ell_orbit_avel(orbit);
     writef("(Orbit Aphelion Vel) for comet Encke in kms  %f\n", V);
 
     /* average orbital velocity */
-    V = ln_get_ell_orbit_vel(JD, &orbit);
+    V = ln_get_ell_orbit_vel(JD, orbit);
     writef("(Orbit Vel JD) for comet Encke in kms  %f\n", V);
 
     /* comet sun distance */
-    dist = ln_get_ell_body_solar_dist(JD, &orbit);
+    dist = ln_get_ell_body_solar_dist(JD, orbit);
     writef("(Body Solar Dist) for comet Encke in AU  %f\n", dist);
 
     /* comet earth distance */
-    dist = ln_get_ell_body_earth_dist(JD, &orbit);
+    dist = ln_get_ell_body_earth_dist(JD, orbit);
     writef("(Body Earth Dist) for comet Encke in AU  %f\n", dist);
 
     /* rise, set and transit */
-    if (ln_get_ell_body_rst(JD, &observer, &orbit, &rst) != 0)
+    if (ln_get_ell_body_rst(JD, observer, orbit, rst) != 0)
         writef("Comet is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     return 0;
