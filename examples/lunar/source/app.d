@@ -26,7 +26,7 @@ import nova.julian_day;
 import nova.rise_set;
 import nova.transform;
 
-static void print_date(string title, ln_zonedate *date)
+static void print_date(string title, const ref ln_zonedate date)
 {
     writef("\n%s\n",title);
     writef(" Year    : %d\n", date.years);
@@ -56,15 +56,15 @@ int main(string[] args)
     writef("JD %f\n",JD);
 
     /* get the lunar geopcentric position in km, earth is at 0,0,0 */
-    ln_get_lunar_geo_posn(JD, &moon, 0);
+    ln_get_lunar_geo_posn(JD, moon, 0);
     writef("lunar x %f  y %f  z %f\n", moon.X, moon.Y, moon.Z);
 
     /* Long Lat */
-    ln_get_lunar_ecl_coords(JD, &ecl, 0);
+    ln_get_lunar_ecl_coords(JD, ecl, 0);
     writef("lunar long %f  lat %f\n", ecl.lng, ecl.lat);
 
     /* RA, DEC */
-    ln_get_lunar_equ_coords(JD, &equ);
+    ln_get_lunar_equ_coords(JD, equ);
     writef("lunar RA %f  Dec %f\n", equ.ra, equ.dec);
 
     /* moon earth distance */
@@ -75,46 +75,46 @@ int main(string[] args)
     writef("lunar phase %f\n", ln_get_lunar_phase(JD));
     writef("lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
 
-    // ln_get_lunar_opt_libr_coords(JD, &ecl);
+    // ln_get_lunar_opt_libr_coords(JD, ecl);
     // writef("lunar libration point long %f  lat %f\n", ecl.lng, ecl.lat);
 
-    // ln_get_lunar_subsolar_coords(JD, &ecl);
+    // ln_get_lunar_subsolar_coords(JD, ecl);
     // writef("lunar subsolar point long %f  lat %f\n", ecl.lng, ecl.lat);
 
     /* rise, set and transit time */
-    if (ln_get_lunar_rst(JD, &observer, &rst) != 0)
+    if (ln_get_lunar_rst(JD, observer, rst) != 0)
         writef("Moon is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     /* rise, set and transit time */
-    if (ln_get_lunar_rst(JD - 24, &observer, &rst) != 0)
+    if (ln_get_lunar_rst(JD - 24, observer, rst) != 0)
         writef("Moon is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     /* rise, set and transit time */
-    if (ln_get_lunar_rst(JD - 25, &observer, &rst) != 0)
+    if (ln_get_lunar_rst(JD - 25, observer, rst) != 0)
         writef("Moon is circumpolar\n");
     else {
-        ln_get_local_date(rst.rise, &rise);
-        ln_get_local_date(rst.transit, &transit);
-        ln_get_local_date(rst.set, &set);
-        print_date("Rise", &rise);
-        print_date("Transit", &transit);
-        print_date("Set", &set);
+        ln_get_local_date(rst.rise, rise);
+        ln_get_local_date(rst.transit, transit);
+        ln_get_local_date(rst.set, set);
+        print_date("Rise", rise);
+        print_date("Transit", transit);
+        print_date("Set", set);
     }
 
     return 0;
