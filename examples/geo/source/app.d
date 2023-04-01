@@ -2,11 +2,19 @@
 
 import std.string : capitalize;
 import std.stdio : writefln;
+import std.datetime : SysTime;
 import nova;
 
-void main() {
+void main(string[] args) {
     /* get Julian day from local time */
     auto JD = ln_get_julian_from_sys();
+
+    if (args.length == 2) {
+        writefln("date: %s", args[1]);
+        auto dt = SysTime.fromISOExtString(args[1]);
+        auto t = dt.toUnixTime();
+        JD = ln_get_julian_from_timet(t);
+    }
 
     static foreach (p; ["solar","mercury","venus","lunar","mars","jupiter","saturn","uranus","neptune","pluto"]) {{
         /* RA, DEC */
@@ -15,9 +23,9 @@ void main() {
 
         /* Earth dist */
         static if (p == "solar")
-            mixin("auto earthDist = ln_get_earth_solar_dist(JD);");
+            auto earthDist = ln_get_earth_solar_dist(JD);
         else static if (p == "lunar")
-            mixin("auto earthDist = ln_get_lunar_long_asc_node(JD);");
+            auto earthDist = ln_get_lunar_long_asc_node(JD);
         else
             mixin("auto earthDist = ln_get_" ~ p ~ "_earth_dist(JD);");
 
