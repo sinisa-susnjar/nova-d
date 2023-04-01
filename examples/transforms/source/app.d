@@ -68,24 +68,24 @@ int main (string[] args)
     date.minutes = 18;
     date.seconds = 49.0;
 
-    JD = ln_get_julian_day(&date);
-    ln_hequ_to_equ(&hobject, &object);
-    ln_hlnlat_to_lnlat(&hobserver, &observer);
+    JD = ln_get_julian_day(date);
+    ln_hequ_to_equ(hobject, object);
+    ln_hlnlat_to_lnlat(hobserver, observer);
 
-    ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+    ln_get_hrz_from_equ(object, observer, JD, hrz);
     writef("(Alnilam) Equ to Horiz ALT %f\n", hrz.alt);
     writef("(Alnilam) Equ to Horiz AZ %f\n", hrz.az);
 
-    ln_hrz_to_hhrz(&hrz, &hhrz);
+    ln_hrz_to_hhrz(hrz, hhrz);
     writef("ALT %d:%d:%f  AZ %d:%d:%f\n",
             hhrz.alt.degrees, hhrz.alt.minutes, hhrz.alt.seconds,
             hhrz.az.degrees, hhrz.az.minutes, hhrz.az.seconds);
 
-    ln_get_equ_from_hrz (&hrz, &observer, JD, &equ);
+    ln_get_equ_from_hrz (hrz, observer, JD, equ);
     writef("(Alnilam) Horiz to Equ RA %f\n", equ.ra);
     writef("(Alnilam) Horiz to Equ DEC %f\n", equ.dec);
 
-    ln_equ_to_hequ(&equ, &hequ);
+    ln_equ_to_hequ(equ, hequ);
     writef("RA %d:%d:%f  DEC %d:%d:%f\n",
             hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds,
             hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
