@@ -11,10 +11,14 @@ The original libnova code was forked from https://github.com/efalk/libnova @ 85f
 
 Copyright for the original libnova code is Liam Girdwood et al, please see [authors](https://sourceforge.net/p/libnova/libnova/ci/master/tree/AUTHORS).
 
+I originally wanted to just create D wrappers around the original libnova code, but building
+libnova on Windows proved to be more challenging than anticipated, so I just went full D :)
+
 # TODO
 
 * add unit tests from [here](https://sourceforge.net/p/libnova/libnova/ci/master/tree/lntest/test.c)
 * add coverage
-* enable build on windows
-* enable build on osx
-* add github workflow and badges
+
+# History
+
+* v0.16.0 Initial translation from original C code to D.
